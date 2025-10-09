@@ -542,43 +542,43 @@ Would you like to open the webpage in your browser?</value>
     <value>Error loading content.</value>
   </data>
   <data name="Menu.Copy" xml:space="preserve">
-    <value>_Copy</value>
+    <value>Copy</value>
   </data>
   <data name="Menu.Delete" xml:space="preserve">
-    <value>_Delete</value>
+    <value>Delete</value>
   </data>
   <data name="Menu.Edit" xml:space="preserve">
-    <value>_Edit</value>
+    <value>Edit</value>
   </data>
   <data name="Menu.File" xml:space="preserve">
-    <value>_File</value>
+    <value>File</value>
   </data>
   <data name="Menu.Help" xml:space="preserve">
-    <value>_Help</value>
+    <value>Help</value>
   </data>
   <data name="Menu.ImportMappings" xml:space="preserve">
     <value>Import Mappings...</value>
   </data>
   <data name="Menu.Open" xml:space="preserve">
-    <value>_Open</value>
+    <value>Open</value>
   </data>
   <data name="Menu.OpenContainer" xml:space="preserve">
     <value>Open _Container</value>
   </data>
   <data name="Menu.Paste" xml:space="preserve">
-    <value>_Paste</value>
+    <value>Paste</value>
   </data>
   <data name="Menu.Save" xml:space="preserve">
-    <value>_Save</value>
+    <value>Save</value>
   </data>
   <data name="Menu.SaveAs" xml:space="preserve">
     <value>Save _As</value>
   </data>
   <data name="Menu.Tools" xml:space="preserve">
-    <value>_Tools</value>
+    <value>Tools</value>
   </data>
   <data name="Menu.View" xml:space="preserve">
-    <value>_View</value>
+    <value>View</value>
   </data>
   <data name="ObjectReferenceDialog.CountFormat" xml:space="preserve">
     <value>{0} items</value>
@@ -915,5 +915,8 @@ Would you like to open the webpage in your browser?</value>
   </data>
   <data name="Settings_AES" xml:space="preserve">
     <value>AESKey</value>
+  </data>
+  <data name="Menu.Add" xml:space="preserve">
+    <value>Add</value>
   </data>
 </root>

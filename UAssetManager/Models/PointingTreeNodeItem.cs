@@ -5,6 +5,12 @@ using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
 
 namespace UAssetManager.Models;
+
+/// <summary>
+/// Represents a tree node item that includes an optional pointer to associated data.
+/// </summary>
+/// <remarks>This class extends <see cref="TreeNodeItem"/> by allowing the association of an additional object, 
+/// referred to as a pointer, which can store supplementary data or context for the node.</remarks>
 public partial class PointingTreeNodeItem : TreeNodeItem
 {
     public PointingTreeNodeItem(string name, object? pointer, TreeNodeType type = TreeNodeType.Normal) : base(name, type)
@@ -13,15 +19,19 @@ public partial class PointingTreeNodeItem : TreeNodeItem
     }
 }
 
-public class ExportPointingTreeNodeItem(Export export) : PointingTreeNodeItem(export.ObjectName.ToString(), export)
+/// <summary>
+/// Represents a tree node item that points to an export within a UAsset file.
+/// </summary>
+/// <remarks>This class is used to organize and represent exports from a UAsset file in a hierarchical tree
+/// structure. It supports building child nodes dynamically based on the export's data and configuration
+/// settings.</remarks>
+/// <param name="asset"></param>
+/// <param name="export"></param>
+public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
+    PointingTreeNodeItem(export.ObjectName.ToString(), export)
 {
-    private UAsset? _asset;
+    private readonly UAsset? _asset = asset;
     private bool _childrenBuilt = false;
-
-    public void SetAsset(UAsset asset)
-    {
-        _asset = asset;
-    }
 
     protected internal override void Materialize()
     {
@@ -111,9 +121,7 @@ public class ExportPointingTreeNodeItem(Export export) : PointingTreeNodeItem(ex
         {
             if (childExport.OuterIndex.Index == currentExportIndex)
             {
-                var childNode = new ExportPointingTreeNodeItem(childExport) { Type = TreeNodeType.SubExport };
-                childNode.SetAsset(_asset);
- 
+                var childNode = new ExportPointingTreeNodeItem(_asset, childExport) { Type = TreeNodeType.SubExport };              
                 var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
                 childNode.Children.Add(loadingNode);
                 Children.Add(childNode);
@@ -198,6 +206,11 @@ public class ExportPointingTreeNodeItem(Export export) : PointingTreeNodeItem(ex
     }
 }
 
+/// <summary>
+/// Represents an entry in a dictionary that associates a key-value pair with an additional pointer object.
+/// </summary>
+/// <remarks>This class is useful for scenarios where a dictionary entry needs to be extended with additional
+/// metadata or context, represented by the <see cref="Pointer"/> property.</remarks>
 public class PointingDictionaryEntry
 {
     public KeyValuePair<PropertyData, PropertyData> Entry { get; set; }

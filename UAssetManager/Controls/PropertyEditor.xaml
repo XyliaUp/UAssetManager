@@ -8,8 +8,9 @@
 
     <Grid Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}" Grid.IsSharedSizeScope="True">
         <Grid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Add Property" Click="AddProperty_Click" />
+            <ContextMenu Opened="OnContextMenuOpened">
+                <MenuItem x:Name="Add" Header="{DynamicResource Menu.Add}" Click="AddProperty" />
+                <MenuItem x:Name="Delete" Header="{DynamicResource Menu.Delete}" Click="DeleteProperty" />
             </ContextMenu>
         </Grid.ContextMenu>
         

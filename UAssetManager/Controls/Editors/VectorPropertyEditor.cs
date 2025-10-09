@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Resources;
@@ -19,15 +21,15 @@ internal class VectorPropertyEditor : PropertyEditorBase, IValueConverter
         // Add keyboard shortcut support
         textBox.KeyDown += (s, e) =>
         {
-            if (e.Key == System.Windows.Input.Key.Tab)
+            // Tab key navigation to next control
+            if (e.Key == Key.Tab)
             {
-                // Tab key navigation to next control
                 e.Handled = false;
             }
-            else if (e.Key == System.Windows.Input.Key.Enter)
+            // Enter key to confirm input
+            else if (e.Key == Key.Enter)
             {
-                // Enter key to confirm input
-                textBox.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }
         };
@@ -77,7 +79,7 @@ internal class VectorPropertyEditor : PropertyEditorBase, IValueConverter
             catch (Exception ex)
             {
                 // Log parsing error but don't interrupt program execution
-                System.Diagnostics.Debug.WriteLine($"Vector parsing failed: {ex.Message}, input: {str}");
+                Debug.WriteLine($"Vector parsing failed: {ex.Message}, input: {str}");
             }
         }
         return value;

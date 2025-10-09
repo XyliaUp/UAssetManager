@@ -420,15 +420,13 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
         TreeNodes.Add(new TreeNodeItem(StringHelper.Get("Asset_CustomVersionContainer"), TreeNodeType.CustomVersionContainer));
 
-        var exportDataNode = new PointingTreeNodeItem(StringHelper.Get("Asset_ExportData"), null, TreeNodeType.ExportData);
+        var exportDataNode = new PointingTreeNodeItem(StringHelper.Get("Asset_ExportData"), null, TreeNodeType.ExportData) { IsExpanded = true };
         for (int i = 0; i < CurrentAsset.Exports.Count; i++)
         {
             var export = CurrentAsset.Exports[i];
             if (UAGConfig.Data.UseOuterIndexTreeMode && export.OuterIndex.IsExport()) continue;
 
-            var categoryNode = new ExportPointingTreeNodeItem(export);
-            categoryNode.SetAsset(CurrentAsset);
-
+            var categoryNode = new ExportPointingTreeNodeItem(CurrentAsset, export);
             var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
             categoryNode.Children.Add(loadingNode);
             exportDataNode.Children.Add(categoryNode);

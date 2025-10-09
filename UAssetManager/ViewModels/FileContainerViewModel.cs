@@ -417,7 +417,7 @@ internal partial class FileContainerViewModel : ObservableObject
 
             // Create a virtual file to ensure the folder is displayed in the tree
             var placeholderPath = full + "/.placeholder";
-            var emptyData = new byte[0];
+            var emptyData = Array.Empty<byte>();
             _buildPakReader.Files.Add(placeholderPath, new FPakEntry(_buildPakReader, emptyData, placeholderPath));
             RefreshSaveTree(true);
         }
@@ -473,34 +473,37 @@ internal partial class FileContainerViewModel : ObservableObject
     void AddFromPak(DirectoryTreeItem? item)
     {
         if (item == null || _buildPakReader == null) return;
-        if (!item.IsFile)
-        {
-            foreach (var child in item.Children) AddFromPak(child.Value);
-        }
 
-        // Check if any of the game files already exist in build pak
-        var existingFiles = new List<string>();
-        foreach (var gameFile in item.GameFiles)
+        void AddFromPak(DirectoryTreeItem item, List<string> existingFiles)
         {
-            if (_buildPakReader.Files.ContainsKey(gameFile.Path))
+            if (!item.IsFile)
             {
-                existingFiles.Add(gameFile.Path);
+                foreach (var child in item.Children) AddFromPak(child.Value, existingFiles);
+            }
+
+            // Add game files directly to build pak
+            foreach (var gameFile in item.GameFiles)
+            {
+                if (_buildPakReader.Files.ContainsKey(gameFile.Path))
+                {
+                    existingFiles.Add(gameFile.Path);
+                    continue;
+                }
+
+                _buildPakReader.AddFile(gameFile);
             }
         }
 
+        List<string>? existingFiles = [];
+        AddFromPak(item, existingFiles);
+
+        // Show message
         if (existingFiles.Count > 0)
         {
-            var message = existingFiles.Count == 1
-                ? StringHelper.Get("FileContainer_FileAlreadyInBuildMessage")
-                : StringHelper.Get("FileContainer_FilesAlreadyInBuildMessage", existingFiles.Count);
-            MessageBox.Show(message, StringHelper.Get("Text.Information"), MessageBoxButton.OK, MessageBoxImage.Information);
-            return;
-        }
-
-        // Add game files directly to build pak
-        foreach (var gameFile in item.GameFiles)
-        {
-            _buildPakReader.AddFile(gameFile);
+            MessageBox.Show(
+                StringHelper.Get("FileContainer_FileAlreadyInBuildMessage"),
+                StringHelper.Get("Text.Information"),
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         RefreshSaveTree(true);
@@ -561,6 +564,7 @@ internal partial class FileContainerViewModel : ObservableObject
             ExpandSaveTreeTo(targetBase);
         }
     }
+
 
     public void AddFromDisk(string sourcePath, string? desiredGamePath)
     {

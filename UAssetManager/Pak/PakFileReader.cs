@@ -332,16 +332,16 @@ public partial class PakFileReader : AbstractAesVfsReader
         Ar.Dispose();
     }
 
-    public void AddFile(string filePath, string vfsPath, CompressionMethod Method = CompressionMethod.None)
+    public void AddFile(string filePath, string vfsPath, CompressionMethod method = CompressionMethod.None)
     {
         vfsPath = vfsPath.Replace("\\", "/");
-        Files.Add(vfsPath, new FPakEntry(this, File.ReadAllBytes(filePath), vfsPath, Method));
+        Files.Add(vfsPath, new FPakEntry(this, File.ReadAllBytes(filePath), vfsPath, method));
     }
 
-    public void AddFile(GameFile gameFile, CompressionMethod Method = CompressionMethod.None)
+    public void AddFile(GameFile gameFile, CompressionMethod method = CompressionMethod.None)
     {
         var vfsPath = gameFile.Path.Replace("\\", "/");
-        Files.Add(vfsPath, new FPakEntry(this, gameFile.Read(), vfsPath, Method));
+        Files.Add(vfsPath, new FPakEntry(this, gameFile.Read(), vfsPath, method));
     }
 
     /// <summary>
@@ -377,6 +377,10 @@ public partial class PakFileReader : AbstractAesVfsReader
         return commonPrefix;
     }
 
+    /// <summary>
+    /// Writes the current data structure to the specified <see cref="BinaryWriter"/>.
+    /// </summary>
+    /// <param name="writer">The <see cref="BinaryWriter"/> to which the data will be written. This writer must be open and writable.</param>
     public void Write(BinaryWriter writer)
     {
         #region init
@@ -391,7 +395,8 @@ public partial class PakFileReader : AbstractAesVfsReader
         #endregion
 
         #region File Data Section
-        foreach (var file in Files.Values)
+        var files = Files.Where(x => !x.Key.Contains(".placeholder"));
+        foreach (var (path, file) in files)
         {
             file.Write(Info, writer);
         }
@@ -403,9 +408,9 @@ public partial class PakFileReader : AbstractAesVfsReader
         using var ms = new MemoryStream();
         var IndexWriter = new UnrealBinaryWriter(ms);
         IndexWriter.Write("../../../" + MountPoint);
-        IndexWriter.Write(Files.Count);
+        IndexWriter.Write(files.Count());
 
-        foreach (var file in Files.Values)
+        foreach (var (path, file) in files)
         {
             // Index stores path relative to mount point; strip leading '/' to avoid double slash after mount point
             var relativePath = file.Path;

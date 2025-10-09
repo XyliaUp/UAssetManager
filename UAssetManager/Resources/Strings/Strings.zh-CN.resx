@@ -916,4 +916,7 @@
   <data name="Settings_AES" xml:space="preserve">
     <value>AES密钥</value>
   </data>
+  <data name="Menu.Add" xml:space="preserve">
+    <value>增加</value>
+  </data>
 </root>

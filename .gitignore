@@ -2,6 +2,7 @@
 docs
 packages
 TestResults
-UAssetGUI/bin
-UAssetGUI/obj
+bin
+obj
 UAssetGUI/git_commit.txt
+

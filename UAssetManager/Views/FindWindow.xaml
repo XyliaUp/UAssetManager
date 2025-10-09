@@ -1,0 +1,86 @@
+<Window x:Class="UAssetManager.Views.FindWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource FindWindow_Title}" 
+        ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+    
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        
+        <Style x:Key="GroupBoxStyle" TargetType="GroupBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Search Content -->
+        <DockPanel Grid.Row="0" Margin="10">
+            <Label Content="{DynamicResource FindWindow_SearchContent}" Margin="0 0 5 0" />
+            <TextBox x:Name="SearchForTextBox" VerticalContentAlignment="Center" DockPanel.Dock="Right"
+                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Options -->
+            <GroupBox Grid.Column="0" Header="{DynamicResource FindWindow_Options}" Style="{StaticResource GroupBoxStyle}">
+                <StackPanel>
+                    <CheckBox IsChecked="{Binding CaseSensitive}" Content="{DynamicResource FindWindow_CaseSensitive}" Margin="0 0 0 5" />
+                    <CheckBox IsChecked="{Binding UseRegex}" Content="{DynamicResource FindWindow_UseRegex}" />
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Search Direction -->
+            <GroupBox Grid.Column="1" Header="{DynamicResource FindWindow_SearchDirection}" Style="{StaticResource GroupBoxStyle}">
+                <StackPanel>
+                    <RadioButton Content="{DynamicResource FindWindow_Forward}" VerticalAlignment="Center" IsChecked="{Binding IsForward}" Margin="0 0 0 5" />
+                    <RadioButton Content="{DynamicResource FindWindow_Backward}" VerticalAlignment="Center" IsChecked="{Binding IsForward, Converter={StaticResource BooleanNegationConverter}}" />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        
+        <!-- Progress Bar -->
+        <StackPanel Grid.Row="3" Margin="10" Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Label Content="{DynamicResource FindWindow_Searching}" />
+            <ProgressBar Height="20" Margin="5" IsIndeterminate="True"/>
+        </StackPanel>
+
+        <!-- Results Area -->
+        <GroupBox Grid.Row="4" Header="{DynamicResource FindWindow_SearchResults}" Style="{StaticResource GroupBoxStyle}">
+            <ListBox ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedResult}" MouseDoubleClick="SearchResultsListBox_MouseDoubleClick">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+        <!-- Button Area -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Command="{Binding FindNextCommand}" Content="{DynamicResource FindWindow_FindNext}" Style="{StaticResource ButtonStyle}" IsDefault="True"/>
+            <Button Command="{Binding FindPreviousCommand}" Content="{DynamicResource FindWindow_FindPrevious}" Style="{StaticResource ButtonStyle}" />
+            <Button Command="{Binding FindAllCommand}" Content="{DynamicResource FindWindow_FindAll}" Style="{StaticResource ButtonStyle}" />
+            <Button Command="{Binding CancelCommand}" Content="{DynamicResource FindWindow_Cancel}" Style="{StaticResource ButtonStyle}" Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Command="{Binding CloseCommand}" Content="{DynamicResource FindWindow_Close}" Style="{StaticResource ButtonStyle}" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

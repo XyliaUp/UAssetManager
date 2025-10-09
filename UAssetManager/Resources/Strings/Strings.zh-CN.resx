@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutWindow.BasedOn" xml:space="preserve">
+    <value>基于原始的 UAssetGUI 项目重新实现，使用现代 WPF 技术。</value>
+  </data>
+  <data name="AboutWindow.Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="AboutWindow.Description" xml:space="preserve">
+    <value>这是一个用于查看和编辑虚幻引擎资产文件的工具。</value>
+  </data>
+  <data name="AboutWindow.Feature1" xml:space="preserve">
+    <value>• 查看和编辑 .uasset 文件</value>
+  </data>
+  <data name="AboutWindow.Feature2" xml:space="preserve">
+    <value>• 支持 JSON 格式导入导出</value>
+  </data>
+  <data name="AboutWindow.Feature3" xml:space="preserve">
+    <value>• PAK 容器文件管理</value>
+  </data>
+  <data name="AboutWindow.Feature4" xml:space="preserve">
+    <value>• 数据表格编辑</value>
+  </data>
+  <data name="AboutWindow.Feature5" xml:space="preserve">
+    <value>• 查找和替换功能</value>
+  </data>
+  <data name="AboutWindow.Feature6" xml:space="preserve">
+    <value>• 主题和设置管理</value>
+  </data>
+  <data name="AboutWindow.MainFeatures" xml:space="preserve">
+    <value>主要功能:</value>
+  </data>
+  <data name="AboutWindow.Subtitle" xml:space="preserve">
+    <value>虚幻引擎资产文件管理器</value>
+  </data>
+  <data name="AboutWindow.Tech1" xml:space="preserve">
+    <value>• MVVM 架构模式</value>
+  </data>
+  <data name="AboutWindow.Tech2" xml:space="preserve">
+    <value>• UAssetAPI 库</value>
+  </data>
+  <data name="AboutWindow.TechStack" xml:space="preserve">
+    <value>技术栈:</value>
+  </data>
+  <data name="AboutWindow.Title" xml:space="preserve">
+    <value>关于 UAssetManager</value>
+  </data>
+  <data name="AboutWindow.ViewLicense" xml:space="preserve">
+    <value>查看许可证</value>
+  </data>
+  <data name="AboutWindow.ViewNotice" xml:space="preserve">
+    <value>查看第三方软件...</value>
+  </data>
+  <data name="ArrayEditor.Add" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="ArrayEditor.ArrayElements" xml:space="preserve">
+    <value>数组元素</value>
+  </data>
+  <data name="Button.Clear" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="Confirm.DeleteItems" xml:space="preserve">
+    <value>确定要删除选中的 {0} 个项目吗？</value>
+  </data>
+  <data name="Confirm.ResetSettings" xml:space="preserve">
+    <value>确定要重置所有设置为默认值吗？</value>
+  </data>
+  <data name="ContextMenu.AddAfter" xml:space="preserve">
+    <value>新增(后)</value>
+  </data>
+  <data name="ContextMenu.AddBefore" xml:space="preserve">
+    <value>新增(前)</value>
+  </data>
+  <data name="ContextMenu.RemoveSelected" xml:space="preserve">
+    <value>删除所选</value>
+  </data>
+  <data name="ContextMenu.ReplaceAllReferences" xml:space="preserve">
+    <value>替换所有引用</value>
+  </data>
+  <data name="Dialog.NewVersionAvailable" xml:space="preserve">
+    <value>资产管理器有新版本 (v{0}) 可供下载！
+是否要在浏览器中打开网页？</value>
+  </data>
+  <data name="Dialog.SaveAssetFile.Title" xml:space="preserve">
+    <value>保存资产文件</value>
+  </data>
+  <data name="Asset_GeneralInformation" xml:space="preserve">
+    <value>常规信息</value>
+  </data>
+  <data name="Asset_SoftObjectPaths" xml:space="preserve">
+    <value>软对象路径</value>
+  </data>
+  <data name="Asset_NameMap" xml:space="preserve">
+    <value>名称表</value>
+  </data>
+  <data name="Asset_ImportData" xml:space="preserve">
+    <value>导入数据</value>
+  </data>
+  <data name="Asset_ExportInformation" xml:space="preserve">
+    <value>导出信息</value>
+  </data>
+  <data name="Asset_DependsMap" xml:space="preserve">
+    <value>依赖映射</value>
+  </data>
+  <data name="Asset_SoftPackageReferences" xml:space="preserve">
+    <value>软包引用</value>
+  </data>
+  <data name="Asset_WorldTileInfo" xml:space="preserve">
+    <value>世界图块信息</value>
+  </data>
+  <data name="Asset_DataResources" xml:space="preserve">
+    <value>数据资源</value>
+  </data>
+  <data name="Asset_CustomVersionContainer" xml:space="preserve">
+    <value>自定义版本容器</value>
+  </data>
+  <data name="Asset_ExportData" xml:space="preserve">
+    <value>导出数据</value>
+  </data>
+  <data name="Settings_SaveErrorMessage" xml:space="preserve">
+    <value>保存设置时出错: {0}</value>
+  </data>
+  <data name="FileContainer_AddFolderFromDisk" xml:space="preserve">
+    <value>从磁盘添加文件夹</value>
+  </data>
+  <data name="FileContainer_AddToBuild" xml:space="preserve">
+    <value>加入构建</value>
+  </data>
+  <data name="FileContainer_CopyPath" xml:space="preserve">
+    <value>复制路径</value>
+  </data>
+  <data name="FileContainer_BuildCompletedMessage" xml:space="preserve">
+    <value>构建完成</value>
+  </data>
+  <data name="FileContainer_BuildFailedMessage" xml:space="preserve">
+    <value>构建失败：{0}</value>
+  </data>
+  <data name="FileContainer_CollapseAll" xml:space="preserve">
+    <value>全部折叠</value>
+  </data>
+  <data name="FileContainer_ConfirmDelete" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="FileContainer_ConfirmDeleteMessage" xml:space="preserve">
+    <value>确定要删除 '{0}' 吗？</value>
+  </data>
+  <data name="FileContainer_Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="FileContainer_CopyFoldersNotSupportedMessage" xml:space="preserve">
+    <value>暂不支持文件夹复制。</value>
+  </data>
+  <data name="FileContainer_Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="FileContainer_CutFoldersNotSupportedMessage" xml:space="preserve">
+    <value>暂不支持文件夹剪切。</value>
+  </data>
+  <data name="FileContainer_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="FileContainer_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="FileContainer_ExpandAll" xml:space="preserve">
+    <value>全部展开</value>
+  </data>
+  <data name="FileContainer_ExtractAll" xml:space="preserve">
+    <value>全部提取...</value>
+  </data>
+  <data name="FileContainer_ExtractCancelledMessage" xml:space="preserve">
+    <value>已取消。已解包 {0} 个文件。</value>
+  </data>
+  <data name="FileContainer_ExtractErrorMessage" xml:space="preserve">
+    <value>解包过程中发生错误: {0}</value>
+  </data>
+  <data name="FileContainer_ExtractFolderMessage" xml:space="preserve">
+    <value>选择解包目标文件夹</value>
+  </data>
+  <data name="FileContainer_ExtractingMessage" xml:space="preserve">
+    <value>解包中 {0}/{1}...</value>
+  </data>
+  <data name="FileContainer_ExtractToFolder" xml:space="preserve">
+    <value>解包到文件夹</value>
+  </data>
+  <data name="FileContainer_File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="FileContainer_FileAlreadyInBuildMessage" xml:space="preserve">
+    <value>该文件已在构建列表中。</value>
+  </data>
+  <data name="FileContainer_Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="FileContainer_Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="FileContainer_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="FileContainer_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="FileContainer_SelectFileNodeMessage" xml:space="preserve">
+    <value>请选择文件节点。</value>
+  </data>
+  <data name="FileContainer_StageFromDisk" xml:space="preserve">
+    <value>从磁盘暂存...</value>
+  </data>
+  <data name="FileContainer_StageFromDiskToPath" xml:space="preserve">
+    <value>从磁盘暂存到路径...</value>
+  </data>
+  <data name="FileContainer_Utils" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="FileContainer_View" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="FindWindow_Backward" xml:space="preserve">
+    <value>向后</value>
+  </data>
+  <data name="FindWindow_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="FindWindow_CaseSensitive" xml:space="preserve">
+    <value>区分大小写</value>
+  </data>
+  <data name="FindWindow_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="FindWindow_FindAll" xml:space="preserve">
+    <value>全部查找</value>
+  </data>
+  <data name="FindWindow_FindNext" xml:space="preserve">
+    <value>查找下一个</value>
+  </data>
+  <data name="FindWindow_FindPrevious" xml:space="preserve">
+    <value>查找上一个</value>
+  </data>
+  <data name="FindWindow_Forward" xml:space="preserve">
+    <value>向前</value>
+  </data>
+  <data name="FindWindow_Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="FindWindow_SearchContent" xml:space="preserve">
+    <value>查找内容</value>
+  </data>
+  <data name="FindWindow_SearchDirection" xml:space="preserve">
+    <value>搜索方向</value>
+  </data>
+  <data name="FindWindow_Searching" xml:space="preserve">
+    <value>搜索中...</value>
+  </data>
+  <data name="FindWindow_SearchResults" xml:space="preserve">
+    <value>搜索结果</value>
+  </data>
+  <data name="FindWindow_Title" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="FindWindow_UseRegex" xml:space="preserve">
+    <value>使用正则表达式</value>
+  </data>
+  <data name="MainWindow_About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="MainWindow_AddItemErrorMessage" xml:space="preserve">
+    <value>添加新项目时出错：{0}</value>
+  </data>
+  <data name="MainWindow_AssetOpenErrorMessage" xml:space="preserve">
+    <value>打开资源时出错：{0}</value>
+  </data>
+  <data name="MainWindow_CellEditErrorMessage" xml:space="preserve">
+    <value>编辑单元格时出错：{0}</value>
+  </data>
+  <data name="MainWindow_CollapseAll" xml:space="preserve">
+    <value>全部折叠</value>
+  </data>
+  <data name="MainWindow_ConfigDirNotExistMessage" xml:space="preserve">
+    <value>配置目录不存在</value>
+  </data>
+  <data name="MainWindow_ConfigDirOpenErrorMessage" xml:space="preserve">
+    <value>打开配置目录时出错：{0}</value>
+  </data>
+  <data name="MainWindow_ConfirmDeleteItemsMessage" xml:space="preserve">
+    <value>确定要删除选中的项目吗？</value>
+  </data>
+  <data name="MainWindow_ConfirmDeleteTitle" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="MainWindow_ConfirmTitle" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="MainWindow_DeleteItemsErrorMessage" xml:space="preserve">
+    <value>删除项目时出错：{0}</value>
+  </data>
+  <data name="MainWindow_DumpProperties" xml:space="preserve">
+    <value>转储可序列化属性...</value>
+  </data>
+  <data name="MainWindow_EditErrorTitle" xml:space="preserve">
+    <value>编辑错误</value>
+  </data>
+  <data name="MainWindow_EngineVersion" xml:space="preserve">
+    <value>引擎版本</value>
+  </data>
+  <data name="MainWindow_ErrorTitle" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="MainWindow_ExpandAll" xml:space="preserve">
+    <value>全部展开</value>
+  </data>
+  <data name="MainWindow_ExportBinaryData" xml:space="preserve">
+    <value>导出二进制</value>
+  </data>
+  <data name="MainWindow_FileLoadErrorMessage" xml:space="preserve">
+    <value>加载文件时出错：{0}</value>
+  </data>
+  <data name="MainWindow_FileModifiedConfirmMessage" xml:space="preserve">
+    <value>文件已被修改。是否要保存？</value>
+  </data>
+  <data name="MainWindow_Find" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="MainWindow_GiveFeedback" xml:space="preserve">
+    <value>提供反馈</value>
+  </data>
+  <data name="MainWindow_ImportBinaryData" xml:space="preserve">
+    <value>导入二进制</value>
+  </data>
+  <data name="MainWindow_InformationTitle" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="MainWindow_InvalidCellMessage" xml:space="preserve">
+    <value>当前数据无法编辑，修改不会保存</value>
+  </data>
+  <data name="MainWindow_InvalidColumnValueMessage" xml:space="preserve">
+    <value>列 '{0}' 的值无效：{1}</value>
+  </data>
+  <data name="MainWindow_JsonLoadErrorMessage" xml:space="preserve">
+    <value>加载JSON文件时出错：{0}</value>
+  </data>
+  <data name="MainWindow_MappingImportErrorMessage" xml:space="preserve">
+    <value>导入映射时出错：{0}</value>
+  </data>
+  <data name="MainWindow_Mappings" xml:space="preserve">
+    <value>映射</value>
+  </data>
+  <data name="MainWindow_MapStructTypeOverrides" xml:space="preserve">
+    <value>映射结构类型覆盖...</value>
+  </data>
+  <data name="MainWindow_NoFileLoadedMessage" xml:space="preserve">
+    <value>没有加载文件来重新计算节点</value>
+  </data>
+  <data name="MainWindow_NoFileToDumpMessage" xml:space="preserve">
+    <value>没有加载文件来转储属性</value>
+  </data>
+  <data name="MainWindow_NoFileToReplaceMessage" xml:space="preserve">
+    <value>没有加载文件来替换引用</value>
+  </data>
+  <data name="MainWindow_OpenConfigDirectory" xml:space="preserve">
+    <value>打开配置目录...</value>
+  </data>
+  <data name="MainWindow_PasteErrorMessage" xml:space="preserve">
+    <value>粘贴数据时出错：{0}</value>
+  </data>
+  <data name="MainWindow_PatchUsmap" xml:space="preserve">
+    <value>使用.sav版本信息修补.usmap...</value>
+  </data>
+  <data name="MainWindow_PropertyDumpingErrorMessage" xml:space="preserve">
+    <value>转储属性时出错：{0}</value>
+  </data>
+  <data name="MainWindow_RecalculateErrorMessage" xml:space="preserve">
+    <value>重新计算节点时出错：{0}</value>
+  </data>
+  <data name="MainWindow_RecalculateNodes" xml:space="preserve">
+    <value>重新计算节点</value>
+  </data>
+  <data name="MainWindow_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="MainWindow_SaveFileFailedMessage" xml:space="preserve">
+    <value>保存文件失败</value>
+  </data>
+  <data name="MainWindow_SetBinaryData" xml:space="preserve">
+    <value>设置二进制</value>
+  </data>
+  <data name="MainWindow_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="MainWindow_Status.Editing" xml:space="preserve">
+    <value>正在编辑单元格...</value>
+  </data>
+  <data name="MainWindow_Status.Ready" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="MainWindow_Title" xml:space="preserve">
+    <value>UAssetManager</value>
+  </data>
+  <data name="MainWindow_UAssetAPIGitHub" xml:space="preserve">
+    <value>GitHub上的UAssetAPI</value>
+  </data>
+  <data name="MainWindow_UAssetGUIGitHub" xml:space="preserve">
+    <value>GitHub上的UAssetManager</value>
+  </data>
+  <data name="MainWindow_UAssetLoadErrorMessage" xml:space="preserve">
+    <value>加载UAsset文件时出错：{0}</value>
+  </data>
+  <data name="MainWindow_UpdateRowErrorMessage" xml:space="preserve">
+    <value>更新行时出错：{0}</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.KeyType" xml:space="preserve">
+    <value>键类型</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.MapPropertyName" xml:space="preserve">
+    <value>映射属性名称</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.ValueType" xml:space="preserve">
+    <value>值类型</value>
+  </data>
+  <data name="MarkdownViewerWindow.Title" xml:space="preserve">
+    <value>Markdown 查看器</value>
+  </data>
+  <data name="MarkdownViewer_LoadingError" xml:space="preserve">
+    <value>加载内容时出错。</value>
+  </data>
+  <data name="Menu.Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Menu.Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Menu.Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Menu.File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Menu.Help" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="Menu.ImportMappings" xml:space="preserve">
+    <value>导入映射...</value>
+  </data>
+  <data name="Menu.Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Menu.OpenContainer" xml:space="preserve">
+    <value>打开容器</value>
+  </data>
+  <data name="Menu.Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Menu.Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Menu.SaveAs" xml:space="preserve">
+    <value>另存为</value>
+  </data>
+  <data name="Menu.Tools" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="Menu.View" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="ObjectReferenceDialog.CountFormat" xml:space="preserve">
+    <value>{0}个项目</value>
+  </data>
+  <data name="ObjectReferenceDialog.EmptyReference" xml:space="preserve">
+    <value>空引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="ObjectReferenceDialog.SearchTooltip" xml:space="preserve">
+    <value>输入索引、类型或路径进行搜索</value>
+  </data>
+  <data name="ObjectReferenceDialog.SelectPrompt" xml:space="preserve">
+    <value>请选择一个对象引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.Title" xml:space="preserve">
+    <value>选择对象引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReference" xml:space="preserve">
+    <value>添加引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferenceTooltip" xml:space="preserve">
+    <value>输入完整路径添加新的对象引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferencePrompt" xml:space="preserve">
+    <value>请输入完整路径：</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferenceTitle" xml:space="preserve">
+    <value>添加对象引用</value>
+  </data>
+  <data name="ObjectReferenceDialog.InvalidPath" xml:space="preserve">
+    <value>无效的路径格式</value>
+  </data>
+  <data name="ObjectReferenceDialog.PathParseError" xml:space="preserve">
+    <value>路径解析失败：{0}</value>
+  </data>
+  <data name="ObjectReferenceDialog.InvalidPathFormat" xml:space="preserve">
+    <value>无效的路径格式，至少需要包含包名和对象名</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>关于...</value>
+  </data>
+  <data name="Settings_ChangeValuesOnScroll" xml:space="preserve">
+    <value>滚动时改变值</value>
+  </data>
+  <data name="Settings_CustomSerializationFlags" xml:space="preserve">
+    <value>自定义序列化标志</value>
+  </data>
+  <data name="Settings_DoubleClickToEdit" xml:space="preserve">
+    <value>双击编辑</value>
+  </data>
+  <data name="Settings_EnableBak" xml:space="preserve">
+    <value>启用备份文件</value>
+  </data>
+  <data name="Settings_EnableDiscordRPC" xml:space="preserve">
+    <value>启用Discord Rich Presence</value>
+  </data>
+  <data name="Settings_EnableDynamicTree" xml:space="preserve">
+    <value>启用动态树</value>
+  </data>
+  <data name="Settings_EnablePrettyBytecode" xml:space="preserve">
+    <value>启用美化字节码</value>
+  </data>
+  <data name="Settings_UseOuterIndexTreeMode" xml:space="preserve">
+    <value>使用对象树模式</value>
+  </data>
+  <data name="Settings_EnableUpdateNotice" xml:space="preserve">
+    <value>启用更新通知</value>
+  </data>
+  <data name="Settings_Features" xml:space="preserve">
+    <value>功能设置</value>
+  </data>
+  <data name="Settings_Interface" xml:space="preserve">
+    <value>界面设置</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Settings_Other" xml:space="preserve">
+    <value>其他设置</value>
+  </data>
+  <data name="Settings_PreferredMappings" xml:space="preserve">
+    <value>首选映射</value>
+  </data>
+  <data name="Settings_PreferredVersion" xml:space="preserve">
+    <value>首选版本</value>
+  </data>
+  <data name="Settings_Reset" xml:space="preserve">
+    <value>重置为默认</value>
+  </data>
+  <data name="Settings_RestoreSize" xml:space="preserve">
+    <value>恢复窗口大小</value>
+  </data>
+  <data name="Settings_Serialization" xml:space="preserve">
+    <value>序列化设置</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Text.Browse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="Text.Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Text.Cancelled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="Text.Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Text.Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Text.Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Text.Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="Text.Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Text.Insert" xml:space="preserve">
+    <value>插入</value>
+  </data>
+  <data name="Text.Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Text.Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Text.NewFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Text.AddFile" xml:space="preserve">
+    <value>添加文件</value>
+  </data>
+  <data name="Text.ImportFolder" xml:space="preserve">
+    <value>导入文件夹</value>
+  </data>
+  <data name="FileContainer_Title" xml:space="preserve">
+    <value>PAK管理器</value>
+  </data>
+  <data name="FileContainer_Current" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="FileContainer_Build" xml:space="preserve">
+    <value>构建</value>
+  </data>
+  <data name="FileContainer_OpenPak" xml:space="preserve">
+    <value>打开PAK容器</value>
+  </data>
+  <data name="FileContainer_SavePak" xml:space="preserve">
+    <value>保存PAK容器</value>
+  </data>
+  <data name="FileContainer_NewFolderPrompt" xml:space="preserve">
+    <value>新建文件夹名称</value>
+  </data>
+  <data name="FileContainer_RenamePrompt" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="FileContainer_AddFileTitle" xml:space="preserve">
+    <value>选择要添加的文件</value>
+  </data>
+  <data name="FileContainer_NoFilesToSave" xml:space="preserve">
+    <value>没有文件需要保存</value>
+  </data>
+  <data name="MainWindow_OpenUAssetTitle" xml:space="preserve">
+    <value>打开UAsset文件</value>
+  </data>
+  <data name="MainWindow_NoFilesToRefresh" xml:space="preserve">
+    <value>没有可刷新的文件</value>
+  </data>
+  <data name="MainWindow_ImportMappingsTitle" xml:space="preserve">
+    <value>导入映射文件</value>
+  </data>
+  <data name="MainWindow_MappingsImported" xml:space="preserve">
+    <value>映射已导入: {0}</value>
+  </data>
+  <data name="MainWindow_SelectSavTitle" xml:space="preserve">
+    <value>选择.sav文件</value>
+  </data>
+  <data name="MainWindow_UsmapPatched" xml:space="preserve">
+    <value>USMAP已修补: {0}</value>
+  </data>
+  <data name="MainWindow_SavePropertiesTitle" xml:space="preserve">
+    <value>保存属性转储</value>
+  </data>
+  <data name="MainWindow_PropertiesDumped" xml:space="preserve">
+    <value>属性已转储: {0}</value>
+  </data>
+  <data name="MainWindow_ReplaceReferencesTitle" xml:space="preserve">
+    <value>替换所有引用</value>
+  </data>
+  <data name="MainWindow_EnterTextToFind" xml:space="preserve">
+    <value>输入要查找的文本:</value>
+  </data>
+  <data name="MainWindow_EnterReplacementText" xml:space="preserve">
+    <value>输入替换文本:</value>
+  </data>
+  <data name="MainWindow_NoMapping" xml:space="preserve">
+    <value>无映射</value>
+  </data>
+  <data name="MainWindow_CustomMapping" xml:space="preserve">
+    <value>自定义映射</value>
+  </data>
+  <data name="FindWindow_PleaseEnterSearchContent" xml:space="preserve">
+    <value>请输入搜索内容</value>
+  </data>
+  <data name="FindWindow_SearchError" xml:space="preserve">
+    <value>搜索时出错: {0}</value>
+  </data>
+  <data name="FindWindow_NoResultsFound" xml:space="preserve">
+    <value>未找到结果</value>
+  </data>
+  <data name="FindWindow_Information" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="FindWindow_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Text.OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Text.Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Text.Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Text.Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="TextPromptWindow.Prompt" xml:space="preserve">
+    <value>请输入文本:</value>
+  </data>
+  <data name="TextPromptWindow.Title" xml:space="preserve">
+    <value>文本输入</value>
+  </data>
+  <data name="Tooltip.BrowseObject" xml:space="preserve">
+    <value>浏览对象引用</value>
+  </data>
+  <data name="Tooltip.Color" xml:space="preserve">
+    <value>输入颜色值，格式: r,g,b,a (例如: 255,128,64,255)</value>
+  </data>
+  <data name="Tooltip.LinearColor" xml:space="preserve">
+    <value>输入线性颜色值，格式: r,g,b,a (例如: 1.0,0.5,0.0,1.0)</value>
+  </data>
+  <data name="Tooltip.NoneReference" xml:space="preserve">
+    <value>None (空引用)</value>
+  </data>
+  <data name="Tooltip.Quat" xml:space="preserve">
+    <value>输入四元数值，格式: x,y,z,w (例如: 0.0,0.0,0.0,1.0)</value>
+  </data>
+  <data name="Tooltip.Rotator" xml:space="preserve">
+    <value>输入旋转器值，格式: pitch,yaw,roll (例如: 0.0,90.0,0.0)</value>
+  </data>
+  <data name="Tooltip.Vector" xml:space="preserve">
+    <value>输入向量值，格式: x,y,z (例如: 1.0,2.0,3.0)</value>
+  </data>
+  <data name="Tooltip.Vector2D" xml:space="preserve">
+    <value>输入2D向量值，格式: x,y (例如: 1.0,2.0)</value>
+  </data>
+  <data name="Tooltip.Vector4" xml:space="preserve">
+    <value>输入4D向量值，格式: x,y,z,w (例如: 1.0,2.0,3.0,4.0)</value>
+  </data>
+  <data name="Validation.Float" xml:space="preserve">
+    <value>请输入有效的浮点数</value>
+  </data>
+  <data name="Validation.Integer" xml:space="preserve">
+    <value>请输入有效的整数</value>
+  </data>
+  <data name="Validation.PackageIndex" xml:space="preserve">
+    <value>请输入有效的包索引</value>
+  </data>
+  <data name="Validation.Regex" xml:space="preserve">
+    <value>输入格式不正确</value>
+  </data>
+  <data name="Validation.Url" xml:space="preserve">
+    <value>请输入有效的URL</value>
+  </data>
+  <data name="Validation.ValidationFailed" xml:space="preserve">
+    <value>验证失败: {0}</value>
+  </data>
+  <data name="Validation.ValueCannotBeEmpty" xml:space="preserve">
+    <value>值不能为空字符串</value>
+  </data>
+  <data name="Validation.ValueCannotBeNull" xml:space="preserve">
+    <value>值不能为空</value>
+  </data>
+  <data name="MainWindow_Paste_SelectRowFirst" xml:space="preserve">
+    <value>请先选择要粘贴数据的行</value>
+  </data>
+  <data name="MainWindow_Paste_DataSourceNotSupported" xml:space="preserve">
+    <value>当前数据源不支持新建操作</value>
+  </data>
+  <data name="MainWindow_Paste_NewItemCreated" xml:space="preserve">
+    <value>已创建新项目，正在粘贴数据...</value>
+  </data>
+  <data name="MainWindow_Paste_NoDataToPaste" xml:space="preserve">
+    <value>没有可粘贴的数据</value>
+  </data>
+  <data name="MainWindow_Paste_InvalidDataFormat" xml:space="preserve">
+    <value>剪贴板数据格式不正确</value>
+  </data>
+  <data name="MainWindow_Paste_UnableToUpdateData" xml:space="preserve">
+    <value>无法更新数据</value>
+  </data>
+  <data name="MainWindow_Paste_Success" xml:space="preserve">
+    <value>已粘贴 {0} 个字段的数据</value>
+  </data>
+  <data name="MainWindow_Paste_Failed" xml:space="preserve">
+    <value>粘贴操作失败: {0}</value>
+  </data>
+  <data name="MainWindow_Paste_FailedStatus" xml:space="preserve">
+    <value>粘贴操作失败</value>
+  </data>
+  <data name="AddPropertyDialog.Title" xml:space="preserve">
+    <value>添加属性</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyName" xml:space="preserve">
+    <value>属性名称</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyValue" xml:space="preserve">
+    <value>属性值</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyType" xml:space="preserve">
+    <value>属性类型</value>
+  </data>
+  <data name="Settings_AES" xml:space="preserve">
+    <value>AES密钥</value>
+  </data>
+</root>

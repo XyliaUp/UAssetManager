@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:UAssetManager.Converters">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+    <converter:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter"/>
+    <converter:HighlightMatchToBrushConverter x:Key="HighlightBrush"/>
+    <converter:HighlightMatchToFontWeightConverter x:Key="HighlightWeight"/>
+    <converter:StringConverter x:Key="StringConverter"/>
+
+</ResourceDictionary>

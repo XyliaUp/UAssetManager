@@ -1,0 +1,919 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutWindow.BasedOn" xml:space="preserve">
+    <value>Based on the original UAssetGUI project, reimplemented using modern WPF technology.</value>
+  </data>
+  <data name="AboutWindow.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AboutWindow.Description" xml:space="preserve">
+    <value>This is a tool for viewing and editing Unreal Engine Asset files.</value>
+  </data>
+  <data name="AboutWindow.Feature1" xml:space="preserve">
+    <value>• View and edit .uasset files</value>
+  </data>
+  <data name="AboutWindow.Feature2" xml:space="preserve">
+    <value>• Support JSON format import/export</value>
+  </data>
+  <data name="AboutWindow.Feature3" xml:space="preserve">
+    <value>• PAK container file management</value>
+  </data>
+  <data name="AboutWindow.Feature4" xml:space="preserve">
+    <value>• Data table editing</value>
+  </data>
+  <data name="AboutWindow.Feature5" xml:space="preserve">
+    <value>• Find and replace functionality</value>
+  </data>
+  <data name="AboutWindow.Feature6" xml:space="preserve">
+    <value>• Theme and settings management</value>
+  </data>
+  <data name="AboutWindow.MainFeatures" xml:space="preserve">
+    <value>Main Features:</value>
+  </data>
+  <data name="AboutWindow.Subtitle" xml:space="preserve">
+    <value>Unreal Engine Asset File Manager</value>
+  </data>
+  <data name="AboutWindow.Tech1" xml:space="preserve">
+    <value>• MVVM architecture pattern</value>
+  </data>
+  <data name="AboutWindow.Tech2" xml:space="preserve">
+    <value>• UAssetAPI library</value>
+  </data>
+  <data name="AboutWindow.TechStack" xml:space="preserve">
+    <value>Tech Stack:</value>
+  </data>
+  <data name="AboutWindow.Title" xml:space="preserve">
+    <value>About UAssetManager</value>
+  </data>
+  <data name="AboutWindow.ViewLicense" xml:space="preserve">
+    <value>View License</value>
+  </data>
+  <data name="AboutWindow.ViewNotice" xml:space="preserve">
+    <value>View 3rd-party software...</value>
+  </data>
+  <data name="ArrayEditor.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ArrayEditor.ArrayElements" xml:space="preserve">
+    <value>Array Elements</value>
+  </data>
+  <data name="Button.Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Confirm.DeleteItems" xml:space="preserve">
+    <value>Are you sure you want to delete the selected {0} items?</value>
+  </data>
+  <data name="Confirm.ResetSettings" xml:space="preserve">
+    <value>Are you sure you want to reset all settings to default values?</value>
+  </data>
+  <data name="ContextMenu.AddAfter" xml:space="preserve">
+    <value>Add (After)</value>
+  </data>
+  <data name="ContextMenu.AddBefore" xml:space="preserve">
+    <value>Add (Before)</value>
+  </data>
+  <data name="ContextMenu.RemoveSelected" xml:space="preserve">
+    <value>Remove Selected</value>
+  </data>
+  <data name="ContextMenu.ReplaceAllReferences" xml:space="preserve">
+    <value>Replace All References</value>
+  </data>
+  <data name="Dialog.NewVersionAvailable" xml:space="preserve">
+    <value>A new version of UAssetManager (v{0}) is available to download!
+Would you like to open the webpage in your browser?</value>
+  </data>
+  <data name="Dialog.SaveAssetFile.Title" xml:space="preserve">
+    <value>Save UAsset File</value>
+  </data>
+  <data name="Asset_GeneralInformation" xml:space="preserve">
+    <value>General Information</value>
+  </data>
+  <data name="Asset_SoftObjectPaths" xml:space="preserve">
+    <value>Soft Object Paths</value>
+  </data>
+  <data name="Asset_NameMap" xml:space="preserve">
+    <value>Name Map</value>
+  </data>
+  <data name="Asset_ImportData" xml:space="preserve">
+    <value>Import Data</value>
+  </data>
+  <data name="Asset_ExportInformation" xml:space="preserve">
+    <value>Export Information</value>
+  </data>
+  <data name="Asset_DependsMap" xml:space="preserve">
+    <value>Depends Map</value>
+  </data>
+  <data name="Asset_SoftPackageReferences" xml:space="preserve">
+    <value>Soft Package References</value>
+  </data>
+  <data name="Asset_WorldTileInfo" xml:space="preserve">
+    <value>World Tile Info</value>
+  </data>
+  <data name="Asset_DataResources" xml:space="preserve">
+    <value>Data Resources</value>
+  </data>
+  <data name="Asset_CustomVersionContainer" xml:space="preserve">
+    <value>Custom Version Container</value>
+  </data>
+  <data name="Asset_ExportData" xml:space="preserve">
+    <value>Export Data</value>
+  </data>
+  <data name="Settings_SaveErrorMessage" xml:space="preserve">
+    <value>Error saving settings: {0}</value>
+  </data>
+  <data name="FileContainer_AddFolderFromDisk" xml:space="preserve">
+    <value>Add Folder from Disk</value>
+  </data>
+  <data name="FileContainer_AddToBuild" xml:space="preserve">
+    <value>Add to Build</value>
+  </data>
+  <data name="FileContainer_CopyPath" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="FileContainer_BuildCompletedMessage" xml:space="preserve">
+    <value>Build completed</value>
+  </data>
+  <data name="FileContainer_BuildFailedMessage" xml:space="preserve">
+    <value>Build failed: {0}</value>
+  </data>
+  <data name="FileContainer_CollapseAll" xml:space="preserve">
+    <value>_Collapse All</value>
+  </data>
+  <data name="FileContainer_ConfirmDelete" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="FileContainer_ConfirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'?</value>
+  </data>
+  <data name="FileContainer_Copy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="FileContainer_CopyFoldersNotSupportedMessage" xml:space="preserve">
+    <value>Copy for folders is not supported yet.</value>
+  </data>
+  <data name="FileContainer_Cut" xml:space="preserve">
+    <value>Cu_t</value>
+  </data>
+  <data name="FileContainer_CutFoldersNotSupportedMessage" xml:space="preserve">
+    <value>Cut for folders is not supported yet.</value>
+  </data>
+  <data name="FileContainer_Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="FileContainer_Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="FileContainer_ExpandAll" xml:space="preserve">
+    <value>_Expand All</value>
+  </data>
+  <data name="FileContainer_ExtractAll" xml:space="preserve">
+    <value>Extract _All...</value>
+  </data>
+  <data name="FileContainer_ExtractCancelledMessage" xml:space="preserve">
+    <value>Extraction cancelled. {0} files extracted.</value>
+  </data>
+  <data name="FileContainer_ExtractErrorMessage" xml:space="preserve">
+    <value>An error occurred during extraction: {0}</value>
+  </data>
+  <data name="FileContainer_ExtractFolderMessage" xml:space="preserve">
+    <value>Select extraction target folder</value>
+  </data>
+  <data name="FileContainer_ExtractingMessage" xml:space="preserve">
+    <value>Extracting {0}/{1}...</value>
+  </data>
+  <data name="FileContainer_ExtractToFolder" xml:space="preserve">
+    <value>Extract to Folder</value>
+  </data>
+  <data name="FileContainer_File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="FileContainer_FileAlreadyInBuildMessage" xml:space="preserve">
+    <value>This file is already in the build list.</value>
+  </data>
+  <data name="FileContainer_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="FileContainer_Paste" xml:space="preserve">
+    <value>_Paste</value>
+  </data>
+  <data name="FileContainer_Refresh" xml:space="preserve">
+    <value>_Refresh</value>
+  </data>
+  <data name="FileContainer_Save" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="FileContainer_SelectFileNodeMessage" xml:space="preserve">
+    <value>Please select a file node.</value>
+  </data>
+  <data name="FileContainer_StageFromDisk" xml:space="preserve">
+    <value>Stage from _Disk...</value>
+  </data>
+  <data name="FileContainer_StageFromDiskToPath" xml:space="preserve">
+    <value>Stage from Disk to _Path...</value>
+  </data>
+  <data name="FileContainer_Utils" xml:space="preserve">
+    <value>_Utils</value>
+  </data>
+  <data name="FileContainer_View" xml:space="preserve">
+    <value>_View</value>
+  </data>
+  <data name="FindWindow_Backward" xml:space="preserve">
+    <value>Backward</value>
+  </data>
+  <data name="FindWindow_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FindWindow_CaseSensitive" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="FindWindow_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="FindWindow_FindAll" xml:space="preserve">
+    <value>Find All</value>
+  </data>
+  <data name="FindWindow_FindNext" xml:space="preserve">
+    <value>Find Next</value>
+  </data>
+  <data name="FindWindow_FindPrevious" xml:space="preserve">
+    <value>Find Previous</value>
+  </data>
+  <data name="FindWindow_Forward" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="FindWindow_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="FindWindow_SearchContent" xml:space="preserve">
+    <value>Search content</value>
+  </data>
+  <data name="FindWindow_SearchDirection" xml:space="preserve">
+    <value>Search direction</value>
+  </data>
+  <data name="FindWindow_Searching" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="FindWindow_SearchResults" xml:space="preserve">
+    <value>Search results</value>
+  </data>
+  <data name="FindWindow_Title" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FindWindow_UseRegex" xml:space="preserve">
+    <value>Use regular expression</value>
+  </data>
+  <data name="MainWindow_About" xml:space="preserve">
+    <value>_About</value>
+  </data>
+  <data name="MainWindow_AddItemErrorMessage" xml:space="preserve">
+    <value>Error adding new item: {0}</value>
+  </data>
+  <data name="MainWindow_AssetOpenErrorMessage" xml:space="preserve">
+    <value>Error opening asset: {0}</value>
+  </data>
+  <data name="MainWindow_CellEditErrorMessage" xml:space="preserve">
+    <value>Error editing cell: {0}</value>
+  </data>
+  <data name="MainWindow_CollapseAll" xml:space="preserve">
+    <value>_Collapse All</value>
+  </data>
+  <data name="MainWindow_ConfigDirNotExistMessage" xml:space="preserve">
+    <value>Configuration directory does not exist</value>
+  </data>
+  <data name="MainWindow_ConfigDirOpenErrorMessage" xml:space="preserve">
+    <value>Error opening configuration directory: {0}</value>
+  </data>
+  <data name="MainWindow_ConfirmDeleteItemsMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the selected items?</value>
+  </data>
+  <data name="MainWindow_ConfirmDeleteTitle" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="MainWindow_ConfirmTitle" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="MainWindow_DeleteItemsErrorMessage" xml:space="preserve">
+    <value>Error deleting items: {0}</value>
+  </data>
+  <data name="MainWindow_DumpProperties" xml:space="preserve">
+    <value>Dump Serializable Properties...</value>
+  </data>
+  <data name="MainWindow_EditErrorTitle" xml:space="preserve">
+    <value>Edit Error</value>
+  </data>
+  <data name="MainWindow_EngineVersion" xml:space="preserve">
+    <value>Engine Version</value>
+  </data>
+  <data name="MainWindow_ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MainWindow_ExpandAll" xml:space="preserve">
+    <value>_Expand All</value>
+  </data>
+  <data name="MainWindow_ExportBinaryData" xml:space="preserve">
+    <value>Export Binary Data</value>
+  </data>
+  <data name="MainWindow_FileLoadErrorMessage" xml:space="preserve">
+    <value>Error loading file: {0}</value>
+  </data>
+  <data name="MainWindow_FileModifiedConfirmMessage" xml:space="preserve">
+    <value>File has been modified. Do you want to save?</value>
+  </data>
+  <data name="MainWindow_Find" xml:space="preserve">
+    <value>_Find</value>
+  </data>
+  <data name="MainWindow_GiveFeedback" xml:space="preserve">
+    <value>Give Feedback</value>
+  </data>
+  <data name="MainWindow_ImportBinaryData" xml:space="preserve">
+    <value>Import Binary Data</value>
+  </data>
+  <data name="MainWindow_InformationTitle" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="MainWindow_InvalidCellMessage" xml:space="preserve">
+    <value>Current data cannot be edited, changes will not be saved</value>
+  </data>
+  <data name="MainWindow_InvalidColumnValueMessage" xml:space="preserve">
+    <value>Invalid value for column '{0}': {1}</value>
+  </data>
+  <data name="MainWindow_JsonLoadErrorMessage" xml:space="preserve">
+    <value>Error loading JSON file: {0}</value>
+  </data>
+  <data name="MainWindow_MappingImportErrorMessage" xml:space="preserve">
+    <value>Error importing mappings: {0}</value>
+  </data>
+  <data name="MainWindow_Mappings" xml:space="preserve">
+    <value>Mappings</value>
+  </data>
+  <data name="MainWindow_MapStructTypeOverrides" xml:space="preserve">
+    <value>Map Struct Type Overrides...</value>
+  </data>
+  <data name="MainWindow_NoFileLoadedMessage" xml:space="preserve">
+    <value>No file loaded to recalculate nodes</value>
+  </data>
+  <data name="MainWindow_NoFileToDumpMessage" xml:space="preserve">
+    <value>No file loaded to dump properties</value>
+  </data>
+  <data name="MainWindow_NoFileToReplaceMessage" xml:space="preserve">
+    <value>No file loaded to replace references</value>
+  </data>
+  <data name="MainWindow_OpenConfigDirectory" xml:space="preserve">
+    <value>Open Config Directory...</value>
+  </data>
+  <data name="MainWindow_PasteErrorMessage" xml:space="preserve">
+    <value>Error pasting data: {0}</value>
+  </data>
+  <data name="MainWindow_PatchUsmap" xml:space="preserve">
+    <value>Patch .usmap with .sav version info...</value>
+  </data>
+  <data name="MainWindow_PropertyDumpingErrorMessage" xml:space="preserve">
+    <value>Error dumping properties: {0}</value>
+  </data>
+  <data name="MainWindow_RecalculateErrorMessage" xml:space="preserve">
+    <value>Error recalculating nodes: {0}</value>
+  </data>
+  <data name="MainWindow_RecalculateNodes" xml:space="preserve">
+    <value>Recalculate _Nodes</value>
+  </data>
+  <data name="MainWindow_Refresh" xml:space="preserve">
+    <value>_Refresh</value>
+  </data>
+  <data name="MainWindow_SaveFileFailedMessage" xml:space="preserve">
+    <value>Failed to save file</value>
+  </data>
+  <data name="MainWindow_SetBinaryData" xml:space="preserve">
+    <value>Set Binary Data</value>
+  </data>
+  <data name="MainWindow_Settings" xml:space="preserve">
+    <value>_Settings</value>
+  </data>
+  <data name="MainWindow_Status.Editing" xml:space="preserve">
+    <value>Editing cell...</value>
+  </data>
+  <data name="MainWindow_Status.Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="MainWindow_Title" xml:space="preserve">
+    <value>UAssetManager</value>
+  </data>
+  <data name="MainWindow_UAssetAPIGitHub" xml:space="preserve">
+    <value>UAssetAPI on GitHub</value>
+  </data>
+  <data name="MainWindow_UAssetGUIGitHub" xml:space="preserve">
+    <value>UAssetManager on GitHub</value>
+  </data>
+  <data name="MainWindow_UAssetLoadErrorMessage" xml:space="preserve">
+    <value>Error loading UAsset file: {0}</value>
+  </data>
+  <data name="MainWindow_UpdateRowErrorMessage" xml:space="preserve">
+    <value>Error updating row: {0}</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.KeyType" xml:space="preserve">
+    <value>Key Type</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.MapPropertyName" xml:space="preserve">
+    <value>Map Property Name</value>
+  </data>
+  <data name="MapStructTypeOverride.Column.ValueType" xml:space="preserve">
+    <value>Value Type</value>
+  </data>
+  <data name="MarkdownViewerWindow.Title" xml:space="preserve">
+    <value>Markdown Viewer</value>
+  </data>
+  <data name="MarkdownViewer_LoadingError" xml:space="preserve">
+    <value>Error loading content.</value>
+  </data>
+  <data name="Menu.Copy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="Menu.Delete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="Menu.Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="Menu.File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="Menu.Help" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+  <data name="Menu.ImportMappings" xml:space="preserve">
+    <value>Import Mappings...</value>
+  </data>
+  <data name="Menu.Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="Menu.OpenContainer" xml:space="preserve">
+    <value>Open _Container</value>
+  </data>
+  <data name="Menu.Paste" xml:space="preserve">
+    <value>_Paste</value>
+  </data>
+  <data name="Menu.Save" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="Menu.SaveAs" xml:space="preserve">
+    <value>Save _As</value>
+  </data>
+  <data name="Menu.Tools" xml:space="preserve">
+    <value>_Tools</value>
+  </data>
+  <data name="Menu.View" xml:space="preserve">
+    <value>_View</value>
+  </data>
+  <data name="ObjectReferenceDialog.CountFormat" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="ObjectReferenceDialog.EmptyReference" xml:space="preserve">
+    <value>Empty reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ObjectReferenceDialog.SearchTooltip" xml:space="preserve">
+    <value>Enter index, type or path to search</value>
+  </data>
+  <data name="ObjectReferenceDialog.SelectPrompt" xml:space="preserve">
+    <value>Please select an object reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.Title" xml:space="preserve">
+    <value>Select Object Reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReference" xml:space="preserve">
+    <value>Add Reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferenceTooltip" xml:space="preserve">
+    <value>Enter full path to add new object reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferencePrompt" xml:space="preserve">
+    <value>Please enter full path:</value>
+  </data>
+  <data name="ObjectReferenceDialog.AddReferenceTitle" xml:space="preserve">
+    <value>Add Object Reference</value>
+  </data>
+  <data name="ObjectReferenceDialog.InvalidPath" xml:space="preserve">
+    <value>Invalid path format</value>
+  </data>
+  <data name="ObjectReferenceDialog.PathParseError" xml:space="preserve">
+    <value>Path parsing failed: {0}</value>
+  </data>
+  <data name="ObjectReferenceDialog.InvalidPathFormat" xml:space="preserve">
+    <value>Invalid path format, must contain at least package name and object name</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>About...</value>
+  </data>
+  <data name="Settings_ChangeValuesOnScroll" xml:space="preserve">
+    <value>Change values on scroll</value>
+  </data>
+  <data name="Settings_CustomSerializationFlags" xml:space="preserve">
+    <value>Custom serialization flags</value>
+  </data>
+  <data name="Settings_DoubleClickToEdit" xml:space="preserve">
+    <value>Double click to edit</value>
+  </data>
+  <data name="Settings_EnableBak" xml:space="preserve">
+    <value>Enable backup files</value>
+  </data>
+  <data name="Settings_EnableDiscordRPC" xml:space="preserve">
+    <value>Enable Discord Rich Presence</value>
+  </data>
+  <data name="Settings_EnableDynamicTree" xml:space="preserve">
+    <value>Enable dynamic tree</value>
+  </data>
+  <data name="Settings_EnablePrettyBytecode" xml:space="preserve">
+    <value>Enable pretty bytecode</value>
+  </data>
+  <data name="Settings_UseOuterIndexTreeMode" xml:space="preserve">
+    <value>Use object tree mode</value>
+  </data>
+  <data name="Settings_EnableUpdateNotice" xml:space="preserve">
+    <value>Enable update notice</value>
+  </data>
+  <data name="Settings_Features" xml:space="preserve">
+    <value>Feature Settings</value>
+  </data>
+  <data name="Settings_Interface" xml:space="preserve">
+    <value>Interface Settings</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_Other" xml:space="preserve">
+    <value>Other Settings</value>
+  </data>
+  <data name="Settings_PreferredMappings" xml:space="preserve">
+    <value>Preferred mappings</value>
+  </data>
+  <data name="Settings_PreferredVersion" xml:space="preserve">
+    <value>Preferred version</value>
+  </data>
+  <data name="Settings_Reset" xml:space="preserve">
+    <value>Reset to Default</value>
+  </data>
+  <data name="Settings_RestoreSize" xml:space="preserve">
+    <value>Restore window size</value>
+  </data>
+  <data name="Settings_Serialization" xml:space="preserve">
+    <value>Serialization Settings</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Text.Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Text.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Text.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Text.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Text.Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Text.Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Text.Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Text.Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Text.Insert" xml:space="preserve">
+    <value>Insert</value>
+  </data>
+  <data name="Text.Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Text.Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Text.NewFolder" xml:space="preserve">
+    <value>New Folder</value>
+  </data>
+  <data name="Text.AddFile" xml:space="preserve">
+    <value>Add File</value>
+  </data>
+  <data name="Text.ImportFolder" xml:space="preserve">
+    <value>Import Folder</value>
+  </data>
+  <data name="FileContainer_Title" xml:space="preserve">
+    <value>PAK Manager</value>
+  </data>
+  <data name="FileContainer_Current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="FileContainer_Build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="FileContainer_OpenPak" xml:space="preserve">
+    <value>Open PAK Container</value>
+  </data>
+  <data name="FileContainer_SavePak" xml:space="preserve">
+    <value>Save PAK Container</value>
+  </data>
+  <data name="FileContainer_NewFolderPrompt" xml:space="preserve">
+    <value>New folder name</value>
+  </data>
+  <data name="FileContainer_RenamePrompt" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="FileContainer_AddFileTitle" xml:space="preserve">
+    <value>Select file to add</value>
+  </data>
+  <data name="FileContainer_NoFilesToSave" xml:space="preserve">
+    <value>No files to save</value>
+  </data>
+  <data name="MainWindow_OpenUAssetTitle" xml:space="preserve">
+    <value>Open UAsset File</value>
+  </data>
+  <data name="MainWindow_NoFilesToRefresh" xml:space="preserve">
+    <value>No files to refresh</value>
+  </data>
+  <data name="MainWindow_ImportMappingsTitle" xml:space="preserve">
+    <value>Import Mappings File</value>
+  </data>
+  <data name="MainWindow_MappingsImported" xml:space="preserve">
+    <value>Mappings imported: {0}</value>
+  </data>
+  <data name="MainWindow_SelectSavTitle" xml:space="preserve">
+    <value>Select .sav File</value>
+  </data>
+  <data name="MainWindow_UsmapPatched" xml:space="preserve">
+    <value>USMAP patched: {0}</value>
+  </data>
+  <data name="MainWindow_SavePropertiesTitle" xml:space="preserve">
+    <value>Save Properties Dump</value>
+  </data>
+  <data name="MainWindow_PropertiesDumped" xml:space="preserve">
+    <value>Properties dumped: {0}</value>
+  </data>
+  <data name="MainWindow_ReplaceReferencesTitle" xml:space="preserve">
+    <value>Replace All References</value>
+  </data>
+  <data name="MainWindow_EnterTextToFind" xml:space="preserve">
+    <value>Enter text to find:</value>
+  </data>
+  <data name="MainWindow_EnterReplacementText" xml:space="preserve">
+    <value>Enter replacement text:</value>
+  </data>
+  <data name="MainWindow_NoMapping" xml:space="preserve">
+    <value>No Mapping</value>
+  </data>
+  <data name="MainWindow_CustomMapping" xml:space="preserve">
+    <value>Custom Mapping</value>
+  </data>
+  <data name="FindWindow_PleaseEnterSearchContent" xml:space="preserve">
+    <value>Please enter search content</value>
+  </data>
+  <data name="FindWindow_SearchError" xml:space="preserve">
+    <value>Error during search: {0}</value>
+  </data>
+  <data name="FindWindow_NoResultsFound" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="FindWindow_Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="FindWindow_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Text.OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Text.Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Text.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Text.Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="TextPromptWindow.Prompt" xml:space="preserve">
+    <value>Please enter text:</value>
+  </data>
+  <data name="TextPromptWindow.Title" xml:space="preserve">
+    <value>Text Input</value>
+  </data>
+  <data name="Tooltip.BrowseObject" xml:space="preserve">
+    <value>Browse object reference</value>
+  </data>
+  <data name="Tooltip.Color" xml:space="preserve">
+    <value>Enter color values, format: r,g,b,a (e.g.: 255,128,64,255)</value>
+  </data>
+  <data name="Tooltip.LinearColor" xml:space="preserve">
+    <value>Enter linear color values, format: r,g,b,a (e.g.: 1.0,0.5,0.0,1.0)</value>
+  </data>
+  <data name="Tooltip.NoneReference" xml:space="preserve">
+    <value>None (empty reference)</value>
+  </data>
+  <data name="Tooltip.Quat" xml:space="preserve">
+    <value>Enter quaternion values, format: x,y,z,w (e.g.: 0.0,0.0,0.0,1.0)</value>
+  </data>
+  <data name="Tooltip.Rotator" xml:space="preserve">
+    <value>Enter rotator values, format: pitch,yaw,roll (e.g.: 0.0,90.0,0.0)</value>
+  </data>
+  <data name="Tooltip.Vector" xml:space="preserve">
+    <value>Enter vector values, format: x,y,z (e.g.: 1.0,2.0,3.0)</value>
+  </data>
+  <data name="Tooltip.Vector2D" xml:space="preserve">
+    <value>Enter 2D vector values, format: x,y (e.g.: 1.0,2.0)</value>
+  </data>
+  <data name="Tooltip.Vector4" xml:space="preserve">
+    <value>Enter 4D vector values, format: x,y,z,w (e.g.: 1.0,2.0,3.0,4.0)</value>
+  </data>
+  <data name="Validation.Float" xml:space="preserve">
+    <value>Please enter a valid float number</value>
+  </data>
+  <data name="Validation.Integer" xml:space="preserve">
+    <value>Please enter a valid integer</value>
+  </data>
+  <data name="Validation.PackageIndex" xml:space="preserve">
+    <value>Please enter a valid package index</value>
+  </data>
+  <data name="Validation.Regex" xml:space="preserve">
+    <value>Input format is incorrect</value>
+  </data>
+  <data name="Validation.Url" xml:space="preserve">
+    <value>Please enter a valid URL</value>
+  </data>
+  <data name="Validation.ValidationFailed" xml:space="preserve">
+    <value>Validation failed: {0}</value>
+  </data>
+  <data name="Validation.ValueCannotBeEmpty" xml:space="preserve">
+    <value>Value cannot be empty string</value>
+  </data>
+  <data name="Validation.ValueCannotBeNull" xml:space="preserve">
+    <value>Value cannot be null</value>
+  </data>
+  <data name="MainWindow_Paste_SelectRowFirst" xml:space="preserve">
+    <value>Please select a row to paste data first</value>
+  </data>
+  <data name="MainWindow_Paste_DataSourceNotSupported" xml:space="preserve">
+    <value>Current data source does not support new item creation</value>
+  </data>
+  <data name="MainWindow_Paste_NewItemCreated" xml:space="preserve">
+    <value>New item created, pasting data...</value>
+  </data>
+  <data name="MainWindow_Paste_NoDataToPaste" xml:space="preserve">
+    <value>No data to paste</value>
+  </data>
+  <data name="MainWindow_Paste_InvalidDataFormat" xml:space="preserve">
+    <value>Clipboard data format is incorrect</value>
+  </data>
+  <data name="MainWindow_Paste_UnableToUpdateData" xml:space="preserve">
+    <value>Unable to update data</value>
+  </data>
+  <data name="MainWindow_Paste_Success" xml:space="preserve">
+    <value>Successfully pasted {0} fields of data</value>
+  </data>
+  <data name="MainWindow_Paste_Failed" xml:space="preserve">
+    <value>Paste operation failed: {0}</value>
+  </data>
+  <data name="MainWindow_Paste_FailedStatus" xml:space="preserve">
+    <value>Paste operation failed</value>
+  </data>
+  <data name="AddPropertyDialog.Title" xml:space="preserve">
+    <value>Add property</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyName" xml:space="preserve">
+    <value>Property Name</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyValue" xml:space="preserve">
+    <value>Property Value</value>
+  </data>
+  <data name="AddPropertyDialog.PropertyType" xml:space="preserve">
+    <value>Property Type</value>
+  </data>
+  <data name="Settings_AES" xml:space="preserve">
+    <value>AESKey</value>
+  </data>
+</root>

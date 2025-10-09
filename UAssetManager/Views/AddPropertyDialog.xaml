@@ -1,0 +1,40 @@
+<Window x:Class="UAssetManager.Views.AddPropertyDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="clr-namespace:UAssetManager.Controls"
+        mc:Ignorable="d"
+        Title="{DynamicResource AddPropertyDialog.Title}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="{DynamicResource AddPropertyDialog.PropertyName}"/>
+        <TextBox x:Name="NameBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,8" MinWidth="260"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Center" Text="{DynamicResource AddPropertyDialog.PropertyType}"/>
+        <ComboBox x:Name="TypeBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,8" MinWidth="260"
+                  StaysOpenOnEdit="True" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False"
+                  LostKeyboardFocus="RefreshEditor" SelectionChanged="RefreshEditor" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,8" VerticalAlignment="Top" Text="{DynamicResource AddPropertyDialog.PropertyValue}"/>
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4">
+            <ContentPresenter x:Name="EditorHost" />
+        </Border>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button x:Name="OkButton" Content="{DynamicResource Text.OK}" Width="88" Margin="0,0,8,0" IsDefault="True" Click="OkButton_Click" />
+            <Button Content="{DynamicResource Text.Cancel}" Width="88" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,151 @@
+<Window x:Class="UAssetManager.Views.FileContainerWindow" x:Name="RootWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:UAssetManager.Models"
+        xmlns:converters="clr-namespace:UAssetManager.Converters"
+        Title="{DynamicResource FileContainer_Title}" Height="600" Width="1000"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="0" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Source PAK (Read-only) -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                    <Button x:Name="LoadButton" Content="{DynamicResource FileContainer_Open}" 
+                            Height="40" Width="120" HorizontalAlignment="Center" Margin="5"
+                            Command="{Binding LoadCommand}"/>
+                    <TextBlock Text="{DynamicResource FileContainer_Current}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <TextBlock Text="{Binding CurrentPakName}" VerticalAlignment="Center" Foreground="Gray"/>
+                </StackPanel>
+
+                <TreeView Grid.Row="1" x:Name="LoadTreeView" ItemsSource="{Binding LoadTreeItems}"
+                          AllowDrop="True"
+                          DragEnter="LoadTreeView_DragEnter"
+                          Drop="LoadTreeView_Drop"
+                          MouseDoubleClick="TreeView_MouseDoubleClick">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.Resources>
+                        <local:BindingProxy x:Key="Proxy" Data="{Binding DataContext, ElementName=RootWindow}"/>
+                        <HierarchicalDataTemplate DataType="{x:Type local:DirectoryTreeItem}" ItemsSource="{Binding Children.Values}">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{DynamicResource FileContainer_ExpandAll}" InputGestureText="Ctrl+M" Command="{Binding ExpandAllCommand}"/>
+                                        <MenuItem Header="{DynamicResource FileContainer_CollapseAll}" InputGestureText="Ctrl+L" Command="{Binding CollapseAllCommand}"/>
+                                        <MenuItem Header="{DynamicResource Text.Refresh}" InputGestureText="F5" Command="{Binding Data.RefreshCommand, Source={StaticResource Proxy}}"/>
+                                        <Separator/>
+                                        <MenuItem Header="{DynamicResource FileContainer_CopyPath}" Command="{Binding Data.CopyPathCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <Separator/>
+                                        <MenuItem Header="{DynamicResource FileContainer_ExtractToFolder}" Command="{Binding Data.ExtractSelectedCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource FileContainer_AddToBuild}" Command="{Binding Data.AddFromPakCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+
+                                <TextBlock Text="{Binding Name}" FontWeight="{Binding IsFile, Converter={StaticResource BoolToFontWeightConverter}}"/>
+                                <TextBlock Text=" (File)" Foreground="Gray" Margin="5,0,0,0" 
+                                           Visibility="{Binding IsFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </Grid>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="LightGray"/>
+
+            <!-- Build List (to be packed) -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" x:Name="SaveButton" Content="{DynamicResource FileContainer_Build}" 
+                        Height="40" Width="120" HorizontalAlignment="Center" Margin="5"
+                        Command="{Binding SaveCommand}"/>
+
+                <TreeView Grid.Row="1" x:Name="SaveTreeView" ItemsSource="{Binding SaveTreeItems}"
+                          AllowDrop="True"
+                          DragEnter="SaveTreeView_DragEnter"
+                          Drop="SaveTreeView_Drop"
+                          MouseDoubleClick="TreeView_MouseDoubleClick">
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{DynamicResource Text.NewFolder}" Command="{Binding NewFolderCommand}"/>
+                            <MenuItem Header="{DynamicResource Text.ImportFolder}" Command="{Binding AddFolderFromDiskCommand}"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                    <TreeView.InputBindings>
+                        <!-- handled in code-behind to keep SelectedTreeView out of VM -->
+                    </TreeView.InputBindings>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            <Setter Property="AllowDrop" Value="True"/>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                            <EventSetter Event="PreviewMouseMove" Handler="TreeViewItem_PreviewMouseMove"/>
+                            <EventSetter Event="Drop" Handler="TreeViewItem_Drop"/>
+                            <EventSetter Event="DragOver" Handler="TreeViewItem_DragOver"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.Resources>
+                        <local:BindingProxy x:Key="Proxy" Data="{Binding DataContext, ElementName=RootWindow}"/>
+                        <HierarchicalDataTemplate DataType="{x:Type local:DirectoryTreeItem}" ItemsSource="{Binding Children.Values}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" FontWeight="{Binding IsFile, Converter={StaticResource BoolToFontWeightConverter}}"/>
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{DynamicResource Text.NewFolder}" Command="{Binding Data.NewFolderCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource Text.Rename}" Command="{Binding Data.RenameCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <Separator/>
+                                        <MenuItem Header="{DynamicResource Text.Cut}" Command="{Binding Data.CutCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource Text.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource Text.Paste}" Command="{Binding Data.PasteCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource Text.Delete}" Command="{Binding Data.DeleteCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <Separator/>
+                                        <MenuItem Header="{DynamicResource Text.AddFile}" Command="{Binding Data.AddFromDiskCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="{DynamicResource Text.ImportFolder}" Command="{Binding Data.AddFolderFromDiskCommand, Source={StaticResource Proxy}}" CommandParameter="{Binding}"/>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </Grid>
+        </Grid>
+
+        <!-- Extraction Progress Bar -->
+        <Grid Grid.Row="1" Margin="10" Visibility="{Binding IsExtracting, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,5,10,0">
+                <TextBlock Text="{Binding ExtractStatus}" Margin="0,0,0,5"/>
+                <ProgressBar Minimum="0" Maximum="{Binding ExtractTotal}" Value="{Binding ExtractCurrent}" Height="14"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Cancel" Width="80" Height="24" VerticalAlignment="Center" Command="{Binding CancelExtractCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

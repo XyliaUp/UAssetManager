@@ -1,0 +1,47 @@
+<Window x:Class="UAssetManager.Views.MapStructTypeOverrideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Map Struct Type Overrides"
+        Width="600" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Info Label -->
+        <TextBlock Grid.Row="0" x:Name="InfoLabel" 
+                   Text="This table maps MapProperty names to the type of the structs within them. You can use header dumps to determine these values if necessary."
+                   TextWrapping="Wrap" Margin="10" FontStyle="Italic"/>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="1" x:Name="MapStructDataGrid" 
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="True"
+                  CanUserDeleteRows="True"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{DynamicResource MapStructTypeOverride.Column.MapPropertyName}" Binding="{Binding MapPropertyName}" Width="*"/>
+                <DataGridTextColumn Header="{DynamicResource MapStructTypeOverride.Column.KeyType}" Binding="{Binding KeyType}" Width="*"/>
+                <DataGridTextColumn Header="{DynamicResource MapStructTypeOverride.Column.ValueType}" Binding="{Binding ValueType}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Add Row" Width="80" Height="30" Margin="5" Click="AddRow_Click"/>
+            <Button Content="Remove Row" Width="80" Height="30" Margin="5" Click="RemoveRow_Click"/>
+            <Button Content="Clear All" Width="80" Height="30" Margin="5" Click="ClearAll_Click"/>
+            <Button Content="OK" Width="80" Height="30" Margin="5" Click="OK_Click" IsDefault="True"/>
+            <Button Content="Cancel" Width="80" Height="30" Margin="5" Click="Cancel_Click" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

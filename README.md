@@ -1,3 +1,9 @@
+# UAssetManager
+
+UAssetManager is the WPF branch version of UAssetGUI, offering a better interface experience.
+
+--------------------------------------------------------------------------------
+
 # UAssetGUI
 [![Release](https://img.shields.io/github/v/release/atenfyr/UAssetGUI.svg?style=flat-square)](https://github.com/atenfyr/UAssetGUI/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/atenfyr/UAssetGUI/total.svg?style=flat-square)](https://github.com/atenfyr/UAssetGUI/releases)

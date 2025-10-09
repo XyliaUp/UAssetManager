@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="UAssetManager.Controls.PropertyEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:UAssetManager.Controls"
+             mc:Ignorable="d">
+
+    <Grid Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}" Grid.IsSharedSizeScope="True">
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add Property" Click="AddProperty_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+        
+        <c:PropertyItemsControl x:Name="ItemsControl" AlternationCount="2" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <c:PropertyItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Margin" Value="0,0,0,6" />
+                            <Setter Property="Padding" Value="10,6,6,0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="GroupItem">
+                                        <Expander Header="{Binding DisplayName}" IsExpanded="True">
+                                            <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" CornerRadius="0,0,4,4">
+                                                <ItemsPresenter Margin="{TemplateBinding Padding}" />
+                                            </Border>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </c:PropertyItemsControl.GroupStyle>
+            <c:PropertyItemsControl.Template>
+                <ControlTemplate TargetType="c:PropertyItemsControl">
+                    <ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </c:PropertyItemsControl.Template>
+        </c:PropertyItemsControl>
+    </Grid>
+</UserControl>

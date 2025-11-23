@@ -23,7 +23,7 @@ public class FAesKey
         if (keyString.Length != 66)
             throw new ArgumentException("Aes Key must be 32 bytes long");
         KeyString = keyString;
-        Key = keyString.Substring(2).ParseHexBinary();
+        Key = keyString.HexToBytes();
     }
 
     public override string ToString() => KeyString;

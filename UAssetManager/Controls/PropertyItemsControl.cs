@@ -110,10 +110,12 @@ public class PropertyItem : ListBoxItem
     public static PropertyEditorBase ResolveEditor(UAsset asset, PropertyData property) => property switch
     {
         ArrayPropertyData => new ArrayPropertyEditor(asset),
+        MapPropertyData => new MapPropertyEditor(asset),
         StructPropertyData => new StructPropertyEditor(asset),
         BytePropertyData => new BytePropertyEditor(asset),
         EnumPropertyData => new EnumPropertyEditor(asset),
         ObjectPropertyData => new ObjectPropertyEditor(asset),
+        SoftObjectPropertyData => new SoftObjectPropertyEditor(asset),
 
         BoolPropertyData => new BoolPropertyEditor(),
         IntPropertyData => new IntPropertyEditor(),

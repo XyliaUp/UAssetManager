@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -27,12 +28,99 @@ public partial class MainWindow : Window
 
         SetupKeyboardShortcuts();
         LoadConfiguration();
+        SetupPluginMenu();
 
         // Initialize Discord RPC
         _viewModel.UpdateDiscordRpc();
 
         // Fetch the latest version from github
         Task.Run(GitHubAPI.CheckForUpdates);
+    }
+
+    private void SetupPluginMenu()
+    {
+        // Subscribe to plugin changes
+        _viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(_viewModel.Plugins))
+            {
+                UpdatePluginMenuItems();
+            }
+        };
+
+        // Initial setup
+        UpdatePluginMenuItems();
+    }
+
+    private void UpdatePluginMenuItems()
+    {
+        if (this.FindName("PluginsMenu") is not MenuItem pluginsMenu || 
+            pluginsMenu.FindName("PluginSeparator") is not Separator pluginSeparator) return;
+
+        // Remove old plugin items (keep management items)
+        var itemsToRemove = pluginsMenu.Items.Cast<object>().Skip(3).ToList(); // Skip first 3 items (Open Folder, Reload, Separator)
+        foreach (var item in itemsToRemove)
+        {
+            pluginsMenu.Items.Remove(item);
+        }
+
+        // Show/hide separator based on plugin count
+        pluginSeparator.Visibility = _viewModel.Plugins.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+        // Add plugin menu items
+        foreach (var plugin in _viewModel.Plugins)
+        {
+            var customMenuItems = plugin.GetMenuItems();
+            if (customMenuItems != null && customMenuItems.Any())
+            {
+                // Create submenu for plugin with custom items
+                var pluginMenuItem = new MenuItem
+                {
+                    Header = plugin.Name,
+                    ToolTip = $"Author: {plugin.Author}\nVersion: {plugin.Version}\n{plugin.Description}"
+                };
+
+                // Add main execute item
+                pluginMenuItem.Items.Add(new MenuItem
+                {
+                    Header = "Execute",
+                    Command = _viewModel.ExecutePluginCommand,
+                    CommandParameter = plugin,
+                    FontWeight = FontWeights.Bold
+                });
+
+                // Add separator
+                pluginMenuItem.Items.Add(new Separator());
+
+                // Add custom menu items
+                foreach (var customItem in customMenuItems)
+                {
+                    pluginMenuItem.Items.Add(new MenuItem
+                    {
+                        Header = customItem.Header,
+                        Command = new RelayCommand(() => customItem.Action()),
+                        ToolTip = customItem.ToolTip
+                    });
+                }
+
+                ToolTipService.SetInitialShowDelay(pluginMenuItem, 100);
+                pluginsMenu.Items.Add(pluginMenuItem);
+            }
+            else
+            {
+                // No custom items, add simple menu item
+                var pluginMenuItem = new MenuItem
+                {
+                    Header = plugin.Name,
+                    Command = _viewModel.ExecutePluginCommand,
+                    CommandParameter = plugin,
+                    ToolTip = $"Author: {plugin.Author}\nVersion: {plugin.Version}\n{plugin.Description}"
+                };
+
+                ToolTipService.SetInitialShowDelay(pluginMenuItem, 100);
+                pluginsMenu.Items.Add(pluginMenuItem);
+            }
+        }
     }
     #endregion
 
@@ -418,6 +506,14 @@ public partial class MainWindow : Window
                 DataGridView.Visibility = Visibility.Collapsed;
                 PropertyEditor.Visibility = Visibility.Visible;
                 PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, structProp.Value);
+                return;
+            }
+            else
+            {
+                // 处理单个PropertyData，创建一个包含它的集合
+                DataGridView.Visibility = Visibility.Collapsed;
+                PropertyEditor.Visibility = Visibility.Visible;
+                PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, new[] { propertyCtx });
                 return;
             }
         }

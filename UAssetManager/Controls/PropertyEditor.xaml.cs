@@ -55,10 +55,11 @@ public partial class PropertyEditor
 
     private void UpdateItems(object obj)
     {
-        if (obj is not ICollection<PropertyData> properties) return;
-
-        ItemsControl.ItemsSource = _dataView = CollectionViewSource.GetDefaultView(
-            properties.Select(o => new PropertyItem() { Asset = Asset, Property = o }));
+        if (obj is ICollection<PropertyData> properties)
+        {
+            ItemsControl.ItemsSource = _dataView = CollectionViewSource.GetDefaultView(
+                properties.Select(o => new PropertyItem() { Asset = Asset, Property = o }));
+        }
     }
 
     private void OnContextMenuOpened(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using UAssetManager.Utils.Plugins;
 
 namespace UAssetManager.Views;
 public partial class ProgressWindow : Window
@@ -12,15 +13,7 @@ public partial class ProgressWindow : Window
         InitializeComponent();
     }
 
-    public int Value
-    {
-        get => (int)ProgressBar.Value;
-        set
-        {
-            ProgressBar.Value = value;
-            UpdateProgressText();
-        }
-    }
+    public bool IsCancelled => _isCancelled;
 
     public int Maximum
     {
@@ -28,37 +21,18 @@ public partial class ProgressWindow : Window
         set
         {
             ProgressBar.Maximum = value;
-            UpdateProgressText();
         }
     }
-
-    public string StatusText
-    {
-        get => ProgressLabel.Content?.ToString() ?? string.Empty;
-        set => ProgressLabel.Content = value;
-    }
-
-    public bool IsCancelled => _isCancelled;
 
     public void SetBackgroundWorker(BackgroundWorker worker)
     {
         _backgroundWorker = worker;
     }
 
-    public void UpdateProgress(int value)
-    {
-        Value = value;
-    }
-
     public void UpdateProgress(int value, string statusText)
     {
-        Value = value;
-        StatusText = statusText;
-    }
-
-    private void UpdateProgressText()
-    {
-        ProgressText.Text = $"{Value}/{Maximum}";
+        ProgressBar.Value = value;
+        ProgressLabel.Text = statusText;
     }
 
     private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -69,8 +43,8 @@ public partial class ProgressWindow : Window
         {
             _backgroundWorker.CancelAsync();
         }
-        
-        StatusText = "Cancelling...";
+
+        ProgressLabel.Text = "Cancelling...";
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -79,6 +53,51 @@ public partial class ProgressWindow : Window
         {
             Cancel_Click(this, new RoutedEventArgs());
         }
+
         base.OnClosing(e);
+    }
+}
+
+internal class ProgressReporter : IProgressReporter
+{
+    private readonly ProgressWindow _window;
+    private bool _disposed;
+
+    public bool IsCancelled => _window.IsCancelled;
+
+    public ProgressReporter(string title, int total)
+    {
+        _window = new ProgressWindow
+        {
+            Title = title,
+            Owner = Application.Current.MainWindow,
+            Maximum = total
+        };
+
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            _window.Show();
+        });
+    }
+
+    public void Report(int current, string message)
+    {
+        if (_disposed) return;
+
+        Application.Current.Dispatcher.BeginInvoke(() =>
+        {
+            _window.UpdateProgress(current, message);
+        });
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            _window?.Close();
+        });
     }
 }

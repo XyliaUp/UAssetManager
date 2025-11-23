@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -459,7 +460,7 @@ internal partial class FileContainerViewModel : ObservableObject
                 {
                     if (_buildPakReader.Files.TryGetValue(key, out var entry))
                     {
-                        var newKey = newPrefix + key.Substring(oldPrefix.Length);
+                        var newKey = string.Concat(newPrefix, key.AsSpan(oldPrefix.Length));
                         _buildPakReader.Files.Remove(key);
                         _buildPakReader.Files[newKey] = entry;
                     }
@@ -665,6 +666,7 @@ internal partial class FileContainerViewModel : ObservableObject
         File.WriteAllBytes(outputPakPath, ms.ToArray());
     }
 
+
     public void MoveItem(string oldPath, string newPath)
     {
         if (_buildPakReader?.Files.TryGetValue(oldPath, out var entry) == true)
@@ -690,7 +692,7 @@ internal partial class FileContainerViewModel : ObservableObject
         {
             if (_buildPakReader.Files.TryGetValue(key, out var entry))
             {
-                var newKey = newPrefix + key.Substring(oldPrefix.Length);
+                var newKey = string.Concat(newPrefix, key.AsSpan(oldPrefix.Length));
                 _buildPakReader.Files.Remove(key);
                 _buildPakReader.Files[newKey] = entry;
             }
@@ -741,7 +743,7 @@ internal partial class FileContainerViewModel : ObservableObject
         catch (Exception ex)
         {
             // Handle error - you might want to show a message to the user
-            System.Diagnostics.Debug.WriteLine($"Failed to update asset in build PAK: {ex.Message}");
+            Debug.WriteLine($"Failed to update asset in build PAK: {ex.Message}");
         }
     }
 

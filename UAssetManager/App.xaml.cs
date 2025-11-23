@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -15,8 +15,10 @@ public partial class App : Application
 
     private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        if (e.Exception is COMException) e.Handled = true;
+        e.Handled = true;
+        if (e.Exception is COMException) return; // Ignore COM exceptions
 
-        Debug.WriteLine("OnUnhandledException: " + e.Exception);
+        Log.Error(e.Exception, "UnhandledException");
+        MessageBox.Show(e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 }

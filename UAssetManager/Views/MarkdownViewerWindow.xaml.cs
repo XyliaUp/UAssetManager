@@ -1,6 +1,5 @@
 using Markdig;
 using System.Windows;
-using UAssetManager.Resources;
 
 namespace UAssetManager.Views;
 public partial class MarkdownViewerWindow : Window
@@ -26,7 +25,7 @@ public partial class MarkdownViewerWindow : Window
             {
                 // Use Markdig to convert Markdown to HTML
                 var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-                string htmlContent = Markdig.Markdown.ToHtml(MarkdownContent, pipeline);
+                string htmlContent = Markdown.ToHtml(MarkdownContent, pipeline);
                 
                 // Create complete HTML document
                 string fullHtml = $@"

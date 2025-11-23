@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using UAssetManager.Pak;
 
 namespace UAssetManager.Pak.Objects.Core.Misc;
 public enum EGuidFormats

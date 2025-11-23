@@ -70,4 +70,6 @@ public enum TreeNodeType
     UserDefinedStructData,
     Kismet,
     KismetByteArray,
+    UObjectData,
+    UObjectField,
 }

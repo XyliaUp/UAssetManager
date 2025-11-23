@@ -38,7 +38,7 @@
     <DockPanel>
         <!-- Menu Bar -->
         <Menu DockPanel.Dock="Top" Background="#F5F5F5">
-            <MenuItem Header="{DynamicResource Menu.File}">
+            <MenuItem Header="{DynamicResource Menu.File}" d:Header="File">
                 <MenuItem Header="{DynamicResource Menu.Open}" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
                 <MenuItem Header="{DynamicResource Menu.OpenContainer}" InputGestureText="Ctrl+Shift+O" Command="{Binding OpenContainerCommand}"/>
                 <Separator/>
@@ -46,14 +46,14 @@
                 <MenuItem Header="{DynamicResource Menu.SaveAs}" InputGestureText="Ctrl+Shift+S" Command="{Binding SaveFileAsCommand}"/>
             </MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Edit}">
+            <MenuItem Header="{DynamicResource Menu.Edit}" d:Header="Edit">
                 <MenuItem Header="{DynamicResource MainWindow_Find}" InputGestureText="Ctrl+F" Command="{Binding FindCommand}"/>
                 <MenuItem Header="{DynamicResource MainWindow_MapStructTypeOverrides}" Command="{Binding MapStructOverridesCommand}"/>
                 <Separator/>
                 <MenuItem Header="{DynamicResource MainWindow_Settings}" Command="{Binding OpenSettingsCommand}"/>
             </MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.View}">
+            <MenuItem Header="{DynamicResource Menu.View}" d:Header="View">
                 <MenuItem Header="{DynamicResource MainWindow_ExpandAll}" InputGestureText="Ctrl+E" Command="{Binding ExpandAllCommand}"/>
                 <MenuItem Header="{DynamicResource MainWindow_CollapseAll}" InputGestureText="Ctrl+L" Command="{Binding CollapseAllCommand}"/>
                 <Separator/>
@@ -61,10 +61,16 @@
                 <MenuItem Header="{DynamicResource MainWindow_RecalculateNodes}" InputGestureText="Shift+F5" Command="{Binding RecalculateNodesCommand}"/>
             </MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Tools}">
+            <MenuItem Header="{DynamicResource Menu.Tools}" d:Header="Tools">
                 <MenuItem Header="{DynamicResource Menu.ImportMappings}" Command="{Binding ImportMappingsCommand}"/>
                 <MenuItem Header="{DynamicResource MainWindow_PatchUsmap}" Command="{Binding PatchUsmapCommand}"/>
                 <MenuItem Header="{DynamicResource MainWindow_DumpProperties}" Command="{Binding DumpPropertiesCommand}"/>
+            </MenuItem>
+
+            <MenuItem Header="{DynamicResource Menu.Plugins}" d:Header="Plugins" x:Name="PluginsMenu">
+                <MenuItem Header="{DynamicResource MainWindow_OpenPlugins}" Command="{Binding OpenPluginsFolderCommand}"/>
+                <MenuItem Header="{DynamicResource MainWindow_ReloadPlugins}" Command="{Binding ReloadPluginsCommand}"/>
+                <Separator x:Name="PluginSeparator" Visibility="Collapsed"/>
             </MenuItem>
 
             <MenuItem Header="{DynamicResource Menu.Help}">

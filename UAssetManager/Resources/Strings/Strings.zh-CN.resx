@@ -919,4 +919,82 @@
   <data name="Menu.Add" xml:space="preserve">
     <value>增加</value>
   </data>
+  <data name="Asset_BinaryNode" xml:space="preserve">
+    <value>Extras ({0} B)</value>
+  </data>
+  <data name="Asset_Properties" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Menu.Plugins" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="MainWindow_OpenPlugins" xml:space="preserve">
+    <value>打开插件目录</value>
+  </data>
+  <data name="MainWindow_ReloadPlugins" xml:space="preserve">
+    <value>重载插件</value>
+  </data>
+  <data name="Plugin_CreatedDirectory" xml:space="preserve">
+    <value>已创建插件目录: {0}</value>
+  </data>
+  <data name="Plugin_LoadedCount" xml:space="preserve">
+    <value>已加载 {0} 个插件</value>
+  </data>
+  <data name="Plugin_FailedToLoad" xml:space="preserve">
+    <value>加载插件失败: {0}</value>
+  </data>
+  <data name="Plugin_TypesLoadWarning" xml:space="preserve">
+    <value>{0} 中的某些类型无法加载:</value>
+  </data>
+  <data name="Plugin_Loaded" xml:space="preserve">
+    <value>已加载插件: {0} v{1} by {2}</value>
+  </data>
+  <data name="Plugin_FailedToInstantiate" xml:space="preserve">
+    <value>实例化插件类型失败: {0}</value>
+  </data>
+  <data name="Plugin_FailedToLoadAssembly" xml:space="preserve">
+    <value>加载程序集失败: {0}</value>
+  </data>
+  <data name="Plugin_Initialized" xml:space="preserve">
+    <value>已初始化插件: {0}</value>
+  </data>
+  <data name="Plugin_FailedToInitialize" xml:space="preserve">
+    <value>初始化插件失败: {0}</value>
+  </data>
+  <data name="Plugin_FailedToCleanup" xml:space="preserve">
+    <value>清理插件失败: {0}</value>
+  </data>
+  <data name="Plugin_SystemInitialized" xml:space="preserve">
+    <value>插件系统已初始化，共 {0} 个插件</value>
+  </data>
+  <data name="Plugin_FailedToInitializeSystem" xml:space="preserve">
+    <value>初始化插件系统失败</value>
+  </data>
+  <data name="Plugin_Executing" xml:space="preserve">
+    <value>正在执行插件: {0}</value>
+  </data>
+  <data name="Plugin_FailedToExecute" xml:space="preserve">
+    <value>执行插件失败: {0}</value>
+  </data>
+  <data name="Plugin_CannotReload" xml:space="preserve">
+    <value>无法重载插件: 插件宿主未初始化</value>
+  </data>
+  <data name="Plugin_ResolvingAssemblyFromPluginDir" xml:space="preserve">
+    <value>从插件目录解析程序集: {0}</value>
+  </data>
+  <data name="Plugin_ResolvingAssemblyFromAppDir" xml:space="preserve">
+    <value>从应用程序目录解析程序集: {0}</value>
+  </data>
+  <data name="Plugin_ExecutionFailed" xml:space="preserve">
+    <value>插件执行失败: {0}</value>
+  </data>
+  <data name="Plugin_ReloadedSuccessfully" xml:space="preserve">
+    <value>插件重载成功</value>
+  </data>
+  <data name="Plugin_ReloadFailed" xml:space="preserve">
+    <value>重载插件失败: {0}</value>
+  </data>
+  <data name="Plugin_InitlizeFailed" xml:space="preserve">
+    <value>插件初始化失败: {0}</value>
+  </data>
 </root>

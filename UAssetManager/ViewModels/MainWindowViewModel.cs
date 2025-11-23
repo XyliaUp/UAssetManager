@@ -18,10 +18,11 @@ using UAssetAPI.UnrealTypes;
 using UAssetManager.Models;
 using UAssetManager.Resources;
 using UAssetManager.Utils;
+using UAssetManager.Utils.Plugins;
 using UAssetManager.Views;
 
 namespace UAssetManager.ViewModels;
-public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
+public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider, IPluginHost
 {
     #region Events
     public static event EventHandler<AssetUpdateEventArgs>? AssetUpdateRequested;
@@ -48,6 +49,9 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
     [ObservableProperty] bool _isRawDataSelected = false;
     [ObservableProperty] bool _isAssetFromBuildPak = false;
 
+    private PluginLoader? _pluginLoader;
+    public IReadOnlyCollection<IUAssetPlugin> Plugins => _pluginLoader?.Plugins ?? Array.Empty<IUAssetPlugin>();
+
     public string DisplayVersion => $"UAssetManager v{Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion}";
 
     public IEnumerable<EngineVersion> EngineVersions => Enum.GetValues<EngineVersion>();
@@ -69,6 +73,9 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
         // Initialize mapping list
         Mappings.Add(StringHelper.Get("MainWindow_NoMapping"));
         Mappings.Add(StringHelper.Get("MainWindow_CustomMapping"));
+
+        // Initialize plugin system
+        InitializePluginSystem();
     }
 
     #endregion
@@ -853,7 +860,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
         if (CurrentAsset == null) return;
 
         // Display basic information of Node
-        PropertyItems.Add(new PropertyItem("Node Name", selectedNode.Name));
+        PropertyItems.Add(new PropertyItem("Node Name", selectedNode.ToString()));
         PropertyItems.Add(new PropertyItem("Node Type", selectedNode.Type.ToString()));
         PropertyItems.Add(new PropertyItem("Data Type", selectedNode.Data?.GetType().Name ?? "null"));
     }
@@ -862,8 +869,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
     #region File Operations
 
-    [RelayCommand]
-    public void SaveFile()
+    [RelayCommand] public void SaveFile()
     {
         if (IsAssetFromBuildPak && AssetUpdateRequested != null)
         {
@@ -880,8 +886,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
         SaveCurrentFile(CurrentFilePath);
     }
 
-    [RelayCommand]
-    void SaveFileAs()
+    [RelayCommand] void SaveFileAs()
     {
         var saveFileDialog = new SaveFileDialog
         {
@@ -1349,7 +1354,132 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
     #endregion
 
+    #region Plugin Management
+
+    [RelayCommand]
+    void ExecutePlugin(IUAssetPlugin plugin)
+    {
+        try
+        {
+            _pluginLoader?.ExecutePlugin(plugin);
+        }
+        catch (Exception ex)
+        {
+            ShowError(StringHelper.Get("Plugin_ExecutionFailed", ex.Message));
+        }
+    }
+
+    [RelayCommand]
+    void OpenPluginsFolder()
+    {
+        if (_pluginLoader == null) return;
+        var pluginsPath = _pluginLoader.GetPluginDirectory();
+        Directory.CreateDirectory(pluginsPath);
+        Process.Start("explorer.exe", pluginsPath);
+    }
+
+    [RelayCommand]
+    void ReloadPlugins()
+    {
+        try
+        {
+            _pluginLoader?.ReloadPlugins();
+            OnPropertyChanged(nameof(Plugins));
+            ShowMessage(StringHelper.Get("Plugin_ReloadedSuccessfully"));
+        }
+        catch (Exception ex)
+        {
+            ShowError(StringHelper.Get("Plugin_ReloadFailed", ex.Message));
+        }
+    }
+
+
+    private void InitializePluginSystem()
+    {
+        try
+        {
+            var pluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+            _pluginLoader = new PluginLoader(pluginsPath);
+            _pluginLoader.Initialize(this);
+            OnPropertyChanged(nameof(Plugins));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(StringHelper.Get("Plugin_InitlizeFailed", ex.Message));
+        }
+    }
+
+    public void CleanupPluginSystem()
+    {
+        _pluginLoader?.CleanupPlugins();
+    }
+
+    public UAsset? GetCurrentAsset() => CurrentAsset;
+
+    public string GetConfigDirectory()
+    {
+        var configDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "UAssetManager",
+            "Config"
+        );
+        Directory.CreateDirectory(configDir);
+        return configDir;
+    }
+
+    public UAsset? LoadAsset(string path)
+    {
+        try
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"Asset file not found: {path}");
+
+            return new UAsset(path, SelectedEngineVersion);
+        }
+        catch (Exception ex)
+        {
+            ShowError($"Failed to load asset: {ex.Message}", "Load Error");
+            return null;
+        }
+    }
+
+    public void SaveAsset(UAsset asset, string path)
+    {
+        try
+        {
+            asset.Write(path);
+        }
+        catch (Exception ex)
+        {
+            ShowError($"Failed to save asset: {ex.Message}", "Save Error");
+        }
+    }
+
+    public void ShowMessage(string message, string title = "Plugin Message")
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        });
+    }
+
+    public void ShowError(string message, string title = "Plugin Error")
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+        });
+    }
+
+    public IProgressReporter ShowProgress(string title, int total)
+    {
+        return new ProgressReporter(title, total);
+    }
+
+    #endregion
+
     #region Discord RPC
+
     private DiscordRpcClient? _discordRpc;
     private RichPresence? _richPresence;
     private DateTime _lastOpenedTime;
@@ -1459,5 +1589,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
             return null;
         }
     }
+
     #endregion
 }

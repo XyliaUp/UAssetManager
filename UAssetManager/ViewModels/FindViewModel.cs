@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using UAssetManager.Models;
 using UAssetManager.Resources;
-using UAssetManager.Utils;
 
 namespace UAssetManager.ViewModels;
 public partial class FindViewModel : ObservableObject
@@ -80,7 +79,7 @@ public partial class FindViewModel : ObservableObject
                 _host.ClearHighlights();
                 var results = _host.FindAll(BuildPredicate(), _cts.Token);
 
-                UAGUtils.InvokeUI(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     SearchResults.Clear();
                     foreach (var result in results) SearchResults.Add(result);
@@ -128,7 +127,7 @@ public partial class FindViewModel : ObservableObject
                 bool found = _host.FindNext(BuildPredicate(), IsForward, _cts.Token, out var selected);
                 if (found && selected is TreeNodeItem tn)
                 {
-                    UAGUtils.InvokeUI(() => _host.SelectNode(tn));
+                    Application.Current.Dispatcher.Invoke(() => _host.SelectNode(tn));
                     return;
                 }
 
@@ -157,7 +156,7 @@ public partial class FindViewModel : ObservableObject
             var regex = new Regex(term, options);
             return (obj) =>
             {
-                if (obj is TreeNodeItem n) return regex.IsMatch(n.Name ?? string.Empty);
+                if (obj is TreeNodeItem n) return regex.IsMatch(n.ToString());
                 var s = obj?.ToString() ?? string.Empty;
                 return regex.IsMatch(s);
             };
@@ -165,9 +164,9 @@ public partial class FindViewModel : ObservableObject
         var cmp = caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
         return (obj) =>
         {
-            if (obj is TreeNodeItem n) return !string.IsNullOrEmpty(n.Name) && n.Name.IndexOf(term, cmp) >= 0;
+            if (obj is TreeNodeItem n) return !string.IsNullOrEmpty(n.ToString()) && n.ToString().Contains(term, cmp);
             var s = obj?.ToString() ?? string.Empty;
-            return !string.IsNullOrEmpty(s) && s.IndexOf(term, cmp) >= 0;
+            return !string.IsNullOrEmpty(s) && s.Contains(term, cmp);
         };
     }
 

@@ -919,4 +919,82 @@ Would you like to open the webpage in your browser?</value>
   <data name="Menu.Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Asset_BinaryNode" xml:space="preserve">
+    <value>Extras ({0} B)</value>
+  </data>
+  <data name="Asset_Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Menu.Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="MainWindow_OpenPlugins" xml:space="preserve">
+    <value>Open Plugins Folder</value>
+  </data>
+  <data name="MainWindow_ReloadPlugins" xml:space="preserve">
+    <value>Reload Plugins</value>
+  </data>
+  <data name="Plugin_CreatedDirectory" xml:space="preserve">
+    <value>Created plugin directory: {0}</value>
+  </data>
+  <data name="Plugin_LoadedCount" xml:space="preserve">
+    <value>Loaded {0} plugin(s)</value>
+  </data>
+  <data name="Plugin_FailedToLoad" xml:space="preserve">
+    <value>Failed to load plugin: {0}</value>
+  </data>
+  <data name="Plugin_TypesLoadWarning" xml:space="preserve">
+    <value>Some types in {0} could not be loaded:</value>
+  </data>
+  <data name="Plugin_Loaded" xml:space="preserve">
+    <value>Loaded plugin: {0} v{1} by {2}</value>
+  </data>
+  <data name="Plugin_FailedToInstantiate" xml:space="preserve">
+    <value>Failed to instantiate plugin type: {0}</value>
+  </data>
+  <data name="Plugin_FailedToLoadAssembly" xml:space="preserve">
+    <value>Failed to load assembly: {0}</value>
+  </data>
+  <data name="Plugin_Initialized" xml:space="preserve">
+    <value>Initialized plugin: {0}</value>
+  </data>
+  <data name="Plugin_FailedToInitialize" xml:space="preserve">
+    <value>Failed to initialize plugin: {0}</value>
+  </data>
+  <data name="Plugin_FailedToCleanup" xml:space="preserve">
+    <value>Failed to cleanup plugin: {0}</value>
+  </data>
+  <data name="Plugin_SystemInitialized" xml:space="preserve">
+    <value>Plugin system initialized with {0} plugin(s)</value>
+  </data>
+  <data name="Plugin_FailedToInitializeSystem" xml:space="preserve">
+    <value>Failed to initialize plugin system</value>
+  </data>
+  <data name="Plugin_Executing" xml:space="preserve">
+    <value>Executing plugin: {0}</value>
+  </data>
+  <data name="Plugin_FailedToExecute" xml:space="preserve">
+    <value>Failed to execute plugin: {0}</value>
+  </data>
+  <data name="Plugin_CannotReload" xml:space="preserve">
+    <value>Cannot reload plugins: plugin host not initialized</value>
+  </data>
+  <data name="Plugin_ResolvingAssemblyFromPluginDir" xml:space="preserve">
+    <value>Resolving assembly from plugin directory: {0}</value>
+  </data>
+  <data name="Plugin_ResolvingAssemblyFromAppDir" xml:space="preserve">
+    <value>Resolving assembly from app directory: {0}</value>
+  </data>
+  <data name="Plugin_ExecutionFailed" xml:space="preserve">
+    <value>Plugin execution failed: {0}</value>
+  </data>
+  <data name="Plugin_ReloadedSuccessfully" xml:space="preserve">
+    <value>Plugins reloaded successfully</value>
+  </data>
+  <data name="Plugin_ReloadFailed" xml:space="preserve">
+    <value>Failed to reload plugins: {0}</value>
+  </data>
+  <data name="Plugin_InitlizeFailed" xml:space="preserve">
+    <value>Plugin initialization failed: {0}</value>
+  </data>
 </root>

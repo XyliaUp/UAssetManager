@@ -33,7 +33,7 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" MinWidth="20" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
@@ -42,11 +42,10 @@
                                                 <Run Text="{Binding Index}"/>
                                                 <Run Text="]"/>
                                             </TextBlock>
-                                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="6 0 50 0">
-                                                <c:PropertyItem Asset="{Binding Asset,Mode=OneWay}" Property="{Binding PropertyData}" Margin="8,0,0,0" 
-                                                                Visibility="{Binding IsObjectProperty,Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            </StackPanel>
-                                            
+                                            <c:PropertyItem Grid.Column="1" Asset="{Binding Asset,Mode=OneWay}" Property="{Binding PropertyData}" Margin="8,0,0,0" 
+                                                            Visibility="{Binding IsObjectProperty,Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                            <!-- Helper -->
                                             <Button x:Name="MoreButton" Grid.Column="2" Content="▾" Width="20" Height="20" ToolTip="More" VerticalAlignment="Top" 
                                                     Click="MoreButton_Click" MouseRightButtonDown="MoreButton_Click" Tag="{Binding}" />
                                             <Popup x:Name="MorePopup" Placement="Bottom" PlacementTarget="{Binding ElementName=MoreButton}" StaysOpen="False">
@@ -68,7 +67,7 @@
                                     </Border>
                                 </Expander.Header>
 
-                                <!-- ObjectProperty -->
+                                <!-- Not ObjectProperty -->
                                 <Border Padding="6,6,6,8">
                                     <Border.Style>
                                         <Style TargetType="Border">
@@ -79,6 +78,8 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
+
+                                    <c:PropertyItem Asset="{Binding Asset,Mode=OneWay}" Property="{Binding PropertyData}" Margin="8,0,0,0" />
                                 </Border>
                             </Expander>
                         </Border>

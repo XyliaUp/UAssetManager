@@ -3,6 +3,8 @@ using UAssetAPI.ExportTypes;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
+using UAssetManager.Pak.Objects;
+using UAssetManager.Resources;
 
 namespace UAssetManager.Models;
 
@@ -22,21 +24,17 @@ public partial class PointingTreeNodeItem : TreeNodeItem
 /// <summary>
 /// Represents a tree node item that points to an export within a UAsset file.
 /// </summary>
-/// <remarks>This class is used to organize and represent exports from a UAsset file in a hierarchical tree
-/// structure. It supports building child nodes dynamically based on the export's data and configuration
-/// settings.</remarks>
-/// <param name="asset"></param>
-/// <param name="export"></param>
-public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
-    PointingTreeNodeItem(export.ObjectName.ToString(), export)
+/// <remarks>This class is used to organize and represent exports from a UAsset file in a hierarchical tree structure. 
+/// It supports building child nodes dynamically based on the export's data and configuration settings.</remarks>
+public class ExportPointingTreeNodeItem(UAsset asset, Export export)
+    : PointingTreeNodeItem(GetName(asset, export), export)
 {
-    private readonly UAsset? _asset = asset;
     private bool _childrenBuilt = false;
 
     protected internal override void Materialize()
     {
         // build children if need
-        if (_childrenBuilt || _asset == null || Data == null) return;
+        if (_childrenBuilt || asset == null || Data == null) return;
 
         _childrenBuilt = true;
         Children.Clear();
@@ -58,9 +56,11 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
             case NormalExport normalExport:
             {
                 string className = export.ClassIndex.IsImport() ?
-                    export.ClassIndex.ToImport(_asset).ObjectName.Value.Value :
+                    export.ClassIndex.ToImport(asset).ObjectName.Value.Value :
                     export.ClassIndex.Index.ToString();
-                var parentNode = new PointingTreeNodeItem(className + " (" + normalExport.Data.Count + ")", normalExport);
+
+                var obj = UObject.CreateObject(normalExport);
+                var parentNode = new PointingTreeNodeItem(className, obj, TreeNodeType.UObjectData);
                 Children.Add(parentNode);
 
                 if (!UAGConfig.Data.EnableDynamicTree)
@@ -69,7 +69,7 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
                         InterpretThing(normalExport.Data[j], parentNode, !UAGConfig.Data.EnableDynamicTree);
                 }
 
-
+                // 处理特殊类型的Export
                 if (normalExport is StringTableExport stringTableExport)
                 {
                     var parentNode2 = new PointingTreeNodeItem(
@@ -102,11 +102,28 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
                     Children.Add(parentNode2);
                 }
 
-                if (normalExport.Extras != null && normalExport.Extras.Length > 0)
+                // Properties
+                foreach (var propertyData in obj.Data)
                 {
-                    var extrasNode = new PointingTreeNodeItem("Extras (" + normalExport.Extras.Length + " B)", normalExport, TreeNodeType.ByteArray);
-                    Children.Add(extrasNode);
+                    var propertyNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UPropertyData);
+                    parentNode.Children.Add(propertyNode);
                 }
+
+                // Fields
+                foreach (var propertyData in obj.GetFields())
+                {
+                    var fieldNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UObjectField);
+                    parentNode.Children.Add(fieldNode);
+                }
+
+                // Extra
+                if (obj.Extras.Length > 0)
+                {
+                    var extrasNode = new PointingTreeNodeItem(
+                        StringHelper.Get("Asset_BinaryNode", obj.Extras.Length), obj, TreeNodeType.ByteArray);
+                    parentNode.Children.Add(extrasNode);
+                }
+
                 break;
             }
         }
@@ -114,14 +131,14 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
 
     private void AddOuterIndexChildren()
     {
-        if (_asset == null) return;
+        if (asset == null) return;
 
-        var currentExportIndex = _asset.Exports.IndexOf(export) + 1;
-        foreach (var childExport in _asset.Exports)
+        var currentExportIndex = asset.Exports.IndexOf(export) + 1;
+        foreach (var childExport in asset.Exports)
         {
             if (childExport.OuterIndex.Index == currentExportIndex)
             {
-                var childNode = new ExportPointingTreeNodeItem(_asset, childExport) { Type = TreeNodeType.SubExport };              
+                var childNode = new ExportPointingTreeNodeItem(asset, childExport) { Type = TreeNodeType.SubExport };
                 var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
                 childNode.Children.Add(loadingNode);
                 Children.Add(childNode);
@@ -204,6 +221,15 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
                 break;
         }
     }
+
+    public static string GetName(UAsset asset, Export export)
+    {
+        var className = export.ClassIndex.IsNull() ? string.Empty : export.ClassIndex.IsImport() ?
+            export.ClassIndex.ToImport(asset).ObjectName.ToString() :
+            export.ClassIndex.ToExport(asset).ObjectName.ToString();
+
+        return export.ObjectName.ToString() + "." + className;
+    }
 }
 
 /// <summary>
@@ -211,14 +237,9 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export) :
 /// </summary>
 /// <remarks>This class is useful for scenarios where a dictionary entry needs to be extended with additional
 /// metadata or context, represented by the <see cref="Pointer"/> property.</remarks>
-public class PointingDictionaryEntry
+public class PointingDictionaryEntry(KeyValuePair<PropertyData, PropertyData> entry, object pointer)
 {
-    public KeyValuePair<PropertyData, PropertyData> Entry { get; set; }
-    public object Pointer { get; set; }
+    public KeyValuePair<PropertyData, PropertyData> Entry { get; set; } = entry;
 
-    public PointingDictionaryEntry(KeyValuePair<PropertyData, PropertyData> entry, object pointer)
-    {
-        Entry = entry;
-        Pointer = pointer;
-    }
+    public object Pointer { get; set; } = pointer;
 }

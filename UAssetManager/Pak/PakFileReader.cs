@@ -120,7 +120,7 @@ public partial class PakFileReader : AbstractAesVfsReader
         var elapsed = watch.Elapsed;
         var sb = new StringBuilder($"Pak \"{Name}\": {FileCount} files");
         if (EncryptedFileCount > 0) sb.Append($" ({EncryptedFileCount} encrypted)");
-        if (MountPoint.Contains("/")) sb.Append($", mount point: \"{MountPoint}\"");
+        if (MountPoint.Contains('/')) sb.Append($", mount point: \"{MountPoint}\"");
         sb.Append($", order {ReadOrder}");
         sb.Append($", version {(int)Info.Version} in {elapsed}");
         Log.Information(sb.ToString());
@@ -330,6 +330,7 @@ public partial class PakFileReader : AbstractAesVfsReader
     public override void Dispose()
     {
         Ar.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     public void AddFile(string filePath, string vfsPath, CompressionMethod method = CompressionMethod.None)
@@ -342,6 +343,12 @@ public partial class PakFileReader : AbstractAesVfsReader
     {
         var vfsPath = gameFile.Path.Replace("\\", "/");
         Files.Add(vfsPath, new FPakEntry(this, gameFile.Read(), vfsPath, method));
+    }
+
+    public void AddFile(byte[] data, string vfsPath, CompressionMethod method = CompressionMethod.None)
+    {
+        vfsPath = vfsPath.Replace("\\", "/");
+        Files.Add(vfsPath, new FPakEntry(this, data, vfsPath, method));
     }
 
     /// <summary>

@@ -1,6 +1,9 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using UAssetManager.Resources;
 
 namespace UAssetManager.Utils;
@@ -54,17 +57,11 @@ public static class InputValidationHelper
     {
         // Allow control keys (Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+Z, etc.) and Backspace/Delete
         if (e.Key == Key.Back || e.Key == Key.Delete || 
-            (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-        {
-            return;
-        }
+            (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) return;
 
         // Allow numeric keys
         if ((e.Key >= Key.D0 && e.Key <= Key.D9) || 
-            (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
-        {
-            return;
-        }
+            (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)) return;
 
         // Allow minus sign only at start (for signed numbers)
         if (e.Key == Key.Subtract || e.Key == Key.OemMinus)
@@ -75,15 +72,8 @@ public static class InputValidationHelper
             }
         }
 
-        // Allow decimal point for floating numbers
-        if (validationType == ValidationType.Float && 
-            (e.Key == Key.Decimal || e.Key == Key.OemPeriod))
-        {
-            if (!textBox.Text.Contains("."))
-            {
-                return;
-            }
-        }
+		// Allow OemPeriod for float type
+		if (e.Key == Key.OemPeriod && validationType == ValidationType.Float) return;
 
         e.Handled = true;
     }
@@ -126,7 +116,7 @@ public static class InputValidationHelper
         
         try
         {
-            var urlRegex = new System.Text.RegularExpressions.Regex(@"^https?://[^\s/$.?#].[^\s]*$");
+            var urlRegex = new Regex(@"^https?://[^\s/$.?#].[^\s]*$");
             return urlRegex.IsMatch(text);
         }
         catch
@@ -141,7 +131,7 @@ public static class InputValidationHelper
         
         try
         {
-            var regex = new System.Text.RegularExpressions.Regex(pattern);
+            var regex = new Regex(pattern);
             return regex.IsMatch(text);
         }
         catch
@@ -160,8 +150,8 @@ public static class InputValidationHelper
         var isValid = IsValidInput("", textBox.Text, validationType, customPattern);
         
         // Update border color
-        textBox.BorderBrush = isValid ? System.Windows.Media.Brushes.Gray : System.Windows.Media.Brushes.Red;
-        textBox.BorderThickness = new System.Windows.Thickness(isValid ? 1 : 2);
+        textBox.BorderBrush = isValid ? Brushes.Gray : Brushes.Red;
+        textBox.BorderThickness = new Thickness(isValid ? 1 : 2);
         
         // Update tooltip
         if (!isValid && !string.IsNullOrEmpty(textBox.Text))

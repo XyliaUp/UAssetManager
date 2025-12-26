@@ -22,10 +22,7 @@ internal class IntPropertyEditor : PropertyEditorBase, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is string str && int.TryParse(str.Trim(), NumberStyles.Integer, culture, out int result))
-        {
-            return result;
-        }
+        if (value is string str && int.TryParse(str.Trim(), NumberStyles.Integer, culture, out int result)) return result;
         return 0;
     }
 }

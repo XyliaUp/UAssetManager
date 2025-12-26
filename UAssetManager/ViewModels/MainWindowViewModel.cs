@@ -1,15 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DiscordRPC;
-using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DiscordRPC;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UAssetAPI;
 using UAssetAPI.ExportTypes;
 using UAssetAPI.Kismet;
@@ -570,16 +570,8 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
         for (int i = 0; i < nameMapList.Count; i++)
         {
-            var nameItem = nameMapList[i];
-
-            var nameMapItem = new NameMapItem
-            {
-                Index = i,
-                Name = nameItem.Value,
-                IsCasePreserving = nameItem.IsCasePreserving,
-                Encoding = nameItem.Encoding?.HeaderName ?? System.Text.Encoding.ASCII.HeaderName
-            };
-
+            // Create NameMapItem that directly references the asset
+            var nameMapItem = new NameMapItem(CurrentAsset, i);
             NameMapItems.Add(nameMapItem);
         }
 

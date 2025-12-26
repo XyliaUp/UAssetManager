@@ -175,7 +175,11 @@
                           CellEditEnding="DataGrid_CellEditEnding"
                           RowEditEnding="DataGrid_RowEditEnding"
                           PreviewKeyDown="DataGrid_PreviewKeyDown"
-                          EnableRowVirtualization="False"
+                          EnableRowVirtualization="True"
+                          EnableColumnVirtualization="True"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling"
+                          ScrollViewer.CanContentScroll="True"
                           LoadingRow="DataGrid_LoadingRow">
                     <DataGrid.ContextMenu>
                         <ContextMenu>

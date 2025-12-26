@@ -36,9 +36,7 @@ internal class RotatorPropertyEditor : PropertyEditorBase, IValueConverter
                     if (float.TryParse(parts[0].Trim(), NumberStyles.Float, culture, out float pitch) &&
                         float.TryParse(parts[1].Trim(), NumberStyles.Float, culture, out float yaw) &&
                         float.TryParse(parts[2].Trim(), NumberStyles.Float, culture, out float roll))
-                    {
                         return new FRotator(pitch, yaw, roll);
-                    }
                 }
             }
             catch

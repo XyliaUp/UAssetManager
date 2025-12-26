@@ -267,7 +267,9 @@ public partial class MainWindow : Window
                 case ImportItem importItem:
                     editSuccess = importItem.HandlePropertyEdit(e.Column.Header.ToString(), newValue);
                     break;
-
+                case NameMapItem nameMapItem:
+                    editSuccess = nameMapItem.HandlePropertyEdit(e.Column.Header.ToString(), newValue);
+                    break;
                 default:
                     e.Cancel = true;
                     UpdateStatus(StringHelper.Get("MainWindow_InvalidCellMessage"));

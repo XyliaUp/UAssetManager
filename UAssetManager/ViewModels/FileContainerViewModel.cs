@@ -712,7 +712,7 @@ internal partial class FileContainerViewModel : ObservableObject
 
         try
         {
-            // Use UAsset.Write method to get both .uasset and .uexp data
+            // Use UAsset.Write method to get .uasset and .uexp data
             uAsset.Write(out MemoryStream uassetStream, out MemoryStream uexpStream);
 
             // Create new FPakEntry for .uasset file
@@ -720,21 +720,55 @@ internal partial class FileContainerViewModel : ObservableObject
             var newUassetEntry = new FPakEntry(_buildPakReader, uassetData, gamePath);
             _buildPakReader.Files[gamePath] = newUassetEntry;
 
-            // Create new FPakEntry for .uexp file if it exists
-            if (uexpStream.Length > 0)
+            var ubulkPath = Path.ChangeExtension(gamePath, ".ubulk");
+            bool hasExistingUbulk = _buildPakReader.Files.ContainsKey(ubulkPath);
+
+            // If there was a ubulk file but now BulkData is empty, remove the ubulk file
+            if (hasExistingUbulk && (uAsset.BulkData == null || uAsset.BulkData.Length == 0))
             {
+                _buildPakReader.Files.Remove(ubulkPath);
+            }
+
+            // Check if we need to split uexp and ubulk
+            if (uexpStream != null && uexpStream.Length > 0 && uAsset.BulkData != null && uAsset.BulkData.Length > 0 && hasExistingUbulk)
+            {
+                // Split the uexp stream: it contains both export data and bulk data
+                // BulkData is at the end of the stream
+                long bulkDataSize = uAsset.BulkData.Length;
+                long uexpSize = uexpStream.Length - bulkDataSize;
+
+                if (uexpSize > 0)
+                {
+                    // Create .uexp file (export data only)
+                    var uexpPath = Path.ChangeExtension(gamePath, ".uexp");
+                    byte[] uexpData = new byte[uexpSize];
+                    uexpStream.Position = 0;
+                    uexpStream.Read(uexpData, 0, (int)uexpSize);
+                    var newUexpEntry = new FPakEntry(_buildPakReader, uexpData, uexpPath);
+                    _buildPakReader.Files[uexpPath] = newUexpEntry;
+
+                    // Create .ubulk file (bulk data only)
+                    byte[] ubulkData = new byte[bulkDataSize];
+                    uexpStream.Read(ubulkData, 0, (int)bulkDataSize);
+                    var newUbulkEntry = new FPakEntry(_buildPakReader, ubulkData, ubulkPath);
+                    _buildPakReader.Files[ubulkPath] = newUbulkEntry;
+                }
+                else
+                {
+                    // Something is wrong, just write uexp as-is
+                    var uexpPath = Path.ChangeExtension(gamePath, ".uexp");
+                    var uexpData = uexpStream.ToArray();
+                    var newUexpEntry = new FPakEntry(_buildPakReader, uexpData, uexpPath);
+                    _buildPakReader.Files[uexpPath] = newUexpEntry;
+                }
+            }
+            else if (uexpStream != null && uexpStream.Length > 0)
+            {
+                // No ubulk file needed, write uexp as-is
                 var uexpPath = Path.ChangeExtension(gamePath, ".uexp");
                 var uexpData = uexpStream.ToArray();
                 var newUexpEntry = new FPakEntry(_buildPakReader, uexpData, uexpPath);
                 _buildPakReader.Files[uexpPath] = newUexpEntry;
-            }
-
-            // Check for .ubulk file and update if it exists
-            var ubulkPath = Path.ChangeExtension(gamePath, ".ubulk");
-            if (_buildPakReader.Files.ContainsKey(ubulkPath))
-            {
-                // Keep existing .ubulk data for now
-                // In a more sophisticated implementation, you might want to update .ubulk data as well
             }
 
             // Refresh the save tree to reflect changes

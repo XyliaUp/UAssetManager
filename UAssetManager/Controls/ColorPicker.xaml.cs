@@ -6,7 +6,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace UAssetManager.Controls;
-
 public partial class ColorPicker : UserControl
 {
 	private bool _syncing;

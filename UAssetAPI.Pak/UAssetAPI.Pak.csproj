@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UseWPF>true</UseWPF>
-		<ApplicationIcon>Properties\icon.ico</ApplicationIcon>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -22,18 +19,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
-		<PackageReference Include="MdXaml" Version="1.27.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
+		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
 		<PackageReference Include="Markdig" Version="0.44.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="OffiUtils" Version="3.1.0" />
 		<PackageReference Include="Oodle.NET" Version="2.2.0" />
 		<PackageReference Include="Serilog" Version="4.3.0" />
 		<PackageReference Include="Zlib-ng.NET" Version="1.2.0" />
-		<ProjectReference Include="..\UAssetAPI.Pak\UAssetAPI.Pak.csproj" />
 		<ProjectReference Include="..\UAssetAPI\UAssetAPI\UAssetAPI.csproj" />
 	</ItemGroup>
 
@@ -47,5 +40,5 @@
 			<TargetPath>zlib-ng2.dll</TargetPath>
 		</None>
 	</ItemGroup>
-	
+
 </Project>

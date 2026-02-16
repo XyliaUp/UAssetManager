@@ -163,7 +163,7 @@
     <value>About UAssetManager</value>
   </data>
   <data name="AboutWindow.ViewLicense" xml:space="preserve">
-    <value>View License</value>
+    <value>View License...</value>
   </data>
   <data name="AboutWindow.ViewNotice" xml:space="preserve">
     <value>View 3rd-party software...</value>

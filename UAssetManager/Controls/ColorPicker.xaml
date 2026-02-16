@@ -6,18 +6,22 @@
 			 MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave">
 	<Grid>
 		<TextBox x:Name="PART_Text" Padding="4,2" Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" 
-				 PreviewMouseLeftButtonDown="Text_PreviewMouseLeftButtonDown" LostKeyboardFocus="Text_LostKeyboardFocus" />
+				 PreviewMouseLeftButtonDown="Text_PreviewMouseLeftButtonDown" LostKeyboardFocus="Text_LostKeyboardFocus" >
+			<TextBox.Background>
+				<SolidColorBrush Color="{Binding Color,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+			</TextBox.Background>
+		</TextBox>
 		<Popup x:Name="PART_Popup" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Text}" StaysOpen="True" AllowsTransparency="True" Opened="Popup_Opened" Closed="Popup_Closed">
 			<Border x:Name="PART_PopupRoot" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="#66000000" BorderThickness="1" CornerRadius="6" Padding="10" 
 					MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave">
 				<StackPanel Width="240">
-					<Border Height="36" CornerRadius="4" BorderBrush="#66000000" BorderThickness="1">
+					<Border Height="36" CornerRadius="4" BorderBrush="#66000000" BorderThickness="1" Margin="0,0,0,10">
 						<Border.Background>
 							<SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
 						</Border.Background>
 					</Border>
 
-					<DockPanel Margin="0,10,0,2">
+					<DockPanel Margin="0,0,0,2">
 						<TextBlock Text="R" />
 						<TextBlock Text="{Binding R, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="6,0,0,0" />
 					</DockPanel>

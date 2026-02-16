@@ -1,13 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using UAssetManager.Models;
 using UAssetManager.Resources;
 
 namespace UAssetManager.ViewModels;
-public partial class FindViewModel : ObservableObject
+internal partial class FindViewModel : ObservableObject
 {
     #region Fields
     public event EventHandler? CloseRequest;

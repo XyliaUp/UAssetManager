@@ -102,10 +102,12 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		{
 			Title = StringHelper.Get("MainWindow_OpenUAssetTitle"),
 			Filter = "UAsset Files (*.uasset)|*.uasset|JSON Files (*.json)|*.json|PAK Files (*.pak)|*.pak|All Files (*.*)|*.*",
-			Multiselect = false
+			InitialDirectory = UAGConfig.Data.ExtractedFolder,
+			Multiselect = false,
 		};
 		if (dlg.ShowDialog() == true)
 		{
+			UAGConfig.Data.ExtractedFolder = Path.GetDirectoryName(dlg.FileName);
 			LoadFile(dlg.FileName);
 		}
 	}
@@ -900,8 +902,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	/// <summary>
 	/// Save current file
 	/// </summary>
-	/// <param name="filePath">File path</param>
-	/// <returns>Whether save was successful</returns>
 	private void SaveCurrentFile(string filePath, bool buildPak = false)
 	{
 		try
@@ -933,7 +933,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	/// <summary>
 	/// Save as UAsset binary format
 	/// </summary>
-	/// <param name="filePath">File path</param>
 	private void SaveAsUAsset(string filePath, bool buildPak)
 	{
 		if (CurrentAsset == null) return;
@@ -953,6 +952,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
 
 			CurrentAsset.Write(filePath);
+			Status = $"Saved to uasset: {Path.GetFileName(CurrentFilePath)}";
 		}
 	}
 

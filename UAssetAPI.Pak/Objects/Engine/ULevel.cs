@@ -10,29 +10,29 @@ using UAssetManager.Pak;
 namespace UAssetAPI.Pak.Objects.Engine;
 public class ULevel : UObject
 {
-    //public FPackageIndex?[] Actors { get; private set; }
-    //public FURL URL { get; private set; }
-    //public FPackageIndex Model { get; private set; }
-    //public FPackageIndex[] ModelComponents { get; private set; }
-    //public FPackageIndex LevelScriptActor { get; private set; }
-    //public FPackageIndex NavListStart { get; private set; }
-    //public FPackageIndex NavListEnd { get; private set; }
-    //public FPrecomputedVisibilityHandler PrecomputedVisibilityHandler { get; private set; }
-    //public FPrecomputedVolumeDistanceField PrecomputedVolumeDistanceField { get; private set; }
+    public FPackageIndex?[] Actors { get; private set; }
+    public FURL URL { get; private set; }
+    public FPackageIndex Model { get; private set; }
+    public FPackageIndex[] ModelComponents { get; private set; }
+    public FPackageIndex LevelScriptActor { get; private set; }
+    public FPackageIndex NavListStart { get; private set; }
+    public FPackageIndex NavListEnd { get; private set; }
+    public FPrecomputedVisibilityHandler PrecomputedVisibilityHandler { get; private set; }
+    public FPrecomputedVolumeDistanceField PrecomputedVolumeDistanceField { get; private set; }
 
-    //public override void Deserialize(AssetBinaryReader Ar)
-    //{
-    //    base.Deserialize(Ar);
-    //    Actors = Ar.ReadArray(() => new FPackageIndex(Ar));
-    //    URL = new FURL(Ar);
-    //    Model = new FPackageIndex(Ar);
-    //    ModelComponents = Ar.ReadArray(() => new FPackageIndex(Ar));
-    //    LevelScriptActor = new FPackageIndex(Ar);
-    //    NavListStart = new FPackageIndex(Ar);
-    //    NavListEnd = new FPackageIndex(Ar);
-    //    PrecomputedVisibilityHandler = new FPrecomputedVisibilityHandler(Ar);
-    //    PrecomputedVolumeDistanceField = new FPrecomputedVolumeDistanceField(Ar);
-    //}
+    public override void Deserialize(AssetBinaryReader Ar)
+    {
+        base.Deserialize(Ar);
+        Actors = Ar.ReadArray(() => new FPackageIndex(Ar));
+        URL = new FURL(Ar);
+        Model = new FPackageIndex(Ar);
+        ModelComponents = Ar.ReadArray(() => new FPackageIndex(Ar));
+        LevelScriptActor = new FPackageIndex(Ar);
+        NavListStart = new FPackageIndex(Ar);
+        NavListEnd = new FPackageIndex(Ar);
+        PrecomputedVisibilityHandler = new FPrecomputedVisibilityHandler(Ar);
+        PrecomputedVolumeDistanceField = new FPrecomputedVolumeDistanceField(Ar);
+    }
 }
 
 public class FURL

@@ -1,6 +1,7 @@
+using System.Diagnostics;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
-using System.IO;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Resources;
 using UAssetManager.Resources.Themes;
@@ -12,7 +13,7 @@ public partial class UAGConfigData : ObservableObject, ICloneable
     [ObservableProperty] string _preferredMappings = string.Empty;
     [ObservableProperty] ThemeType _theme = ThemeType.Light;
     [ObservableProperty] ELanguage _language = ELanguage.English;
-    [ObservableProperty] string _mapStructTypeOverride = string.Empty;
+	[ObservableProperty] string _mapStructTypeOverride = string.Empty;
     [ObservableProperty] bool _changeValuesOnScroll;
     [ObservableProperty] bool _enableDynamicTree;
     [ObservableProperty] bool _enableDiscordRPC;
@@ -25,8 +26,10 @@ public partial class UAGConfigData : ObservableObject, ICloneable
     [ObservableProperty] int _startupHeight = 700;
     [ObservableProperty] int _customSerializationFlags;
     [ObservableProperty] string _aesKey = "0xd2e5f7f94e625efe2726b5360c1039ce7cb9abb760a94f37bb15a6dc08741656";
+	[ObservableProperty] string? _extractedFolder;
+	[ObservableProperty] string? _savedFolder;
 
-    partial void OnLanguageChanged(ELanguage value)
+	partial void OnLanguageChanged(ELanguage value)
     {
         if (StringHelper.Current != null)
         {
@@ -50,11 +53,9 @@ public static class UAGConfig
         }
     }
 
-    private static string ConfigPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia", "config.json");
-
-    public static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia");
-    public static readonly string StagingFolder = Path.Combine(ConfigFolder, "Staging");
-    public static readonly string ExtractedFolder = Path.Combine(ConfigFolder, "Extracted");
+	private static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia");
+	private static readonly string ConfigPath = Path.Combine(ConfigFolder, "config.json");
+	public static readonly string StagingFolder = Path.Combine(ConfigFolder, "Staging");
     public static readonly string MappingsFolder = Path.Combine(ConfigFolder, "Mappings");
     public static readonly bool DifferentStagingPerPak = true;
 
@@ -75,7 +76,7 @@ public static class UAGConfig
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error loading config file: {ex.Message}");
+            Debug.WriteLine($"Error loading config file: {ex.Message}");
             Data = new UAGConfigData();
         }
     }
@@ -92,7 +93,7 @@ public static class UAGConfig
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error saving config file: {ex.Message}");
+            Debug.WriteLine($"Error saving config file: {ex.Message}");
         }
     }
 

@@ -36,14 +36,13 @@
             <Setter Property="Height" Value="30"/>
             <Setter Property="FontSize" Value="9"/>
         </Style>
-        
-        <Style x:Key="ButtonPanelStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="0,1,0,0"/>
-            <Setter Property="Padding" Value="10"/>
-        </Style>
-    </Window.Resources>
+
+		<Style x:Key="ButtonPanelStyle" TargetType="Border">
+			<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+			<Setter Property="Padding" Value="5"/>
+		</Style>
+	</Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -92,9 +91,9 @@
         <!-- Button Panel -->
         <Border Grid.Row="1" Style="{StaticResource ButtonPanelStyle}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="{DynamicResource AboutWindow.ViewLicense}" Style="{StaticResource ButtonStyle}" Click="ViewLicense_Click"/>
-                <Button Content="{DynamicResource AboutWindow.ViewNotice}" Style="{StaticResource ButtonStyle}" Click="ViewNotice_Click"/>
-                <Button Content="{DynamicResource AboutWindow.Close}" Style="{StaticResource ButtonStyle}" Click="Close_Click" IsDefault="True"/>
+				<Button Content="{DynamicResource AboutWindow.ViewLicense}" Style="{StaticResource ButtonStyle}" Command="{Binding ViewLicenseCommand}" />
+				<Button Content="{DynamicResource AboutWindow.ViewNotice}" Style="{StaticResource ButtonStyle}" Command="{Binding ViewNoticeCommand}" />
+                <Button Content="{DynamicResource AboutWindow.Close}" Style="{StaticResource ButtonStyle}" Click="Close_Click" IsDefault="True" />
             </StackPanel>
         </Border>
     </Grid>

@@ -9,5 +9,6 @@
     <converter:HighlightMatchToBrushConverter x:Key="HighlightBrush"/>
     <converter:HighlightMatchToFontWeightConverter x:Key="HighlightWeight"/>
     <converter:StringConverter x:Key="StringConverter"/>
+	<converter:VectorToColorConverter x:Key="VectorToColorConverter"/>
 
 </ResourceDictionary>

@@ -5,7 +5,6 @@ using System.Windows.Media;
 using UAssetAPI.PropertyTypes.Objects;
 
 namespace UAssetManager.Controls.Editors;
-
 internal class ColorPropertyEditor : PropertyEditorBase, IValueConverter
 {
     public override FrameworkElement CreateElement(PropertyData property) => new ColorPicker

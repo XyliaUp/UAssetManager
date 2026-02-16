@@ -1,7 +1,7 @@
-﻿using Serilog;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using Serilog;
 using UAssetManager.Views;
 
 namespace UAssetManager;
@@ -16,9 +16,9 @@ public partial class App : Application
     private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         e.Handled = true;
-        if (e.Exception is COMException) return; // Ignore COM exceptions
+        if (e.Exception is COMException) return; // Ignore exceptions
 
-        Log.Error(e.Exception, "UnhandledException");
+		Log.Error(e.Exception, "UnhandledException");
         MessageBox.Show(e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 }

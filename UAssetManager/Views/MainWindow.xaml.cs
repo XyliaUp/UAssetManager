@@ -15,7 +15,6 @@ using UAssetManager.Resources;
 using UAssetManager.ViewModels;
 
 namespace UAssetManager.Views;
-
 public partial class MainWindow : Window
 {
 	#region Constuctor
@@ -36,10 +35,6 @@ public partial class MainWindow : Window
 
 		// Fetch the latest version from github
 		Task.Run(GitHubAPI.CheckForUpdates);
-
-#if DEBUG
-		_viewModel.LoadFile(@"E:\Dump\Exports\bnsr\content\neo_art\art\fx\02_source\05_sf\common\teleportation\fx_return_cast_decal_3s.uasset");
-#endif
 	}
 
 	private void SetupPluginMenu()
@@ -347,7 +342,6 @@ public partial class MainWindow : Window
 			UpdateStatus("Failed to update row");
 		}
 	}
-
 
 	private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
 	{

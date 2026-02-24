@@ -7,12 +7,12 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using UAssetAPI;
+using UAssetAPI.Pak.Compression;
+using UAssetAPI.Pak.Encryption.Aes;
+using UAssetAPI.Pak.FileProvider.Objects;
+using UAssetAPI.Pak.Objects;
+using UAssetAPI.Pak.Pak;
 using UAssetManager.Models;
-using UAssetManager.Pak;
-using UAssetManager.Pak.Compression;
-using UAssetManager.Pak.Encryption.Aes;
-using UAssetManager.Pak.Objects;
-using UAssetManager.Pak.Pak.Objects;
 using UAssetManager.Resources;
 using UAssetManager.Utils;
 using UAssetManager.Views;
@@ -28,7 +28,7 @@ internal partial class FileContainerViewModel : ObservableObject
     [ObservableProperty] int _extractTotal = 0;
     [ObservableProperty] int _extractCurrent = 0;
 
-    private PakFileReader _buildPakReader = new();
+    private PakFileReader _buildPakReader = new(UAGConfig.Data.AesKey);
     private DirectoryTreeItem? _copiedItem;
     private bool _shouldDeleteCopiedItem = false;
     private CancellationTokenSource? _extractCts;

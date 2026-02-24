@@ -6,7 +6,6 @@ using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
 
 namespace UAssetManager.Controls.Editors;
-
 internal class LinearColorPropertyEditor : PropertyEditorBase, IValueConverter
 {
     public override FrameworkElement CreateElement(PropertyData property) => new ColorPicker
@@ -42,7 +41,7 @@ internal class LinearColorPropertyEditor : PropertyEditorBase, IValueConverter
     {
         if (v < 0) v = 0;
         if (v > 1) v = 1;
-        return (byte)System.Math.Round(v * 255.0f);
+        return (byte)Math.Round(v * 255.0f);
     }
 
     private static float FromByte(byte v) => v / 255.0f;

@@ -1,0 +1,36 @@
+<UserControl x:Class="UAssetManager.Controls.Editors.DistributionFloatEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:oxy="http://oxyplot.org/wpf">
+	<Grid Margin="2">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="200" />
+				<RowDefinition Height="5" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<oxy:PlotView x:Name="Plot" Grid.Row="0" />
+			<GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" />
+			<ListBox x:Name="DataList" Grid.Row="2" HorizontalContentAlignment="Stretch">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" LostFocus="OnItemsUpdated" />
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
+
+		<Button Grid.Row="1"
+                Content="Add Key"
+                Margin="0,4,0,0"
+                HorizontalAlignment="Left"
+                Width="100"
+                Click="OnAddKeyClick" />
+	</Grid>
+</UserControl>

@@ -87,9 +87,8 @@
 					<UniformGrid Columns="2">
 						<CheckBox Content="{DynamicResource Settings_ChangeValuesOnScroll}" IsChecked="{Binding Config.ChangeValuesOnScroll}"/>
 						<CheckBox Content="{DynamicResource Settings_EnableDiscordRPC}" IsChecked="{Binding Config.EnableDiscordRPC}"/>
-						<CheckBox Content="{DynamicResource Settings_DoubleClickToEdit}" IsChecked="{Binding Config.DoubleClickToEdit}"/>
-						<CheckBox Content="{DynamicResource Settings_EnableBak}" IsChecked="{Binding Config.EnableBak}"/>
 						<CheckBox Content="{DynamicResource Settings_EnableUpdateNotice}" IsChecked="{Binding Config.EnableUpdateNotice}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableBak}" IsChecked="{Binding Config.EnableBak}"/>
 						<CheckBox Content="{DynamicResource Settings_EnablePrettyBytecode}" IsChecked="{Binding Config.EnablePrettyBytecode}"/>
 						<CheckBox Content="{DynamicResource Settings_EnableDynamicTree}" IsChecked="{Binding Config.EnableDynamicTree}"/>
 						<CheckBox Content="{DynamicResource Settings_UseOuterIndexTreeMode}" IsChecked="{Binding Config.UseOuterIndexTreeMode}"/>

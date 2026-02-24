@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using UAssetAPI;
 using UAssetAPI.PropertyTypes.Objects;
+using UAssetManager.Controls.Editors;
 using UAssetManager.Utils;
 using UAssetManager.Views;
 
@@ -72,7 +73,11 @@ public partial class PropertyEditor
         {
             var item = VisualUtils.FindVisualParent<PropertyItem>(hitTestResult.VisualHit);
             if (item != null) _item = item.Property;
-        }
+
+			// disable context menu for array items
+			var array = VisualUtils.FindVisualParent<ArrayEditor>(hitTestResult.VisualHit);
+			if (array != null) MenuHolder.IsOpen = false; 
+		}
 
         // update menu
         Delete.SetVisual(_item != null);

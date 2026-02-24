@@ -3,14 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 using UAssetAPI;
+using UAssetAPI.Pak.Compression;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Models;
-using UAssetManager.Pak.Compression;
 using UAssetManager.Resources;
 using UAssetManager.Resources.Themes;
 
 namespace UAssetManager.ViewModels;
-public partial class SettingsViewModel : ObservableObject
+internal partial class SettingsViewModel : ObservableObject
 {
 	#region Properties
 	// Store original config for cancel functionality
@@ -55,9 +55,8 @@ public partial class SettingsViewModel : ObservableObject
     private void RefreshCustomSerializationFlags()
     {
         CustomSerializationFlags.Clear();
-        var allFlags = Enum.GetValues<CustomSerializationFlags>().Cast<CustomSerializationFlags>().ToList();
 
-        foreach (var flag in allFlags)
+        foreach (var flag in Enum.GetValues<CustomSerializationFlags>())
         {
             if (flag == 0) continue;
 

@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System.IO;
+using UAssetAPI.Pak.Compression;
 using UAssetAPI.UnrealTypes;
-using UAssetManager.Pak.Compression;
 using UAssetManager.Resources;
 using UAssetManager.Resources.Themes;
 
@@ -26,6 +26,7 @@ public partial class UAGConfigData : ObservableObject, ICloneable
 	[ObservableProperty] int _startupHeight = 700;
 	[ObservableProperty] int _customSerializationFlags;
 	[ObservableProperty] string _aesKey = "0xd2e5f7f94e625efe2726b5360c1039ce7cb9abb760a94f37bb15a6dc08741656";
+	[ObservableProperty] string? _extractedFolder;
 
 	partial void OnLanguageChanged(ELanguage value)
 	{

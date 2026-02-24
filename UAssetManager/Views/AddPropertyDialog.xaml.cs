@@ -46,8 +46,8 @@ public partial class AddPropertyDialog : Window
 
     private PropertyData? CreatePropertyData(string name, string typeText)
     {
-        var fname = FName.DefineDummy(_asset, name);
-        return typeText.Trim() switch
+        var fname = new FName(_asset, name);
+		return typeText.Trim() switch
         {
             "BoolProperty" => new BoolPropertyData(fname) { Value = false },
             "IntProperty" => new IntPropertyData(fname) { Value = 0 },

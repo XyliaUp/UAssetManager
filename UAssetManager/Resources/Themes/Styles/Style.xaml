@@ -54,7 +54,7 @@
                             <TextBlock Grid.Column="0" Foreground="{DynamicResource Foreground}" Margin="0 0 5 0" Opacity="0.9"
                                        Text="{TemplateBinding PropertyName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" 
                                        ToolTip="{TemplateBinding Description}" ToolTipService.InitialShowDelay="100" />
-                            <ContentPresenter Grid.Column="1" ContentSource="EditorElement" VerticalAlignment="Center" />
+							<ContentPresenter Grid.Column="1" ContentSource="EditorElement" VerticalAlignment="Center" />
                         </Grid>
                     </Border>
                 </ControlTemplate>

@@ -63,7 +63,7 @@
                 <TextBlock Text="{DynamicResource AboutWindow.Subtitle}" Style="{StaticResource SubtitleStyle}"/>
 
 				<!-- Subtitle -->
-				<TextBlock Text="{Binding DisplayVersion}" Style="{StaticResource SubtitleStyle}"/>
+				<TextBlock Text="{Binding Version}" Style="{StaticResource SubtitleStyle}"/>
 
 				<!-- Information Content -->
                 <StackPanel Margin="20">
@@ -86,9 +86,9 @@
         <!-- Button Panel -->
         <Border Grid.Row="1" Style="{StaticResource ButtonPanelStyle}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="{DynamicResource AboutWindow.ViewLicense}" Click="ViewLicense_Click"/>
-                <Button Content="{DynamicResource AboutWindow.ViewNotice}" Click="ViewNotice_Click"/>
-                <Button Content="{DynamicResource AboutWindow.Close}" Click="Close_Click" IsDefault="True"/>
+				<Button Content="{DynamicResource AboutWindow.ViewLicense}" Command="{Binding ViewLicenseCommand}"/>
+				<Button Content="{DynamicResource AboutWindow.ViewNotice}"  Command="{Binding ViewNoticeCommand}"/>
+				<Button Content="{DynamicResource AboutWindow.Close}" Click="Close_Click" IsDefault="True"/>
             </StackPanel>
         </Border>
     </Grid>

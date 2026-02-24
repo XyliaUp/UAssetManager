@@ -30,7 +30,6 @@ internal class QuatPropertyEditor : PropertyEditorBase, IValueConverter
         {
             try
             {
-                // 解析格式: "1.0,2.0,3.0,4.0"
                 var parts = str.Split(',');
                 if (parts.Length == 4)
                 {

@@ -16,7 +16,7 @@ internal class StrPropertyEditor : PropertyEditorBase, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is FString fString) return fString.Value ?? string.Empty;
+        if (value is FString str) return str.Value ?? string.Empty;
         return value?.ToString() ?? string.Empty;
     }
 

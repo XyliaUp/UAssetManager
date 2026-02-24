@@ -1,9 +1,9 @@
 using UAssetAPI;
 using UAssetAPI.ExportTypes;
+using UAssetAPI.Pak.Objects;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
-using UAssetManager.Pak.Objects;
 using UAssetManager.Resources;
 
 namespace UAssetManager.Models;
@@ -69,7 +69,6 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
                         InterpretThing(normalExport.Data[j], parentNode, !UAGConfig.Data.EnableDynamicTree);
                 }
 
-                // 处理特殊类型的Export
                 if (normalExport is StringTableExport stringTableExport)
                 {
                     var parentNode2 = new PointingTreeNodeItem(

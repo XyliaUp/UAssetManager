@@ -78,7 +78,6 @@ internal class VectorPropertyEditor : PropertyEditorBase, IValueConverter
             }
             catch (Exception ex)
             {
-                // Log parsing error but don't interrupt program execution
                 Debug.WriteLine($"Vector parsing failed: {ex.Message}, input: {str}");
             }
         }

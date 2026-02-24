@@ -126,23 +126,13 @@
   <data name="AboutWindow.Description" xml:space="preserve">
     <value>这是一个用于查看和编辑虚幻引擎资产文件的工具。</value>
   </data>
-  <data name="AboutWindow.Feature1" xml:space="preserve">
-    <value>• 查看和编辑 .uasset 文件</value>
-  </data>
-  <data name="AboutWindow.Feature2" xml:space="preserve">
-    <value>• 支持 JSON 格式导入导出</value>
-  </data>
-  <data name="AboutWindow.Feature3" xml:space="preserve">
-    <value>• PAK 容器文件管理</value>
-  </data>
-  <data name="AboutWindow.Feature4" xml:space="preserve">
-    <value>• 数据表格编辑</value>
-  </data>
-  <data name="AboutWindow.Feature5" xml:space="preserve">
-    <value>• 查找和替换功能</value>
-  </data>
-  <data name="AboutWindow.Feature6" xml:space="preserve">
-    <value>• 主题和设置管理</value>
+  <data name="AboutWindow.Feature" xml:space="preserve">
+    <value>• 查看和编辑 .uasset 文件
+• 支持 JSON 格式导入导出
+• PAK 容器文件管理
+• 数据表格编辑
+• 查找和替换功能
+• 主题和设置管理</value>
   </data>
   <data name="AboutWindow.MainFeatures" xml:space="preserve">
     <value>主要功能:</value>
@@ -150,11 +140,10 @@
   <data name="AboutWindow.Subtitle" xml:space="preserve">
     <value>虚幻引擎资产文件管理器</value>
   </data>
-  <data name="AboutWindow.Tech1" xml:space="preserve">
-    <value>• MVVM 架构模式</value>
-  </data>
-  <data name="AboutWindow.Tech2" xml:space="preserve">
-    <value>• UAssetAPI 库</value>
+  <data name="AboutWindow.Tech" xml:space="preserve">
+    <value>• .NET 8.0
+• WPF (Windows Presentation Foundation)
+• UAssetAPI</value>
   </data>
   <data name="AboutWindow.TechStack" xml:space="preserve">
     <value>技术栈:</value>
@@ -667,6 +656,9 @@
   <data name="Settings_PreferredVersion" xml:space="preserve">
     <value>首选版本</value>
   </data>
+  <data name="Settings_PreferredCompressMethod" xml:space="preserve">
+    <value>首选压缩模式</value>
+  </data>
   <data name="Settings_Reset" xml:space="preserve">
     <value>重置为默认</value>
   </data>
@@ -920,7 +912,7 @@
     <value>增加</value>
   </data>
   <data name="Asset_BinaryNode" xml:space="preserve">
-    <value>Extras ({0} B)</value>
+    <value>额外 ({0} B)</value>
   </data>
   <data name="Asset_Properties" xml:space="preserve">
     <value>属性</value>

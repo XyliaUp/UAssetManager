@@ -121,28 +121,18 @@
     <value>Based on the original UAssetGUI project, reimplemented using modern WPF technology.</value>
   </data>
   <data name="AboutWindow.Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Close </value>
   </data>
   <data name="AboutWindow.Description" xml:space="preserve">
     <value>This is a tool for viewing and editing Unreal Engine Asset files.</value>
   </data>
-  <data name="AboutWindow.Feature1" xml:space="preserve">
-    <value>• View and edit .uasset files</value>
-  </data>
-  <data name="AboutWindow.Feature2" xml:space="preserve">
-    <value>• Support JSON format import/export</value>
-  </data>
-  <data name="AboutWindow.Feature3" xml:space="preserve">
-    <value>• PAK container file management</value>
-  </data>
-  <data name="AboutWindow.Feature4" xml:space="preserve">
-    <value>• Data table editing</value>
-  </data>
-  <data name="AboutWindow.Feature5" xml:space="preserve">
-    <value>• Find and replace functionality</value>
-  </data>
-  <data name="AboutWindow.Feature6" xml:space="preserve">
-    <value>• Theme and settings management</value>
+  <data name="AboutWindow.Feature" xml:space="preserve">
+    <value>• View and edit .uasset files
+• Support JSON format import/export
+• PAK container file management
+• Data table editing
+• Find and replace functionality
+• Theme and settings management</value>
   </data>
   <data name="AboutWindow.MainFeatures" xml:space="preserve">
     <value>Main Features:</value>
@@ -150,11 +140,10 @@
   <data name="AboutWindow.Subtitle" xml:space="preserve">
     <value>Unreal Engine Asset File Manager</value>
   </data>
-  <data name="AboutWindow.Tech1" xml:space="preserve">
-    <value>• MVVM architecture pattern</value>
-  </data>
-  <data name="AboutWindow.Tech2" xml:space="preserve">
-    <value>• UAssetAPI library</value>
+  <data name="AboutWindow.Tech" xml:space="preserve">
+    <value>• .NET 8.0
+• WPF (Windows Presentation Foundation)
+• UAssetAPI</value>
   </data>
   <data name="AboutWindow.TechStack" xml:space="preserve">
     <value>Tech Stack:</value>
@@ -666,6 +655,9 @@ Would you like to open the webpage in your browser?</value>
   </data>
   <data name="Settings_PreferredVersion" xml:space="preserve">
     <value>Preferred version</value>
+  </data>
+  <data name="Settings_PreferredCompressMethod" xml:space="preserve">
+    <value>Preferred compress method</value>
   </data>
   <data name="Settings_Reset" xml:space="preserve">
     <value>Reset to Default</value>

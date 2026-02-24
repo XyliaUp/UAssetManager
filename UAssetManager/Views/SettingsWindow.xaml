@@ -9,202 +9,142 @@
         ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         ShowInTaskbar="False">
 
-    <Window.Resources>
-        <Style x:Key="GroupBoxStyle" TargetType="GroupBox">
-            <Setter Property="Margin" Value="0,5"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="11"/>
-        </Style>
+	<Window.Resources>
+		<Style TargetType="GroupBox">
+			<Setter Property="Margin" Value="0,5"/>
+			<Setter Property="Padding" Value="10"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="FontSize" Value="11"/>
+		</Style>
 
-        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
-            <Setter Property="Margin" Value="5,3"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
+		<Style TargetType="Button">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="MinWidth" Value="80"/>
+		</Style>
 
-        <Style x:Key="LabelStyle" TargetType="Label">
-            <Setter Property="Margin" Value="5,3"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="MinWidth" Value="80"/>
-        </Style>
+		<Style TargetType="CheckBox">
+			<Setter Property="Margin" Value="5,3"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
 
-        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Margin" Value="5,3"/>
-            <Setter Property="MinWidth" Value="200"/>
-            <Setter Property="Height" Value="23"/>
-        </Style>
+		<Style TargetType="ComboBox">
+			<Setter Property="Margin" Value="5,3"/>
+			<Setter Property="MinWidth" Value="200"/>
+			<Setter Property="Height" Value="23"/>
+		</Style>
 
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="Margin" Value="5,3"/>
-            <Setter Property="MinWidth" Value="200"/>
-            <Setter Property="Height" Value="23"/>
-        </Style>
+		<Style TargetType="Label">
+			<Setter Property="Margin" Value="5,3"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="MinWidth" Value="80"/>
+		</Style>
 
-        <Style x:Key="NumericUpDownStyle" TargetType="TextBox">
-            <Setter Property="Margin" Value="5,3"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-        </Style>
+		<Style TargetType="TextBox">
+			<Setter Property="Margin" Value="5,3"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
 
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="MinWidth" Value="80"/>
-        </Style>
+		<Style x:Key="ButtonPanelStyle" TargetType="Border">
+			<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+			<Setter Property="BorderThickness" Value="0,1,0,0"/>
+			<Setter Property="Padding" Value="10"/>
+		</Style>
+	</Window.Resources>
 
-        <Style x:Key="ButtonPanelStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="0,1,0,0"/>
-            <Setter Property="Padding" Value="10"/>
-        </Style>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-        <Style x:Key="InfoLabelStyle" TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="15,10"/>
-        </Style>
-    </Window.Resources>
+		<!-- Main Content Area -->
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15,0">
+			<StackPanel>
+				<!-- Theme and Language Settings -->
+				<GroupBox Header="{DynamicResource Settings_Theme}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Main Content Area -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15,0">
-            <StackPanel>
-                <!-- Theme and Language Settings (参考WinForm布局) -->
-                <GroupBox Header="{DynamicResource Settings_Theme}" Style="{StaticResource GroupBoxStyle}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource Settings_Theme}" Style="{StaticResource LabelStyle}"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ThemeComboBox" Style="{StaticResource ComboBoxStyle}"
-                                  ItemsSource="{Binding Themes}" 
-                                  SelectedItem="{Binding Config.Theme}"/>
-                        
-                        <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings_Language}" Style="{StaticResource LabelStyle}"/>
-                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="LanguageComboBox" Style="{StaticResource ComboBoxStyle}"
-                                  ItemsSource="{Binding Languages}" 
-                                  SelectedItem="{Binding Config.Language}"/>
-                    </Grid>
-                </GroupBox>
+						<Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource Settings_Theme}" />
+						<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Themes}" SelectedItem="{Binding Config.Theme}"/>
 
-                <!-- Interface Settings -->
-                <GroupBox Header="{DynamicResource Settings_Interface}" Style="{StaticResource GroupBoxStyle}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <CheckBox Grid.Row="0" Grid.Column="0" x:Name="ValuesOnScrollCheckBox" 
-                                  Content="{DynamicResource Settings_ChangeValuesOnScroll}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.ChangeValuesOnScroll}"/>
-                        <CheckBox Grid.Row="0" Grid.Column="1" x:Name="EnableDiscordRpcCheckBox" 
-                                  Content="{DynamicResource Settings_EnableDiscordRPC}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.EnableDiscordRPC}"/>
-                        
-                        <CheckBox Grid.Row="1" Grid.Column="0" x:Name="DoubleClickToEditCheckBox" 
-                                  Content="{DynamicResource Settings_DoubleClickToEdit}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.DoubleClickToEdit}"/>
-                        <CheckBox Grid.Row="1" Grid.Column="1" x:Name="EnableBakCheckBox" 
-                                  Content="{DynamicResource Settings_EnableBak}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.EnableBak}"/>
-                        
-                        <CheckBox Grid.Row="2" Grid.Column="0" x:Name="EnableDynamicTreeCheckBox" 
-                                  Content="{DynamicResource Settings_EnableDynamicTree}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.EnableDynamicTree}"/>
-                        <CheckBox Grid.Row="2" Grid.Column="1" x:Name="RestoreSizeCheckBox" 
-                                  Content="{DynamicResource Settings_RestoreSize}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.RestoreSize}"/>
-                        
-                        <CheckBox Grid.Row="3" Grid.Column="0" x:Name="EnableUpdateNoticeCheckBox" 
-                                  Content="{DynamicResource Settings_EnableUpdateNotice}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.EnableUpdateNotice}"/>
-                        <CheckBox Grid.Row="3" Grid.Column="1" x:Name="EnablePrettyBytecodeCheckBox" 
-                                  Content="{DynamicResource Settings_EnablePrettyBytecode}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.EnablePrettyBytecode}"/>
-                        
-                        <CheckBox Grid.Row="4" Grid.Column="0" x:Name="UseOuterIndexTreeModeCheckBox" 
-                                  Content="{DynamicResource Settings_UseOuterIndexTreeMode}" Style="{StaticResource CheckBoxStyle}"
-                                  IsChecked="{Binding Config.UseOuterIndexTreeMode}"/>
-                    </Grid>
-                </GroupBox>
+						<Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings_Language}" />
+						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Languages}" SelectedItem="{Binding Config.Language}"/>
+					</Grid>
+				</GroupBox>
 
-                <!-- Data Settings -->
-                <GroupBox Header="{DynamicResource Settings_Serialization}" Style="{StaticResource GroupBoxStyle}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource Settings_CustomSerializationFlags}" Style="{StaticResource LabelStyle}"/>
-                        <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CustomSerializationFlags}" Height="80" Margin="5,3" SelectionMode="Multiple">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
-                </GroupBox>
+				<!-- Interface Settings -->
+				<GroupBox Header="{DynamicResource Settings_Interface}">
+					<UniformGrid Columns="2">
+						<CheckBox Content="{DynamicResource Settings_ChangeValuesOnScroll}" IsChecked="{Binding Config.ChangeValuesOnScroll}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableDiscordRPC}" IsChecked="{Binding Config.EnableDiscordRPC}"/>
+						<CheckBox Content="{DynamicResource Settings_DoubleClickToEdit}" IsChecked="{Binding Config.DoubleClickToEdit}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableBak}" IsChecked="{Binding Config.EnableBak}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableUpdateNotice}" IsChecked="{Binding Config.EnableUpdateNotice}"/>
+						<CheckBox Content="{DynamicResource Settings_EnablePrettyBytecode}" IsChecked="{Binding Config.EnablePrettyBytecode}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableDynamicTree}" IsChecked="{Binding Config.EnableDynamicTree}"/>
+						<CheckBox Content="{DynamicResource Settings_UseOuterIndexTreeMode}" IsChecked="{Binding Config.UseOuterIndexTreeMode}"/>
+					</UniformGrid>
+				</GroupBox>
 
-                <!-- Other Settings -->
-                <GroupBox Header="{DynamicResource Settings_Other}" Style="{StaticResource GroupBoxStyle}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource Settings_PreferredVersion}" Style="{StaticResource LabelStyle}"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="PreferredVersionComboBox" Style="{StaticResource ComboBoxStyle}"
-                                  ItemsSource="{Binding EngineVersions}" SelectedItem="{Binding Config.PreferredVersion}"/>
-                        
-                        <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings_PreferredMappings}" Style="{StaticResource LabelStyle}"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="PreferredMappingsTextBox" Style="{StaticResource TextBoxStyle}" Text="{Binding Config.PreferredMappings}"/>
-                                                   
-                        <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource Settings_AES}" Style="{StaticResource LabelStyle}"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TextBoxStyle}" Text="{Binding Config.AesKey}" FontSize="10" />
-                    </Grid>
-                </GroupBox>
-            </StackPanel>
-        </ScrollViewer>
+				<!-- Data Settings -->
+				<GroupBox Header="{DynamicResource Settings_CustomSerializationFlags}">
+					<ListBox ItemsSource="{Binding CustomSerializationFlags}" SelectionMode="Multiple">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</GroupBox>
 
-        <!-- Button Panel -->
-        <Border Grid.Row="1" Style="{StaticResource ButtonPanelStyle}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="{DynamicResource Settings_About}" Style="{StaticResource ButtonStyle}" Click="About_Click"/>
-                <Button Content="{DynamicResource Settings_Reset}" Style="{StaticResource ButtonStyle}" Command="{Binding ResetToDefaultsCommand}"/>
-                <Button Content="{DynamicResource Text.OK}" Style="{StaticResource ButtonStyle}" Click="OK_Click" IsDefault="True"/>
-                <Button Content="{DynamicResource Text.Cancel}" Style="{StaticResource ButtonStyle}" Click="Cancel_Click" IsCancel="True"/>
-            </StackPanel>
-        </Border>
-    </Grid>
+				<!-- Other Settings -->
+				<GroupBox Header="{DynamicResource Settings_Other}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+
+						<Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource Settings_PreferredVersion}" />
+						<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding EngineVersions}" SelectedItem="{Binding Config.PreferredVersion}"/>
+
+						<Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings_PreferredCompressMethod}" />
+						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CompressMethods}" SelectedItem="{Binding Config.PreferredCompressMethod}"/>
+
+						<Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource Settings_PreferredMappings}" />
+						<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Config.PreferredMappings}"/>
+
+						<Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource Settings_AES}" />
+						<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Config.AesKey}" FontSize="10" />
+					</Grid>
+				</GroupBox>
+			</StackPanel>
+		</ScrollViewer>
+
+		<!-- Button Panel -->
+		<Border Grid.Row="1" Style="{StaticResource ButtonPanelStyle}">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<Button Content="{DynamicResource Settings_About}" Click="About_Click"/>
+				<Button Content="{DynamicResource Settings_Reset}" Command="{Binding ResetToDefaultsCommand}"/>
+				<Button Content="{DynamicResource Text.OK}" Click="OK_Click" IsDefault="True"/>
+				<Button Content="{DynamicResource Text.Cancel}" Click="Cancel_Click" IsCancel="True"/>
+			</StackPanel>
+		</Border>
+	</Grid>
 </Window>

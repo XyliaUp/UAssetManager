@@ -553,7 +553,7 @@ internal partial class FileContainerViewModel : ObservableObject
                 {
                     string relFile = Path.GetRelativePath(Path.GetDirectoryName(selectedBase)!, file).Replace('\\', '/');
                     string gamePath = string.IsNullOrEmpty(targetBase) ? relFile : (targetBase.TrimEnd('/') + "/" + relFile);
-                    _buildPakReader.AddFile(file, gamePath, gamePath.EndsWith(".uasset") && false ? CompressionMethod.None : CompressionMethod.Oodle);
+                    _buildPakReader.AddFile(file, gamePath, gamePath.EndsWith(".uasset") ? CompressionMethod.None : UAGConfig.Data.PreferredCompressMethod);
                 }
                 catch (Exception)
                 {

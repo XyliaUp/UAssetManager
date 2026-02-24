@@ -5,23 +5,27 @@ using System.Windows;
 using UAssetAPI;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Models;
+using UAssetManager.Pak.Compression;
 using UAssetManager.Resources;
 using UAssetManager.Resources.Themes;
 
 namespace UAssetManager.ViewModels;
 public partial class SettingsViewModel : ObservableObject
 {
-    // Store original config for cancel functionality
-    private UAGConfigData? _originalConfig;
+	#region Properties
+	// Store original config for cancel functionality
+	private UAGConfigData? _originalConfig;
     public UAGConfigData Config => UAGConfig.Data;
     public ObservableCollection<SerializationFlagItem> CustomSerializationFlags { get; } = new();
 
     public IEnumerable<ThemeType> Themes => Enum.GetValues<ThemeType>();
     public IEnumerable<ELanguage> Languages => Enum.GetValues<ELanguage>();
     public IEnumerable<EngineVersion> EngineVersions => Enum.GetValues<EngineVersion>();
+	public IEnumerable<CompressionMethod> CompressMethods => Enum.GetValues<CompressionMethod>();
+	#endregion
 
-    #region Methods
-    public SettingsViewModel()
+	#region Methods
+	public SettingsViewModel()
     {
         CloneCurrentConfig();
         RefreshCustomSerializationFlags();

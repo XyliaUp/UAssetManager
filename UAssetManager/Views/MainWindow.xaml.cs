@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -133,19 +134,13 @@ public partial class MainWindow : Window
             // Load configuration
             UAGConfig.Load();
 
-            // Apply saved settings
-            if (UAGConfig.Data.RestoreSize)
-            {
-                Width = UAGConfig.Data.StartupWidth;
-                Height = UAGConfig.Data.StartupHeight;
-            }
-
-            // Set preferred engine version
-            _viewModel.SelectedEngineVersion = UAGConfig.Data.PreferredVersion;
+			// Apply saved settings
+			Width = UAGConfig.Data.StartupWidth;
+			Height = UAGConfig.Data.StartupHeight;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error loading configuration: {ex.Message}");
+			Debug.WriteLine($"Error loading configuration: {ex.Message}");
         }
     }
 

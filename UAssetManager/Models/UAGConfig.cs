@@ -52,7 +52,7 @@ public static class UAGConfig
 		}
 	}
 
-	private static string ConfigPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia", "config.json");
+	private static string ConfigPath => Path.Combine(ConfigFolder, "config.json");
 
 	public static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia");
 	public static readonly string StagingFolder = Path.Combine(ConfigFolder, "Staging");

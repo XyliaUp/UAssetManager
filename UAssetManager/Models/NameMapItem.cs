@@ -3,18 +3,12 @@ using UAssetAPI;
 using UAssetAPI.UnrealTypes;
 
 namespace UAssetManager.Models;
-public partial class NameMapItem : ObservableObject
+public partial class NameMapItem(UAsset asset, int index) : ObservableObject
 {
-    private readonly UAsset _asset;
-    private readonly int _index;
+    private readonly UAsset _asset = asset;
+    private readonly int _index = index;
 
-    public NameMapItem(UAsset asset, int index)
-    {
-        _asset = asset;
-        _index = index;
-    }
-
-    public int Index => _index;
+	public int Index => _index;
 
     public string Name
     {

@@ -155,7 +155,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error saving configuration: {ex.Message}");
+            Debug.WriteLine($"Error saving configuration: {ex.Message}");
         }
     }
 
@@ -198,13 +198,6 @@ public partial class MainWindow : Window
     public void OpenAssetInEditor(UAsset asset, string virtualPath, bool isFromBuildPak = false)
     {
         _viewModel.SetCurrentAsset(asset, virtualPath, isFromBuildPak);
-        Activate();
-        Focus();
-    }
-
-    public void OpenFileInEditor(string filePath)
-    {
-        _viewModel.LoadFile(filePath);
         Activate();
         Focus();
     }

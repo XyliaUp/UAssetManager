@@ -226,10 +226,10 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	[RelayCommand]
 	void OpenConfigDir()
 	{
-		var configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UAssetGUI");
-		if (Directory.Exists(configPath))
+		var path = UAGConfig.ConfigFolder;
+		if (Directory.Exists(path))
 		{
-			UAGUtils.OpenFolder(configPath);
+			UAGUtils.OpenFolder(path);
 		}
 		else
 		{
@@ -332,13 +332,21 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			switch (fileExtension)
 			{
 				case ".json":
-					LoadJsonFile(filePath);
+				{
+					using var stream = new FileStream(filePath, FileMode.Open);
+					CurrentAsset = UAsset.DeserializeJson(stream);
+					CurrentAsset.Mappings = null;
+					PopulateTreeView();
 					break;
+				}
+					
 				case ".pak":
-					LoadPakFile(filePath);
+					new FileContainerWindow(filePath).Show();
 					break;
+
 				default:
-					LoadUAssetFile(filePath);
+					CurrentAsset = new UAsset(filePath, SelectedEngineVersion);
+					PopulateTreeView();
 					break;
 			}
 
@@ -352,53 +360,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		{
 			MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
 			Status = "Failed to load file";
-		}
-	}
-
-	private void LoadUAssetFile(string filePath)
-	{
-		try
-		{
-			CurrentAsset = new UAsset(filePath, SelectedEngineVersion);
-			PopulateTreeView();
-			Status = $"UAsset file loaded successfully: {Path.GetFileName(filePath)}";
-		}
-		catch (Exception ex)
-		{
-			MessageBox.Show(StringHelper.Get("MainWindow_UAssetLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
-			Status = "Failed to load UAsset file";
-		}
-	}
-
-	private void LoadJsonFile(string filePath)
-	{
-		try
-		{
-			using var stream = new FileStream(filePath, FileMode.Open);
-			CurrentAsset = UAsset.DeserializeJson(stream);
-			CurrentAsset.Mappings = null;
-			PopulateTreeView();
-			Status = $"JSON file loaded successfully: {Path.GetFileName(filePath)}";
-		}
-		catch (Exception ex)
-		{
-			MessageBox.Show(StringHelper.Get("MainWindow_JsonLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
-			Status = "Failed to load JSON file";
-		}
-	}
-
-	public void LoadPakFile(string filePath)
-	{
-		try
-		{
-			var window = new FileContainerWindow(filePath);
-			window.Show();
-			Status = $"PAK file opened in File Container: {Path.GetFileName(filePath)}";
-		}
-		catch (Exception ex)
-		{
-			MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
-			Status = "Failed to load PAK file";
 		}
 	}
 
@@ -444,7 +405,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 		TreeNodes.Add(exportDataNode);
 	}
-
 
 	partial void OnSelectedTreeNodeChanged(TreeNodeItem? value)
 	{

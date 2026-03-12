@@ -11,10 +11,12 @@ internal class SoftObjectPropertyEditor(UAsset asset) : PropertyEditorBase, IVal
 {
     public override FrameworkElement CreateElement(PropertyData property) => new TextBox
     {
-
+      
     };
 
     public override IValueConverter GetConverter() => this;
+
+    public override UpdateSourceTrigger GetUpdateSourceTrigger(PropertyData property) => UpdateSourceTrigger.Default;
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

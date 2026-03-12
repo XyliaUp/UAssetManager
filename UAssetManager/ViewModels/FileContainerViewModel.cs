@@ -537,7 +537,7 @@ internal partial class FileContainerViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	void AddFolderFromDisk(DirectoryTreeItem? baseItem)
+	async Task AddFolderFromDisk(DirectoryTreeItem? baseItem, CancellationToken token)
 	{
 		if (_buildPakReader == null) return;
 
@@ -546,24 +546,30 @@ internal partial class FileContainerViewModel : ObservableObject
 		{
 			string selectedBase = dlg.FolderName;
 			string targetBase = baseItem == null ? string.Empty : ((baseItem.IsFile ? baseItem.Parent?.FullPath : baseItem.FullPath) ?? string.Empty);
+			var progress = new ProgressReporter("Add files", 0);
 
-			// Directories will be created automatically when files are added
-			foreach (var file in Directory.EnumerateFiles(selectedBase, "*", SearchOption.AllDirectories))
+			await Task.Run(() =>
 			{
-				try
+				// Directories will be created automatically when files are added
+				foreach (var file in Directory.EnumerateFiles(selectedBase, "*", SearchOption.AllDirectories))
 				{
-					string relFile = Path.GetRelativePath(Path.GetDirectoryName(selectedBase)!, file).Replace('\\', '/');
-					string gamePath = string.IsNullOrEmpty(targetBase) ? relFile : (targetBase.TrimEnd('/') + "/" + relFile);
-					_buildPakReader.AddFile(file, gamePath, gamePath.EndsWith(".uasset") ? CompressionMethod.None : UAGConfig.Data.PreferredCompressMethod);
-				}
-				catch (Exception)
-				{
+					try
+					{
+						string relFile = Path.GetRelativePath(Path.GetDirectoryName(selectedBase)!, file).Replace('\\', '/');
+						string gamePath = string.IsNullOrEmpty(targetBase) ? relFile : (targetBase.TrimEnd('/') + "/" + relFile);
+						_buildPakReader.AddFile(file, gamePath, gamePath.EndsWith(".uasset") ? CompressionMethod.None : UAGConfig.Data.PreferredCompressMethod);
+						progress.Report(1, string.Empty);
+					}
+					catch (Exception)
+					{
 
+					}
 				}
-			}
+			}, token);
 
 			RefreshSaveTree(true);
 			ExpandSaveTreeTo(targetBase);
+			progress.Dispose();
 		}
 	}
 

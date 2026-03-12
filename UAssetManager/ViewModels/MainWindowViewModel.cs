@@ -101,7 +101,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		var dlg = new OpenFileDialog
 		{
 			Title = StringHelper.Get("MainWindow_OpenUAssetTitle"),
-			Filter = "UAsset Files (*.uasset)|*.uasset|JSON Files (*.json)|*.json|PAK Files (*.pak)|*.pak|All Files (*.*)|*.*",
+			Filter = "Asset Files (*.uasset,*.umap)|*.uasset;*.umap|JSON Files (*.json)|*.json|PAK Files (*.pak)|*.pak|All Files (*.*)|*.*",
 			InitialDirectory = UAGConfig.Data.ExtractedFolder,
 			Multiselect = false,
 		};

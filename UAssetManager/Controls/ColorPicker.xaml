@@ -49,7 +49,7 @@
 
 					<DockPanel Margin="0,10,0,0">
 						<TextBlock Text="Hex" VerticalAlignment="Center" Margin="0,0,8,0" />
-						<TextBox Text="{Binding Html, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" IsReadOnly="True" />
+						<TextBox Text="{Binding Html, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},UpdateSourceTrigger=PropertyChanged}" />
 					</DockPanel>
 				</StackPanel>
 			</Border>

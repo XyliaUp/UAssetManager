@@ -94,7 +94,7 @@ public class PropertyItem : ListBoxItem
 	private void OnPropertyChanged(PropertyData property)
 	{
 		Value = property;
-		PropertyName = property.Name.ToString();
+		PropertyName = property.Name?.ToString();
 		Description = GetType(property);
 
 		Editor = ResolveEditor(Asset, property);

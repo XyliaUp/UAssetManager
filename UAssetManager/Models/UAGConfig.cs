@@ -27,6 +27,7 @@ public partial class UAGConfigData : ObservableObject, ICloneable
 	[ObservableProperty] int _customSerializationFlags;
 	[ObservableProperty] string _aesKey = "0xd2e5f7f94e625efe2726b5360c1039ce7cb9abb760a94f37bb15a6dc08741656";
 	[ObservableProperty] string? _extractedFolder;
+	[ObservableProperty] string? _savedFolder;
 
 	partial void OnLanguageChanged(ELanguage value)
 	{
@@ -52,11 +53,8 @@ public static class UAGConfig
 		}
 	}
 
-	private static string ConfigPath => Path.Combine(ConfigFolder, "config.json");
-
 	public static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia");
-	public static readonly string StagingFolder = Path.Combine(ConfigFolder, "Staging");
-	public static readonly string ExtractedFolder = Path.Combine(ConfigFolder, "Extracted");
+	private static readonly string ConfigPath = Path.Combine(ConfigFolder, "config.json");
 	public static readonly string MappingsFolder = Path.Combine(ConfigFolder, "Mappings");
 	public static readonly bool DifferentStagingPerPak = true;
 

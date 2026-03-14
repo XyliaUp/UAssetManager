@@ -5,6 +5,7 @@ using UAssetAPI.UnrealTypes;
 using UAssetManager.Models;
 
 namespace UAssetManager.Controls.Editors;
+
 public partial class DistributionVectorEditor : UserControl
 {
 	private RawDistributionVector Model;
@@ -53,28 +54,19 @@ public partial class DistributionVectorEditor : UserControl
 		Model = RawDistributionVector.FromProperty(property);
 		if (Model == null) return;
 
-		var stride = Model.EntryStride > 0 ? Model.EntryStride : (byte)3;
-		if (stride < 3) stride = 3;
-
+		var stride = Model.EntryStride;
+		var substride = Model.SubEntryStride;
 		var values = Model.TableValues;
-		if (values.Count < stride) return;
 
-		int count = Model.EntryCount;
-		if (count <= 0 || count * stride > values.Count)
+		for (int i = 0; i < values.Count;)
 		{
-			count = values.Count / stride;
-		}
-
-		for (int i = 0; i < count; i++)
-		{
-			int baseIndex = i * stride;
-			if (baseIndex + 2 >= values.Count) break;
-
-			float x = values[baseIndex + 0];
-			float y = values[baseIndex + 1];
-			float z = values[baseIndex + 2];
-
-			Items.Add(new FVector(x, y, z));
+			for (int h = 0; h < Model.Op; h++)
+			{
+				float x = values[i++];
+				float y = values[i++];
+				float z = values[i++];
+				Items.Add(new FVector(x, y, z));
+			}
 		}
 	}
 

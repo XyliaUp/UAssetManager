@@ -25,16 +25,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.ToString() == "minvalue":
+				case FloatPropertyData f when child.Name.Value == "minvalue":
 					model.MinValue = f.Value;
 					break;
-				case FloatPropertyData f when child.Name.ToString() == "maxvalue":
+				case FloatPropertyData f when child.Name.Value == "maxvalue":
 					model.MaxValue = f.Value;
 					break;
-				case ObjectPropertyData obj when child.Name.ToString() == "distribution":
+				case ObjectPropertyData obj when child.Name.Value == "distribution":
 					model.DistributionObjectIndex = obj.Value;
 					break;
-				case StructPropertyData tableStruct when child.Name.ToString() == "table":
+				case StructPropertyData tableStruct when child.Name.Value == "table":
 					model.ReadLookupTable(tableStruct);
 					break;
 			}
@@ -49,16 +49,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.ToString() == "minvalue":
+				case FloatPropertyData f when child.Name.Value == "minvalue":
 					f.Value = MinValue;
 					break;
-				case FloatPropertyData f when child.Name.ToString() == "maxvalue":
+				case FloatPropertyData f when child.Name.Value == "maxvalue":
 					f.Value = MaxValue;
 					break;
-				case ObjectPropertyData obj when child.Name.ToString() == "distribution":
+				case ObjectPropertyData obj when child.Name.Value == "distribution":
 					obj.Value = DistributionObjectIndex;
 					break;
-				case StructPropertyData tableStruct when child.Name.ToString() == "table":
+				case StructPropertyData tableStruct when child.Name.Value == "table":
 					WriteLookupTable(tableStruct);
 					break;
 			}
@@ -76,16 +76,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case ArrayPropertyData array when child.Name.ToString() == "values":
+				case ArrayPropertyData array when child.Name.Value == "values":
 					valuesArray = array;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "entrycount":
+				case BytePropertyData b when child.Name.Value == "entrycount":
 					entryCount = b;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "entrystride":
+				case BytePropertyData b when child.Name.Value == "entrystride":
 					entryStride = b;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "op":
+				case BytePropertyData b when child.Name.Value == "op":
 					op = b;
 					break;
 			}
@@ -119,16 +119,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case ArrayPropertyData array when child.Name.ToString() == "values":
+				case ArrayPropertyData array when child.Name.Value == "values":
 					valuesArray = array;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "entrycount":
+				case BytePropertyData b when child.Name.Value == "entrycount":
 					entryCount = b;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "entrystride":
+				case BytePropertyData b when child.Name.Value == "entrystride":
 					entryStride = b;
 					break;
-				case BytePropertyData b when child.Name.ToString() == "op":
+				case BytePropertyData b when child.Name.Value == "op":
 					op = b;
 					break;
 			}

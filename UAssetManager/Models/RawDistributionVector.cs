@@ -9,12 +9,15 @@ public class RawDistributionVector
 	public float MaxValue { get; set; }
 	public FVector MinValueVec { get; set; }
 	public FVector MaxValueVec { get; set; }
+
 	public FPackageIndex DistributionObjectIndex { get; set; }
 	public byte Op { get; set; }
 	public byte EntryCount { get; set; }
 	public byte EntryStride { get; set; }
-
+	public byte SubEntryStride { get; set; }
 	public List<float> TableValues { get; set; } = new List<float>();
+
+	// FVector
 
 	public static RawDistributionVector? FromProperty(StructPropertyData? raw)
 	{
@@ -25,22 +28,22 @@ public class RawDistributionVector
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.ToString() == "minvalue":
+				case FloatPropertyData f when child.Name.Value == "minvalue":
 					model.MinValue = f.Value;
 					break;
-				case FloatPropertyData f when child.Name.ToString() == "maxvalue":
+				case FloatPropertyData f when child.Name.Value == "maxvalue":
 					model.MaxValue = f.Value;
 					break;
-				case StructPropertyData vecStruct when child.Name.ToString() == "minvaluevec":
+				case StructPropertyData vecStruct when child.Name.Value == "minvaluevec":
 					model.MinValueVec = ReadVector(vecStruct);
 					break;
-				case StructPropertyData vecStruct when child.Name.ToString() == "maxvaluevec":
+				case StructPropertyData vecStruct when child.Name.Value == "maxvaluevec":
 					model.MaxValueVec = ReadVector(vecStruct);
 					break;
-				case ObjectPropertyData obj when child.Name.ToString() == "distribution":
+				case ObjectPropertyData obj when child.Name.Value == "distribution":
 					model.DistributionObjectIndex = obj.Value;
 					break;
-				case StructPropertyData tableStruct when child.Name.ToString() == "table":
+				case StructPropertyData tableStruct when child.Name.Value == "table":
 					model.ReadLookupTable(tableStruct);
 					break;
 			}
@@ -55,22 +58,22 @@ public class RawDistributionVector
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.ToString() == "minvalue":
+				case FloatPropertyData f when child.Name.Value == "minvalue":
 					f.Value = MinValue;
 					break;
-				case FloatPropertyData f when child.Name.ToString() == "maxvalue":
+				case FloatPropertyData f when child.Name.Value == "maxvalue":
 					f.Value = MaxValue;
 					break;
-				case StructPropertyData vecStruct when child.Name.ToString() == "minvaluevec":
+				case StructPropertyData vecStruct when child.Name.Value == "minvaluevec":
 					WriteVector(vecStruct, MinValueVec);
 					break;
-				case StructPropertyData vecStruct when child.Name.ToString() == "maxvaluevec":
+				case StructPropertyData vecStruct when child.Name.Value == "maxvaluevec":
 					WriteVector(vecStruct, MaxValueVec);
 					break;
-				case ObjectPropertyData obj when child.Name.ToString() == "distribution":
+				case ObjectPropertyData obj when child.Name.Value == "distribution":
 					obj.Value = DistributionObjectIndex;
 					break;
-				case StructPropertyData tableStruct when child.Name.ToString() == "table":
+				case StructPropertyData tableStruct when child.Name.Value == "table":
 					WriteLookupTable(tableStruct);
 					break;
 			}
@@ -83,10 +86,7 @@ public class RawDistributionVector
 		// minvaluevec/maxvaluevec : Struct(vector)
 		//   - minvaluevec/maxvaluevec : VectorPropertyData
 		var vectorProp = vecStruct.Value.OfType<VectorPropertyData>().FirstOrDefault();
-		if (vectorProp?.Value is FVector f)
-		{
-			return f;
-		}
+		if (vectorProp?.Value is FVector f) return f;
 
 		return new FVector(0, 0, 0);
 	}
@@ -94,44 +94,26 @@ public class RawDistributionVector
 	private static void WriteVector(StructPropertyData vecStruct, FVector value)
 	{
 		var vectorProp = vecStruct.Value.OfType<VectorPropertyData>().FirstOrDefault();
-		if (vectorProp == null)
-			return;
+		if (vectorProp == null) return;
 
 		vectorProp.Value = value;
 	}
 
 	private void ReadLookupTable(StructPropertyData tableStruct)
 	{
-		ArrayPropertyData? valuesArray = null;
-		BytePropertyData? entryCount = null;
-		BytePropertyData? entryStride = null;
-		BytePropertyData? op = null;
-
-		foreach (var child in tableStruct.Value)
-		{
-			switch (child)
-			{
-				case ArrayPropertyData array when child.Name.ToString() == "values":
-					valuesArray = array;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "entrycount":
-					entryCount = b;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "entrystride":
-					entryStride = b;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "op":
-					op = b;
-					break;
-			}
-		}
+		var valuesArray = tableStruct["Values"] as ArrayPropertyData;
+		var op = tableStruct["Op"] as BytePropertyData;
+		var entryCount = tableStruct["EntryCount"] as BytePropertyData;
+		var entryStride = tableStruct["EntryStride"] as BytePropertyData;
+		var subEntryStride = tableStruct["SubEntryStride"] as BytePropertyData;
 
 		if (valuesArray == null || entryCount == null || entryStride == null)
 			return;
 
 		Op = op?.Value ?? 0;
-		EntryCount = entryCount.Value;
-		EntryStride = entryStride.Value;
+		EntryCount = entryCount?.Value ?? 0;
+		EntryStride = entryStride?.Value ?? 0;
+		SubEntryStride = subEntryStride?.Value ?? 0;
 
 		TableValues.Clear();
 		foreach (var element in valuesArray.Value)
@@ -145,36 +127,19 @@ public class RawDistributionVector
 
 	private void WriteLookupTable(StructPropertyData tableStruct)
 	{
-		ArrayPropertyData? valuesArray = null;
-		BytePropertyData? entryCount = null;
-		BytePropertyData? entryStride = null;
-		BytePropertyData? op = null;
+		var valuesArray = tableStruct["Values"] as ArrayPropertyData;
+		var op = tableStruct["Op"] as BytePropertyData;
+		var entryCount = tableStruct["EntryCount"] as BytePropertyData;
+		var entryStride = tableStruct["EntryStride"] as BytePropertyData;
+		var subEntryStride = tableStruct["SubEntryStride"] as BytePropertyData;
 
-		foreach (var child in tableStruct.Value)
-		{
-			switch (child)
-			{
-				case ArrayPropertyData array when child.Name.ToString() == "values":
-					valuesArray = array;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "entrycount":
-					entryCount = b;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "entrystride":
-					entryStride = b;
-					break;
-				case BytePropertyData b when child.Name.ToString() == "op":
-					op = b;
-					break;
-			}
-		}
-
-		if (valuesArray == null || entryCount == null || entryStride == null)
+		if (valuesArray == null)
 			return;
 
 		op!.Value = Op;
-		entryCount.Value = EntryCount;
-		entryStride.Value = EntryStride;
+		if (entryCount != null) entryCount.Value = EntryCount;
+		if (entryStride != null) entryStride.Value = EntryStride;
+		if (subEntryStride != null) subEntryStride.Value = SubEntryStride;
 
 		var list = new List<PropertyData>(TableValues.Count);
 		for (int i = 0; i < TableValues.Count; i++)

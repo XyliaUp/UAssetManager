@@ -75,9 +75,9 @@
 
             <MenuItem Header="{DynamicResource Menu.Help}">
                 <MenuItem Header="{DynamicResource MainWindow_About}" Command="{Binding OpenAboutCommand}"/>
-                <Separator/>
+                <Separator />
                 <MenuItem Header="{DynamicResource MainWindow_OpenConfigDirectory}" Command="{Binding OpenConfigDirCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_GiveFeedback}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/atenfyr/UAssetManager/issues" />
+				<MenuItem Header="{DynamicResource MainWindow_GiveFeedback}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XyliaUp/UAssetManager/issues" />
                 <MenuItem Header="{DynamicResource MainWindow_UAssetGUIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XyliaUp/UAssetManager" />
                 <MenuItem Header="{DynamicResource MainWindow_UAssetAPIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/atenfyr/UAssetAPI" />
             </MenuItem>

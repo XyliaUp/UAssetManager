@@ -56,16 +56,10 @@ internal partial class FileContainerViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	void CopyPath(DirectoryTreeItem? selectedItem)
+	void CopyPath(DirectoryTreeItem? item)
 	{
-		if (selectedItem == null) return;
+		if (item == null) return;
 
-		string path = GetFullPath(selectedItem);
-		Clipboard.SetText(path);
-	}
-
-	private string GetFullPath(DirectoryTreeItem item)
-	{
 		var pathParts = new List<string>();
 		var current = item;
 
@@ -75,11 +69,13 @@ internal partial class FileContainerViewModel : ObservableObject
 			current = current.Parent;
 		}
 
-		string fullPath = string.Join("/", pathParts);
-
 		// Map Unreal Engine content paths: GameName/Content/ -> /Game/
-		return Regex.Replace(fullPath, @"^[^/]+/Content/", "/Game/", RegexOptions.IgnoreCase);
+		string fullPath = string.Join("/", pathParts);
+		string path = Regex.Replace(fullPath, @"^[^/]+/Content/", "/Game/", RegexOptions.IgnoreCase);
+
+		Clipboard.SetText(path);
 	}
+
 
 	[RelayCommand]
 	async Task ExtractSelected(DirectoryTreeItem? selectedItem)
@@ -142,6 +138,7 @@ internal partial class FileContainerViewModel : ObservableObject
 	{
 		var saveFileDialog = new SaveFileDialog
 		{
+			InitialDirectory = UAGConfig.Data.SavedFolder,
 			Title = StringHelper.Get("FileContainer_SavePak"),
 			Filter = "PAK Files (*.pak)|*.pak|All Files (*.*)|*.*",
 			DefaultExt = "pak"
@@ -150,6 +147,7 @@ internal partial class FileContainerViewModel : ObservableObject
 		{
 			try
 			{
+				UAGConfig.Data.SavedFolder = Path.GetDirectoryName(saveFileDialog.FileName);
 				SaveToPak(saveFileDialog.FileName);
 				MessageBox.Show(StringHelper.Get("FileContainer_BuildCompletedMessage"), StringHelper.Get("Text.Completed"), MessageBoxButton.OK, MessageBoxImage.Information);
 			}
@@ -541,10 +539,15 @@ internal partial class FileContainerViewModel : ObservableObject
 	{
 		if (_buildPakReader == null) return;
 
-		var dlg = new OpenFolderDialog { Title = StringHelper.Get("FileContainer_ExtractFolderMessage") };
+		var dlg = new OpenFolderDialog
+		{
+			InitialDirectory = UAGConfig.Data.ExtractedFolder,
+			Title = StringHelper.Get("FileContainer_ExtractFolderMessage"),
+		};
+
 		if (dlg.ShowDialog() == true)
 		{
-			string selectedBase = dlg.FolderName;
+			string selectedBase = UAGConfig.Data.ExtractedFolder = dlg.FolderName;
 			string targetBase = baseItem == null ? string.Empty : ((baseItem.IsFile ? baseItem.Parent?.FullPath : baseItem.FullPath) ?? string.Empty);
 			var progress = new ProgressReporter("Add files", 0);
 

@@ -14,6 +14,7 @@ using UAssetAPI;
 using UAssetAPI.ExportTypes;
 using UAssetAPI.Kismet;
 using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Models;
@@ -124,7 +125,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 		else
@@ -165,7 +166,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_MappingImportErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(StringHelper.Get("MainWindow_MappingImportErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -189,7 +190,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_MappingImportErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(StringHelper.Get("MainWindow_MappingImportErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -214,11 +215,11 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			{
 				var json = CurrentAsset.SerializeJson();
 				File.WriteAllText(dlg.FileName, json);
-				MessageBox.Show(StringHelper.Get("MainWindow_PropertiesDumped", System.IO.Path.GetFileName(dlg.FileName)), StringHelper.Get("MainWindow_InformationTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show(StringHelper.Get("MainWindow_PropertiesDumped", Path.GetFileName(dlg.FileName)), StringHelper.Get("MainWindow_InformationTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_PropertyDumpingErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(StringHelper.Get("MainWindow_PropertyDumpingErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -249,37 +250,25 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		var replaceDialog = new TextPromptWindow
 		{
 			Title = StringHelper.Get("MainWindow_ReplaceReferencesTitle"),
-			DisplayText = StringHelper.Get("MainWindow_EnterTextToFind")
+			DisplayText = StringHelper.Get("MainWindow_ReplaceReferencesToolip")
 		};
-
 		if (replaceDialog.ShowDialog() == true)
 		{
-			var findText = replaceDialog.OutputText;
-			var replaceDialog2 = new TextPromptWindow
-			{
-				Title = StringHelper.Get("MainWindow_ReplaceReferencesTitle"),
-				DisplayText = StringHelper.Get("MainWindow_EnterReplacementText")
-			};
+			FString newTxt = FString.FromString(replaceDialog.OutputText);
 
-			if (replaceDialog2.ShowDialog() == true)
-			{
-				var replaceText = replaceDialog2.OutputText;
-				try
-				{
-					var json = CurrentAsset.SerializeJson();
-					var replaced = string.IsNullOrEmpty(findText) ? json : json.Replace(findText, replaceText);
-					var newAsset = UAsset.DeserializeJson(new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(replaced)));
-					newAsset.SetEngineVersion(SelectedEngineVersion);
-					CurrentAsset = newAsset;
-					HasUnsavedChanges = true;
-					PopulateTreeView();
-					Status = StringHelper.Get("MainWindow_Status.FileModified");
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(StringHelper.Get("MainWindow_GenericErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
+			//int replacedCount = 0;
+			//List<FName> allNamesThatExist = UAPUtils.FindAllInstances<FName>(CurrentAsset);
+			//for (int i = 0; i < allNamesThatExist.Count; i++)
+			//{
+			//	FName thisOne = allNamesThatExist[i];
+			//if (thisOne.Value == antiguo)
+			//{
+			//	thisOne.Value = nuevo;
+			//	replacedCount++;
+			//}
+			//}
+
+			Status = StringHelper.Get("MainWindow_EnterReplacementText", 0);
 		}
 	}
 
@@ -318,7 +307,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show(StringHelper.Get("MainWindow_AssetOpenErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+			MessageBox.Show(StringHelper.Get("MainWindow_AssetOpenErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 	}
 
@@ -339,7 +328,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 					PopulateTreeView();
 					break;
 				}
-					
+
 				case ".pak":
 					new FileContainerWindow(filePath).Show();
 					break;
@@ -347,18 +336,20 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 				default:
 					CurrentAsset = new UAsset(filePath, SelectedEngineVersion);
 					PopulateTreeView();
+					Controls.ParticleSystemEditor.Initialize(CurrentAsset);
+					//SaveFile();
 					break;
 			}
 
+			_lastOpenedTime = DateTime.Now;
 			CurrentFilePath = filePath;
 			HasUnsavedChanges = false;
-			_lastOpenedTime = DateTime.Now;
 			Status = $"Loaded: {Path.GetFileName(filePath)}";
 			UpdateDiscordRpc();
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+			MessageBox.Show(StringHelper.Get("MainWindow_FileLoadErrorMessage", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			Status = "Failed to load file";
 		}
 	}
@@ -408,16 +399,12 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 	partial void OnSelectedTreeNodeChanged(TreeNodeItem? value)
 	{
-		if (value == null || CurrentAsset == null) return;
+		IsRawDataSelected = value is PointingTreeNodeItem pNode && pNode.Type == TreeNodeType.ByteArray;
+	}
 
-		if (value is PointingTreeNodeItem pNode)
-		{
-			IsRawDataSelected = pNode.Type == TreeNodeType.ByteArray;
-		}
-		else
-		{
-			IsRawDataSelected = false;
-		}
+	public void UpdateGridData(TreeNodeItem? value)
+	{
+		if (value == null || CurrentAsset == null) return;
 
 		// Clear all data collections
 		PropertyItems.Clear();
@@ -463,24 +450,17 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			case TreeNodeType.ExportData:
 				LoadExportData();
 				break;
-
+			case TreeNodeType.Normal when value is ExportPointingTreeNodeItem node:
+				LoadIndividualExport(node);
+				break;
+			case TreeNodeType.Normal when value is PointingTreeNodeItem node:
+				LoadDataFromPointingNode(node);
+				break;
 			default:
-				// Handle individual export nodes and sub-nodes
-				if (value is ExportPointingTreeNodeItem exportPointingNode)
-				{
-					LoadIndividualExport(exportPointingNode);
-				}
-				else if (value is PointingTreeNodeItem pointingNode && pointingNode.Data != null)
-				{
-					LoadDataFromPointingNode(pointingNode);
-				}
-				else if (value.Data != null) LoadDataFromNode(value);
-				else
-				{
-					// Default node information
-					PropertyItems.Add(new PropertyItem("Node Name", ""));
-					PropertyItems.Add(new PropertyItem("Node Type", ""));
-				}
+				// Display basic information of Node
+				PropertyItems.Add(new PropertyItem("Node Name", value.ToString()));
+				PropertyItems.Add(new PropertyItem("Node Type", value.Type));
+				if (value.Data != null) PropertyItems.Add(new PropertyItem("Data Type", value.Data.GetType()));
 				break;
 		}
 
@@ -675,9 +655,9 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		PropertyItems.Add(new PropertyItem("Info", "Select individual exports to view details"));
 	}
 
-	private void LoadIndividualExport(ExportPointingTreeNodeItem exportPointingNode)
+	private void LoadIndividualExport(ExportPointingTreeNodeItem pointingNode)
 	{
-		if (CurrentAsset == null || exportPointingNode.Data is not Export export) return;
+		if (CurrentAsset == null || pointingNode.Data is not Export export) return;
 
 		PropertyItems.Add(new PropertyItem("Export Index", CurrentAsset.Exports.IndexOf(export)));
 		PropertyItems.Add(new PropertyItem("Object Name", export.ObjectName));
@@ -810,16 +790,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 	}
 
-	private void LoadDataFromNode(TreeNodeItem selectedNode)
-	{
-		if (CurrentAsset == null) return;
-
-		// Display basic information of Node
-		PropertyItems.Add(new PropertyItem("Node Name", selectedNode.ToString()));
-		PropertyItems.Add(new PropertyItem("Node Type", selectedNode.Type.ToString()));
-		PropertyItems.Add(new PropertyItem("Data Type", selectedNode.Data?.GetType().Name ?? "null"));
-	}
-
 	#endregion
 
 	#region File Operations
@@ -886,7 +856,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		catch (Exception ex)
 		{
 			Debug.WriteLine($"Error saving file: {ex.Message}");
-			MessageBox.Show(StringHelper.Get("MainWindow_SaveFileFailedMessage"), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+			MessageBox.Show(StringHelper.Get("MainWindow_SaveFileFailedMessage"), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 	}
 
@@ -903,7 +873,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			// Save to build PAK instead of disk
 			AssetUpdateRequested?.Invoke(this, new AssetUpdateEventArgs(CurrentFilePath, CurrentAsset));
 			HasUnsavedChanges = false;
-			Status = $"Saved to build Pak: {Path.GetFileName(CurrentFilePath)}";
+			Status = StringHelper.Get("MainWindow_SaveMemoryMessage", Path.GetFileName(CurrentFilePath));
 		}
 		else
 		{
@@ -912,7 +882,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
 
 			CurrentAsset.Write(filePath);
-			Status = $"Saved to uasset: {Path.GetFileName(CurrentFilePath)}";
+			Status = StringHelper.Get("MainWindow_SaveAssetMessage", Path.GetFileName(CurrentFilePath));
 		}
 	}
 
@@ -977,45 +947,34 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		if (CurrentAsset == null) return 0;
 		int deleted = 0;
 
-		// Delete ImportItem
-		if (CurrentDataContext is ObservableCollection<ImportItem> importItems)
+		foreach (var obj in items)
 		{
-			foreach (var obj in items)
+			if (obj is ImportItem importItem)
 			{
-				if (obj is ImportItem importItem)
+				int idx = CurrentAsset.Imports.IndexOf(importItem.Model);
+				if (idx >= 0 && idx < CurrentAsset.Imports.Count)
 				{
-					int idx = CurrentAsset.Imports.IndexOf(importItem.Model);
-					if (idx >= 0 && idx < CurrentAsset.Imports.Count)
-					{
-						CurrentAsset.Imports.RemoveAt(idx);
-						deleted++;
-					}
+					CurrentAsset.Imports.RemoveAt(idx);
+					deleted++;
 				}
 			}
-			LoadImportData();
-		}
-
-		// Delete ExportItem
-		if (CurrentDataContext is ObservableCollection<ExportItem> exportItems)
-		{
-			foreach (var obj in items)
+			else if (obj is ExportItem exportItem)
 			{
-				if (obj is ExportItem exportItem)
+				int idx = CurrentAsset.Exports.IndexOf(exportItem.Model);
+				if (idx >= 0 && idx < CurrentAsset.Exports.Count)
 				{
-					int idx = CurrentAsset.Exports.IndexOf(exportItem.Model);
-					if (idx >= 0 && idx < CurrentAsset.Exports.Count)
-					{
-						CurrentAsset.Exports.RemoveAt(idx);
-						deleted++;
-					}
+					CurrentAsset.Exports.RemoveAt(idx);
+					deleted++;
 				}
 			}
-			// Refresh the ExportInformation list view
-			LoadExportInformation();
 		}
 
 		if (deleted > 0)
 		{
+			// Refresh list view
+			LoadImportData();
+			LoadExportInformation();
+
 			HasUnsavedChanges = true;
 			UpdateDiscordRpc();
 		}
@@ -1048,7 +1007,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_GenericErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(ex.Message, StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -1073,7 +1032,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_GenericErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(ex.Message, StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -1103,7 +1062,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(StringHelper.Get("MainWindow_GenericErrorMessage", ex.Message), StringHelper.Get("MainWindow_ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(ex.Message, StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
@@ -1186,7 +1145,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		var visited = new HashSet<TreeNodeItem>();
 		while (node != null)
 		{
-			if (token.IsCancellationRequested) return false;
+			token.ThrowIfCancellationRequested();
 			if (!visited.Add(node)) break;
 			if (node != SelectedTreeNode && predicate(node)) { selected = node; return true; }
 			if (NodeDeepMatches(node, predicate)) { selected = node; return true; }
@@ -1195,18 +1154,19 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		return false;
 	}
 
-	List<object> ITreeSearchProvider.FindAll(Func<object, bool> predicate, CancellationToken token)
+	IEnumerable<object> ITreeSearchProvider.FindAll(Func<object, bool> predicate, CancellationToken token)
 	{
 		var results = new List<object>();
 		if (predicate == null) return results;
 		foreach (var root in TreeNodes)
 		{
-			if (token.IsCancellationRequested) break;
+			token.ThrowIfCancellationRequested();
+
 			Traverse(root, n =>
 			{
-				if (token.IsCancellationRequested) return;
-				n.IsSearchMatched = predicate(n);
-				if (n.IsSearchMatched) results.Add(n);
+				token.ThrowIfCancellationRequested();
+				var matched = n.IsSearchMatched = predicate(n);
+				if (matched) results.Add(n);
 				foreach (var _ in EnumerateNodeDeepMatches(n, predicate))
 				{
 					results.Add(n);
@@ -1214,7 +1174,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 				}
 			});
 		}
-		return results.Distinct().Cast<object>().ToList();
+		return results.Distinct();
 	}
 
 	void ITreeSearchProvider.ClearHighlights()
@@ -1472,7 +1432,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			};
 
 			bool isEditingAsset = !string.IsNullOrEmpty(CurrentFilePath) && HasUnsavedChanges;
-			string projectName = GetProjectName();
+			var projectName = GetProjectName();
 
 			_richPresence.Details = projectName != null ? $"Project: {projectName} ({UAGConfig.Data.PreferredVersion})" : string.Empty;
 			_richPresence.State = isEditingAsset ? $"File: {Path.GetFileName(CurrentFilePath)}" : "Idling";

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace UAssetAPI.Pak.Pak.Utils;
+namespace UAssetAPI.Pak.Utils;
 public static class ArrayUtils
 {
     public static byte[] SubByteArray(this byte[] byteArray, int len)

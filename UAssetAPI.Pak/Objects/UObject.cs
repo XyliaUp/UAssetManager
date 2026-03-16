@@ -33,6 +33,12 @@ public class UObject : NormalExport
 		instance.Asset = export.Asset;
 		instance.Data = export.Data;
 		instance.Export = export;
+		instance.ObjectName = export.ObjectName;
+		instance.OuterIndex = export.OuterIndex;
+		instance.ClassIndex = export.ClassIndex;
+		instance.SuperIndex = export.SuperIndex;
+		instance.TemplateIndex = export.TemplateIndex;
+		instance.ObjectFlags = export.ObjectFlags;
 		instance.Deserialize(Ar);
 		instance.Extras = Ar.ReadBytes((int)(Ar.BaseStream.Length - Ar.BaseStream.Position));
 		return instance;
@@ -174,6 +180,8 @@ internal static class ObjectTypeRegistry
 	{
 		lock (_classes)
 		{
+			if (serializedName.StartsWith("bnsparticle")) serializedName = serializedName[3..];
+
 			if (!_classes.TryGetValue(serializedName, out var type) && serializedName.EndsWith("_C", StringComparison.OrdinalIgnoreCase))
 			{
 				_classes.TryGetValue(serializedName[..^2], out type);

@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using UAssetAPI;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
@@ -57,14 +58,6 @@ public partial class ObjectEditor : UserControl
         UpdatePathDisplay();
     }
 
-    private void IndexTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (int.TryParse(IndexTextBox.Text.Trim(), out int index))
-        {
-            CurrentIndex = index;
-        }
-    }
-
     private void UpdatePathDisplay()
     {
         if (Asset == null)
@@ -83,7 +76,15 @@ public partial class ObjectEditor : UserControl
         }
     }
 
-    private void BrowseButton_Click(object sender, RoutedEventArgs e)
+	private void OnIndexTextChanged(object sender, TextChangedEventArgs e)
+	{
+		if (int.TryParse(IndexTextBox.Text.Trim(), out int index))
+		{
+			CurrentIndex = index;
+		}
+	}
+
+	private void OnBrowseClick(object sender, RoutedEventArgs e)
     {
         if (Asset == null) return;
 
@@ -97,6 +98,11 @@ public partial class ObjectEditor : UserControl
             CurrentIndex = dialog.SelectedIndex;
         }
     }
+
+	private void OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+	{
+		Clipboard.SetText(PathTextBlock.Text);
+	}
 }
 
 internal class ObjectPropertyEditor(UAsset asset) : PropertyEditorBase, IValueConverter

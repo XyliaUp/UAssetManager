@@ -1,13 +1,12 @@
 ﻿using Serilog;
 using UAssetAPI.Pak.Compression;
 using UAssetAPI.Pak.Objects.Core.Misc;
-using UAssetAPI.Pak.Pak.Utils;
 using UAssetAPI.Pak.Readers;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
 using UAssetManager.Pak.Exceptions;
 
 namespace UAssetAPI.Pak.Objects;
-
 public enum EPakFileVersion
 {
 	PakFile_Version_Initial = 1,

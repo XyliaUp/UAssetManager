@@ -5,6 +5,7 @@ using UAssetAPI.Pak.Objects.Core.Misc;
 using UAssetAPI.Pak.Pak;
 using UAssetAPI.Pak.Pak.Utils;
 using UAssetAPI.Pak.Readers;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
 using UAssetAPI.Pak.VirtualFileSystem;
 using UAssetManager.Pak.Objects;

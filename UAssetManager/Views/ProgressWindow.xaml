@@ -23,6 +23,6 @@
 
         <!-- Cancel Button -->
         <Button Grid.Row="2" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                Content="{DynamicResource Text.Cancel}" Click="Cancel_Click" />
+                d:Content="Cancel" Content="{DynamicResource Text.Cancel}" Click="Cancel_Click" />
     </Grid>
 </Window>

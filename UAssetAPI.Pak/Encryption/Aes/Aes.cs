@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 using AesProvider = System.Security.Cryptography.Aes;
 
 namespace UAssetAPI.Pak.Encryption.Aes;

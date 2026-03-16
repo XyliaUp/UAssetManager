@@ -1,6 +1,4 @@
-﻿using UAssetAPI;
-using UAssetAPI.Pak.Objects;
-using UAssetAPI.Pak.Pak.Utils;
+﻿using UAssetAPI.Pak.Utils;
 using UAssetAPI.UnrealTypes;
 
 namespace UAssetAPI.Pak.Objects.Engine;

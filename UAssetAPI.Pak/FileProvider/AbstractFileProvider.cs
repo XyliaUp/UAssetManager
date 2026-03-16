@@ -1,13 +1,13 @@
+using Serilog;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Serilog;
 using UAssetAPI.Pak.FileProvider.Objects;
 using UAssetAPI.Pak.FileProvider.Vfs;
 using UAssetAPI.Pak.Objects;
 using UAssetAPI.Pak.Objects.Core.Misc;
-using UAssetAPI.Pak.Pak.Utils;
 using UAssetAPI.Pak.Readers;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
 using UAssetAPI.UnrealTypes;
 using UAssetAPI.UnrealTypes.EngineEnums;

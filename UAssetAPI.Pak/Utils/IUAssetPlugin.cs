@@ -1,4 +1,4 @@
-namespace UAssetAPI.Pak.Pak.Utils;
+namespace UAssetAPI.Pak.Utils;
 
 /// <summary>
 /// UAssetManager plugin interface

@@ -1,8 +1,8 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using UAssetManager.Models;
 using UAssetManager.Resources;
 
@@ -63,7 +63,7 @@ internal partial class FindViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(_host);
         if (string.IsNullOrWhiteSpace(SearchTerm))
         {
-            MessageBox.Show(StringHelper.Get("FindWindow_PleaseEnterSearchContent"), StringHelper.Get("FindWindow_Information"), MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(StringHelper.Get("FindWindow_PleaseEnterSearchContent"), StringHelper.Get("Text.Information"), MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -92,7 +92,7 @@ internal partial class FindViewModel : ObservableObject
         {
             IsSearching = false;
             IsCancelling = false;
-            MessageBox.Show(StringHelper.Get("FindWindow_SearchError", ex.Message), StringHelper.Get("FindWindow_Error"), MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(StringHelper.Get("FindWindow_SearchError", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 
@@ -111,7 +111,7 @@ internal partial class FindViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(_host);
         if (string.IsNullOrWhiteSpace(SearchTerm))
         {
-            MessageBox.Show(StringHelper.Get("FindWindow_PleaseEnterSearchContent"), StringHelper.Get("FindWindow_Information"), MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(StringHelper.Get("FindWindow_PleaseEnterSearchContent"), StringHelper.Get("Text.Information"), MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -133,14 +133,14 @@ internal partial class FindViewModel : ObservableObject
 
                 IsSearching = false;
                 IsCancelling = false;
-                if (!found) MessageBox.Show(StringHelper.Get("FindWindow_NoResultsFound"), StringHelper.Get("FindWindow_Information"), MessageBoxButton.OK, MessageBoxImage.Information);
+                if (!found) MessageBox.Show(StringHelper.Get("FindWindow_NoResultsFound"), StringHelper.Get("Text.Information"), MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
         catch (Exception ex)
         {
             IsSearching = false;
             IsCancelling = false;
-            MessageBox.Show(StringHelper.Get("FindWindow_SearchError", ex.Message), StringHelper.Get("FindWindow_Error"), MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(StringHelper.Get("FindWindow_SearchError", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 
@@ -177,7 +177,7 @@ public interface ITreeSearchProvider
 {
     bool FindNext(Func<object, bool> predicate, bool isForward, CancellationToken token, out object? selected);
 
-    List<object> FindAll(Func<object, bool> predicate, CancellationToken token);
+    IEnumerable<object> FindAll(Func<object, bool> predicate, CancellationToken token);
 
     void ClearHighlights();
 

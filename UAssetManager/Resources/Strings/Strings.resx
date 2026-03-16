@@ -410,9 +410,6 @@ Would you like to open the webpage in your browser?</value>
   <data name="MainWindow_EngineVersion" xml:space="preserve">
     <value>Engine Version</value>
   </data>
-  <data name="MainWindow_ErrorTitle" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <data name="MainWindow_ExpandAll" xml:space="preserve">
     <value>_Expand All</value>
   </data>
@@ -499,6 +496,9 @@ Would you like to open the webpage in your browser?</value>
   </data>
   <data name="MainWindow_Status.Ready" xml:space="preserve">
     <value>Ready</value>
+  </data>
+  <data name="MainWindow_Status.FileModified" xml:space="preserve">
+    <value>文件已变更</value>
   </data>
   <data name="MainWindow_Title" xml:space="preserve">
     <value>UAssetManager</value>
@@ -770,17 +770,23 @@ Would you like to open the webpage in your browser?</value>
   <data name="MainWindow_ReplaceReferencesTitle" xml:space="preserve">
     <value>Replace All References</value>
   </data>
-  <data name="MainWindow_EnterTextToFind" xml:space="preserve">
-    <value>Enter text to find:</value>
+  <data name="MainWindow_ReplaceReferencesToolip" xml:space="preserve">
+    <value>Enter a string to replace references of this name with</value>
   </data>
-  <data name="MainWindow_EnterReplacementText" xml:space="preserve">
-    <value>Enter replacement text:</value>
+  <data name="MainWindow_ReplaceReferencesMessage" xml:space="preserve">
+    <value>Successfully replaced {0} reference(s).</value>
   </data>
   <data name="MainWindow_NoMapping" xml:space="preserve">
     <value>No Mapping</value>
   </data>
   <data name="MainWindow_CustomMapping" xml:space="preserve">
     <value>Custom Mapping</value>
+  </data>
+  <data name="MainWindow_SaveMemoryMessage" xml:space="preserve">
+    <value>Saved to build Pak: {0}</value>
+  </data>
+  <data name="MainWindow_SaveAssetMessage" xml:space="preserve">
+    <value>Saved to uasset: {0}</value>
   </data>
   <data name="FindWindow_PleaseEnterSearchContent" xml:space="preserve">
     <value>Please enter search content</value>
@@ -791,12 +797,7 @@ Would you like to open the webpage in your browser?</value>
   <data name="FindWindow_NoResultsFound" xml:space="preserve">
     <value>No results found</value>
   </data>
-  <data name="FindWindow_Information" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="FindWindow_Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
+
   <data name="Text.OK" xml:space="preserve">
     <value>OK</value>
   </data>

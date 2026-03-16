@@ -261,25 +261,23 @@ internal partial class FileContainerViewModel : ObservableObject
 
 	public async Task<int> ExtractItemAsync(DirectoryTreeItem node, string targetDir, IProgress<int>? progress, CancellationToken token)
 	{
-		if (token.IsCancellationRequested) return 0;
+		token.ThrowIfCancellationRequested();
+
 		int count = 0;
 		if (node.IsFile)
 		{
 			try
 			{
-				if (node.GameFiles.Count > 0)
+				foreach (var gameFile in node.GameFiles)
 				{
-					foreach (var gameFile in node.GameFiles)
+					if (gameFile is FPakEntry entry)
 					{
-						if (gameFile is FPakEntry entry)
+						var data = await Task.Run(() => entry.Read(), token).ConfigureAwait(false);
+						if (data != null)
 						{
-							var data = await Task.Run(() => entry.Read(), token).ConfigureAwait(false);
-							if (data != null)
-							{
-								var outPath = Path.Combine(targetDir, gameFile.Path.Replace('/', Path.DirectorySeparatorChar));
-								Directory.CreateDirectory(Path.GetDirectoryName(outPath)!);
-								await File.WriteAllBytesAsync(outPath, data, token).ConfigureAwait(false);
-							}
+							var outPath = Path.Combine(targetDir, gameFile.Path.Replace('/', Path.DirectorySeparatorChar));
+							Directory.CreateDirectory(Path.GetDirectoryName(outPath)!);
+							await File.WriteAllBytesAsync(outPath, data, token).ConfigureAwait(false);
 						}
 					}
 				}
@@ -292,7 +290,7 @@ internal partial class FileContainerViewModel : ObservableObject
 		{
 			foreach (var child in node.Children.Values)
 			{
-				if (token.IsCancellationRequested) break;
+				token.ThrowIfCancellationRequested();
 				count += await ExtractItemAsync(child, targetDir, progress, token).ConfigureAwait(false);
 			}
 		}
@@ -452,8 +450,7 @@ internal partial class FileContainerViewModel : ObservableObject
 				string oldPrefix = item.FullPath.TrimEnd('/') + "/";
 				string newPrefix = newPath.TrimEnd('/') + "/";
 				var keysToRename = _buildPakReader.Files.Keys
-					.Where(k => k.StartsWith(oldPrefix, StringComparison.OrdinalIgnoreCase))
-					.ToList();
+					.Where(k => k.StartsWith(oldPrefix, StringComparison.OrdinalIgnoreCase));
 
 				foreach (var key in keysToRename)
 				{
@@ -695,8 +692,7 @@ internal partial class FileContainerViewModel : ObservableObject
 		string newPrefix = newFolderPath.TrimEnd('/') + "/";
 
 		var keysToMove = _buildPakReader.Files.Keys
-			.Where(k => k.StartsWith(oldPrefix, StringComparison.OrdinalIgnoreCase))
-			.ToList();
+			.Where(k => k.StartsWith(oldPrefix, StringComparison.OrdinalIgnoreCase));
 
 		foreach (var key in keysToMove)
 		{
@@ -714,16 +710,14 @@ internal partial class FileContainerViewModel : ObservableObject
 	/// <summary>
 	/// Updates an asset in the build PAK with new data
 	/// </summary>
-	/// <param name="gamePath">The game path of the asset to update</param>
-	/// <param name="uAsset">The UAsset object to update</param>
-	public void UpdateAssetInBuildPak(string gamePath, UAsset uAsset)
+	public void UpdateAssetInBuildPak(string gamePath, UAsset asset)
 	{
 		if (_buildPakReader == null) return;
 
 		try
 		{
 			// Use UAsset.Write method to get .uasset and .uexp data
-			uAsset.Write(out MemoryStream uassetStream, out MemoryStream uexpStream);
+			asset.Write(out MemoryStream uassetStream, out MemoryStream uexpStream);
 
 			// Create new FPakEntry for .uasset file
 			var uassetData = uassetStream.ToArray();
@@ -734,17 +728,17 @@ internal partial class FileContainerViewModel : ObservableObject
 			bool hasExistingUbulk = _buildPakReader.Files.ContainsKey(ubulkPath);
 
 			// If there was a ubulk file but now BulkData is empty, remove the ubulk file
-			if (hasExistingUbulk && (uAsset.BulkData == null || uAsset.BulkData.Length == 0))
+			if (hasExistingUbulk && (asset.BulkData == null || asset.BulkData.Length == 0))
 			{
 				_buildPakReader.Files.Remove(ubulkPath);
 			}
 
 			// Check if we need to split uexp and ubulk
-			if (uexpStream != null && uexpStream.Length > 0 && uAsset.BulkData != null && uAsset.BulkData.Length > 0 && hasExistingUbulk)
+			if (uexpStream != null && uexpStream.Length > 0 && asset.BulkData != null && asset.BulkData.Length > 0 && hasExistingUbulk)
 			{
 				// Split the uexp stream: it contains both export data and bulk data
 				// BulkData is at the end of the stream
-				long bulkDataSize = uAsset.BulkData.Length;
+				long bulkDataSize = asset.BulkData.Length;
 				long uexpSize = uexpStream.Length - bulkDataSize;
 
 				if (uexpSize > 0)

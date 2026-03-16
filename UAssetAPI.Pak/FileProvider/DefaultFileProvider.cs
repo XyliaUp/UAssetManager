@@ -1,6 +1,6 @@
-using CUE4Parse.FileProvider.Vfs;
 using UAssetAPI.Pak.FileProvider.Objects;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.FileProvider.Vfs;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
 
 namespace UAssetAPI.Pak.FileProvider;

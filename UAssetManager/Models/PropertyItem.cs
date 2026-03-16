@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace UAssetManager.Models;
-public partial class PropertyItem(string name, object value, string type) : ObservableObject
+public partial class PropertyItem(string name, object? value, string type) : ObservableObject
 {
     [ObservableProperty] string _name = name;
     [ObservableProperty] string _type = type;
@@ -9,5 +9,5 @@ public partial class PropertyItem(string name, object value, string type) : Obse
 
     public override string ToString() => $"{Name}: {Value}";
 
-    public PropertyItem(string name, object value) : this(name, value, value?.GetType().Name ?? "null") { }
+    public PropertyItem(string name, object? value) : this(name, value, value?.GetType().Name ?? "null") { }
 }

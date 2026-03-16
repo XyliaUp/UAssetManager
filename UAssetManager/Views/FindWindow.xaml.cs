@@ -24,7 +24,7 @@ public partial class FindWindow : Window
             }
             else
             {
-                MessageBox.Show("未找到主窗口上下文", "错误", MessageBoxButton.OK, MessageBoxImage.Information);
+                throw new InvalidOperationException("Failed to find main window.");
             }
         };
 

@@ -60,13 +60,10 @@ public partial class DistributionVectorEditor : UserControl
 
 		for (int i = 0; i < values.Count;)
 		{
-			for (int h = 0; h < Model.Op; h++)
-			{
-				float x = values[i++];
-				float y = values[i++];
-				float z = values[i++];
-				Items.Add(new FVector(x, y, z));
-			}
+			float x = values[i++];
+			float y = values[i++];
+			float z = values[i++];
+			Items.Add(new FVector(x, y, z));
 		}
 	}
 

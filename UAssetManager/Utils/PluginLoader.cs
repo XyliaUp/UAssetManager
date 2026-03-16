@@ -1,7 +1,7 @@
 using Serilog;
 using System.IO;
 using System.Reflection;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 using UAssetManager.Resources;
 
 namespace UAssetManager.Utils;

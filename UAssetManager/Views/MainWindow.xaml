@@ -10,154 +10,156 @@
         WindowStartupLocation="CenterScreen"
         MinHeight="600" MinWidth="800">
 
-    <Window.Resources>
-        <Style x:Key="MenuButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Background" Value="#F0F0F0"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E0E0E0"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+	<Window.Resources>
+		<Style x:Key="MenuButtonStyle" TargetType="Button">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="Padding" Value="8,4"/>
+			<Setter Property="Background" Value="#F0F0F0"/>
+			<Setter Property="BorderBrush" Value="#CCCCCC"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="FontSize" Value="12"/>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="#E0E0E0"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
 
-        <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="Height" Value="24"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
+		<Style TargetType="ComboBox">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="MinWidth" Value="120"/>
+			<Setter Property="Height" Value="24"/>
+			<Setter Property="FontSize" Value="11"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
 
-    </Window.Resources>
+	</Window.Resources>
 
-    <DockPanel>
-        <!-- Menu Bar -->
-        <Menu DockPanel.Dock="Top" Background="#F5F5F5">
-            <MenuItem Header="{DynamicResource Menu.File}" d:Header="File">
-                <MenuItem Header="{DynamicResource Menu.Open}" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
-                <MenuItem Header="{DynamicResource Menu.OpenContainer}" InputGestureText="Ctrl+Shift+O" Command="{Binding OpenContainerCommand}"/>
-                <Separator/>
-                <MenuItem Header="{DynamicResource Menu.Save}" InputGestureText="Ctrl+S" Command="{Binding SaveFileCommand}"/>
-                <MenuItem Header="{DynamicResource Menu.SaveAs}" InputGestureText="Ctrl+Shift+S" Command="{Binding SaveFileAsCommand}"/>
-            </MenuItem>
+	<DockPanel>
+		<!-- Menu Bar -->
+		<Menu DockPanel.Dock="Top" Background="#F5F5F5">
+			<MenuItem Header="{DynamicResource Menu.File}" d:Header="File">
+				<MenuItem Header="{DynamicResource Menu.Open}" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
+				<MenuItem Header="{DynamicResource Menu.OpenContainer}" InputGestureText="Ctrl+Shift+O" Command="{Binding OpenContainerCommand}"/>
+				<Separator/>
+				<MenuItem Header="{DynamicResource Menu.Save}" InputGestureText="Ctrl+S" Command="{Binding SaveFileCommand}"/>
+				<MenuItem Header="{DynamicResource Menu.SaveAs}" InputGestureText="Ctrl+Shift+S" Command="{Binding SaveFileAsCommand}"/>
+			</MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Edit}" d:Header="Edit">
-                <MenuItem Header="{DynamicResource MainWindow_Find}" InputGestureText="Ctrl+F" Command="{Binding FindCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_MapStructTypeOverrides}" Command="{Binding MapStructOverridesCommand}"/>
-                <Separator/>
-                <MenuItem Header="{DynamicResource MainWindow_Settings}" Command="{Binding OpenSettingsCommand}"/>
-            </MenuItem>
+			<MenuItem Header="{DynamicResource Menu.Edit}" d:Header="Edit">
+				<MenuItem Header="{DynamicResource MainWindow_Find}" InputGestureText="Ctrl+F" Command="{Binding FindCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_MapStructTypeOverrides}" Command="{Binding MapStructOverridesCommand}"/>
+				<Separator/>
+				<MenuItem Header="{DynamicResource MainWindow_Settings}" Command="{Binding OpenSettingsCommand}"/>
+			</MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.View}" d:Header="View">
-                <MenuItem Header="{DynamicResource MainWindow_ExpandAll}" InputGestureText="Ctrl+E" Command="{Binding ExpandAllCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_CollapseAll}" InputGestureText="Ctrl+L" Command="{Binding CollapseAllCommand}"/>
-                <Separator/>
-                <MenuItem Header="{DynamicResource MainWindow_Refresh}" InputGestureText="F5" Command="{Binding RefreshCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_RecalculateNodes}" InputGestureText="Shift+F5" Command="{Binding RecalculateNodesCommand}"/>
-            </MenuItem>
+			<MenuItem Header="{DynamicResource Menu.View}" d:Header="View">
+				<MenuItem Header="{DynamicResource MainWindow_ExpandAll}" InputGestureText="Ctrl+E" Command="{Binding ExpandAllCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_CollapseAll}" InputGestureText="Ctrl+L" Command="{Binding CollapseAllCommand}"/>
+				<Separator/>
+				<MenuItem Header="{DynamicResource MainWindow_Refresh}" InputGestureText="F5" Command="{Binding RefreshCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_RecalculateNodes}" InputGestureText="Shift+F5" Command="{Binding RecalculateNodesCommand}"/>
+			</MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Tools}" d:Header="Tools">
-                <MenuItem Header="{DynamicResource Menu.ImportMappings}" Command="{Binding ImportMappingsCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_PatchUsmap}" Command="{Binding PatchUsmapCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_DumpProperties}" Command="{Binding DumpPropertiesCommand}"/>
-            </MenuItem>
+			<MenuItem Header="{DynamicResource Menu.Tools}" d:Header="Tools">
+				<MenuItem Header="{DynamicResource Menu.ImportMappings}" Command="{Binding ImportMappingsCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_PatchUsmap}" Command="{Binding PatchUsmapCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_DumpProperties}" Command="{Binding DumpPropertiesCommand}"/>
+			</MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Plugins}" d:Header="Plugins" x:Name="PluginsMenu">
-                <MenuItem Header="{DynamicResource MainWindow_OpenPlugins}" Command="{Binding OpenPluginsFolderCommand}"/>
-                <MenuItem Header="{DynamicResource MainWindow_ReloadPlugins}" Command="{Binding ReloadPluginsCommand}"/>
-                <Separator x:Name="PluginSeparator" Visibility="Collapsed"/>
-            </MenuItem>
+			<MenuItem Header="{DynamicResource Menu.Plugins}" d:Header="Plugins" x:Name="PluginsMenu">
+				<MenuItem Header="{DynamicResource MainWindow_OpenPlugins}" Command="{Binding OpenPluginsFolderCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_ReloadPlugins}" Command="{Binding ReloadPluginsCommand}"/>
+				<Separator x:Name="PluginSeparator" Visibility="Collapsed"/>
+			</MenuItem>
 
-            <MenuItem Header="{DynamicResource Menu.Help}">
-                <MenuItem Header="{DynamicResource MainWindow_About}" Command="{Binding OpenAboutCommand}"/>
-                <Separator />
-                <MenuItem Header="{DynamicResource MainWindow_OpenConfigDirectory}" Command="{Binding OpenConfigDirCommand}"/>
+			<MenuItem Header="{DynamicResource Menu.Help}">
+				<MenuItem Header="{DynamicResource MainWindow_About}" Command="{Binding OpenAboutCommand}"/>
+				<Separator />
+				<MenuItem Header="{DynamicResource MainWindow_OpenConfigDirectory}" Command="{Binding OpenConfigDirCommand}"/>
 				<MenuItem Header="{DynamicResource MainWindow_GiveFeedback}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XyliaUp/UAssetManager/issues" />
-                <MenuItem Header="{DynamicResource MainWindow_UAssetGUIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XyliaUp/UAssetManager" />
-                <MenuItem Header="{DynamicResource MainWindow_UAssetAPIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/atenfyr/UAssetAPI" />
-            </MenuItem>
-        </Menu>
+				<MenuItem Header="{DynamicResource MainWindow_UAssetGUIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XyliaUp/UAssetManager" />
+				<MenuItem Header="{DynamicResource MainWindow_UAssetAPIGitHub}" Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/atenfyr/UAssetAPI" />
+			</MenuItem>
+		</Menu>
 
-        <!-- Toolbar -->
-        <Grid DockPanel.Dock="Top" Background="#F8F8F8" Height="32">
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                <Button Content="{DynamicResource MainWindow_ImportBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding ImportBinaryDataCommand}" Visibility="{Binding IsRawDataSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <Button Content="{DynamicResource MainWindow_ExportBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding ExportBinaryDataCommand}" Visibility="{Binding IsRawDataSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <Button Content="{DynamicResource MainWindow_SetBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding SetBinaryDataCommand}" Visibility="{Binding IsRawDataSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </StackPanel>
+		<!-- Toolbar -->
+		<Grid DockPanel.Dock="Top" Background="#F8F8F8" Height="32">
+			<!-- Binary Data -->
+			<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Visibility="{Binding IsRawDataSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<Button Content="{DynamicResource MainWindow_ImportBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding ImportBinaryDataCommand}" />
+				<Button Content="{DynamicResource MainWindow_ExportBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding ExportBinaryDataCommand}" />
+				<Button Content="{DynamicResource MainWindow_SetBinaryData}" Style="{StaticResource MenuButtonStyle}" Command="{Binding SetBinaryDataCommand}" />
+			</StackPanel>
 
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource MainWindow_EngineVersion}" VerticalAlignment="Center" Margin="5,0"/>
-                <ComboBox x:Name="ComboSpecifyVersion"  
-                      ItemsSource="{Binding EngineVersions}" SelectedItem="{Binding SelectedEngineVersion}"/>
+			<!-- Engine Information -->
+			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+				<TextBlock Text="{DynamicResource MainWindow_EngineVersion}" VerticalAlignment="Center" Margin="3,0"/>
+				<ComboBox ItemsSource="{Binding EngineVersions}" SelectedItem="{Binding SelectedEngineVersion}"/>
 
-                <TextBlock Text="{DynamicResource MainWindow_Mappings}" VerticalAlignment="Center" Margin="5,0"/>
-                <ComboBox ItemsSource="{Binding Mappings}" SelectedIndex="{Binding SelectedMapping}"/>
-            </StackPanel>
-        </Grid>
+				<TextBlock Text="{DynamicResource MainWindow_Mappings}" VerticalAlignment="Center" Margin="3,0"/>
+				<ComboBox ItemsSource="{Binding Mappings}" SelectedIndex="{Binding SelectedMapping}"/>
+			</StackPanel>
+		</Grid>
 
-        <!-- Main Content Area -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" MinWidth="200"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+		<!-- Main Content Area -->
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="300" MinWidth="200"/>
+				<ColumnDefinition Width="5"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-            <!-- Left Tree View -->
-            <TreeView x:Name="TreeView1" Grid.Column="0" 
-                      Background="White" BorderBrush="#CCCCCC" BorderThickness="1"
-                      ItemsSource="{Binding TreeNodes}"
-                      SelectedItemChanged="TreeView_SelectedItemChanged">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Type}" Value="SubExport">
-                                                <Setter Property="Foreground" Value="Blue"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsSearchMatched}" Value="True">
-                                                <Setter Property="Foreground" Value="{Binding Path=IsSearchMatched, Converter={StaticResource HighlightBrush}}"/>
-                                                <Setter Property="FontWeight" Value="{Binding Path=IsSearchMatched, Converter={StaticResource HighlightWeight}}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-                <TreeView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{DynamicResource ContextMenu.ReplaceAllReferences}" Command="{Binding ReplaceAllReferencesCommand}"/>
-                    </ContextMenu>
-                </TreeView.ContextMenu>
-            </TreeView>
+			<!-- Left Tree View -->
+			<TreeView x:Name="TreeView1" BorderBrush="#CCCCCC" BorderThickness="1"
+                      ItemsSource="{Binding TreeNodes}" SelectedItemChanged="OnSelectedItemChanged">
+				<TreeView.ItemContainerStyle>
+					<Style TargetType="TreeViewItem">
+						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+						<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+					</Style>
+				</TreeView.ItemContainerStyle>
+				<TreeView.ItemTemplate>
+					<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Name}">
+								<TextBlock.Style>
+									<Style TargetType="TextBlock">
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding Type}" Value="SubExport">
+												<Setter Property="Foreground" Value="Blue"/>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding IsSearchMatched}" Value="True">
+												<Setter Property="Foreground" Value="{Binding Path=IsSearchMatched, Converter={StaticResource HighlightBrush}}"/>
+												<Setter Property="FontWeight" Value="{Binding Path=IsSearchMatched, Converter={StaticResource HighlightWeight}}"/>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
+						</StackPanel>
+					</HierarchicalDataTemplate>
+				</TreeView.ItemTemplate>
 
-            <!-- Splitter -->
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#E0E0E0"/>
+				<!--
+				<TreeView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="{DynamicResource ContextMenu.ReplaceAllReferences}" Command="{Binding ReplaceAllReferencesCommand}" />
+					</ContextMenu>
+				</TreeView.ContextMenu>
+				-->
+			</TreeView>
 
-            <!-- Right Container -->
-            <Grid Grid.Column="2">
-                <DataGrid x:Name="DataGridView" ItemsSource="{Binding CurrentDataContext}" 
+			<!-- Splitter -->
+			<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#E0E0E0"/>
+
+			<!-- Right Container -->
+			<Grid Grid.Column="2">
+				<DataGrid x:Name="DataGridView" ItemsSource="{Binding CurrentDataContext}" 
                           Background="White" BorderBrush="#CCCCCC" BorderThickness="1"
                           AutoGenerateColumns="True"
                           CanUserAddRows="{Binding CanAddRows}"
@@ -180,24 +182,24 @@
                           VirtualizingPanel.VirtualizationMode="Recycling"
                           ScrollViewer.CanContentScroll="True"
                           LoadingRow="DataGrid_LoadingRow">
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource ContextMenu.RemoveSelected}" Click="RemoveSelected"/>
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <c:PropertyEditor x:Name="PropertyEditor" Visibility="Collapsed" Asset="{Binding CurrentAsset}" />
-            </Grid>
+					<DataGrid.ContextMenu>
+						<ContextMenu>
+							<MenuItem Header="{DynamicResource ContextMenu.RemoveSelected}" Click="RemoveSelected"/>
+						</ContextMenu>
+					</DataGrid.ContextMenu>
+				</DataGrid>
+				<c:PropertyEditor x:Name="PropertyEditor" Visibility="Collapsed" Asset="{Binding CurrentAsset}" />
+			</Grid>
 
-            <!-- Status Bar -->
-            <StatusBar Grid.Row="1" Grid.ColumnSpan="99" Background="#F0F0F0" Height="24">
-                <StatusBarItem>
-                    <TextBlock Text="{Binding Status}"/>
-                </StatusBarItem>
-                <StatusBarItem HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding DisplayVersion}"/>
-                </StatusBarItem>
-            </StatusBar>
-        </Grid>
-    </DockPanel>
+			<!-- Status Bar -->
+			<StatusBar Grid.Row="1" Grid.ColumnSpan="99" Background="#F0F0F0" Height="24">
+				<StatusBarItem>
+					<TextBlock Text="{Binding Status}"/>
+				</StatusBarItem>
+				<StatusBarItem HorizontalAlignment="Right">
+					<TextBlock Text="{Binding DisplayVersion}"/>
+				</StatusBarItem>
+			</StatusBar>
+		</Grid>
+	</DockPanel>
 </Window>

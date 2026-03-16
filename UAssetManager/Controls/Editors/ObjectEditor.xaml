@@ -8,12 +8,13 @@
     <StackPanel Orientation="Vertical">
         <!-- Input Panel -->
         <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="IndexTextBox" MinWidth="200" TextChanged="IndexTextBox_TextChanged" />
-            <Button x:Name="BrowseButton" Width="50" Height="25" Margin="2,0,0,0" Click="BrowseButton_Click"
+			<TextBox x:Name="IndexTextBox" MinWidth="200" TextChanged="OnIndexTextChanged" />
+            <Button x:Name="BrowseButton" Width="50" Height="25" Margin="2,0,0,0" Click="OnBrowseClick"
                     Content="{DynamicResource Text.Browse}" ToolTip="{DynamicResource Tooltip.BrowseObject}" />
         </StackPanel>
 
         <!-- Path Display -->
-        <TextBlock x:Name="PathTextBlock" FontStyle="Italic" Foreground="Gray" Margin="0,2,0,0" TextWrapping="Wrap"/>
+        <TextBlock x:Name="PathTextBlock" FontStyle="Italic" Foreground="Gray" Margin="0,2,0,0" TextWrapping="Wrap" 
+                   PreviewMouseRightButtonDown="OnPreviewMouseRightButtonDown" />
     </StackPanel>
 </UserControl>

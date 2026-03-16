@@ -1,10 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Serilog;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using Serilog;
 using UAssetAPI.Pak.Compression;
 using UAssetAPI.Pak.Objects;
-using UAssetAPI.Pak.Pak.Utils;
 using UAssetAPI.Pak.Readers;
+using UAssetAPI.Pak.Utils;
 
 namespace UAssetAPI.Pak.FileProvider.Objects;
 public abstract class GameFile

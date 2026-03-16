@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace UAssetAPI.Pak.Pak.Utils;
+namespace UAssetAPI.Pak.Utils;
 public static class AlignUtils
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

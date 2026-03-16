@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.HighPerformance;
 using System.Runtime.InteropServices;
-using UAssetAPI;
-using UAssetAPI.Pak.Objects;
 using UAssetAPI.Pak.Objects.Core.Misc;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.UnrealTypes;
 using UAssetManager.Pak;
 

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using UAssetAPI.Pak.Encryption.Aes;
 
-namespace UAssetAPI.Pak.Pak.Utils;
+namespace UAssetAPI.Pak.Utils;
 public static class StringUtils
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

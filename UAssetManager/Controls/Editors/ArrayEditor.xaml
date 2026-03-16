@@ -38,9 +38,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column="0" VerticalAlignment="Top" Opacity="0.8">
-                                                <Run Text="["/>
-                                                <Run Text="{Binding Index}"/>
-                                                <Run Text="]"/>
+                                                <Run Text="{Binding Index,StringFormat='[{0}]'}"/>
                                             </TextBlock>
 											<c:PropertyItem Grid.Column="1" Margin="8,0,0,0" 
                                                             Asset="{Binding Asset,Mode=OneWay}" Property="{Binding PropertyData}" 

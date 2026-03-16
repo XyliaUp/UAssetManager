@@ -1,8 +1,7 @@
 using System.Collections;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
 using UAssetManager.Pak.Exceptions;
 

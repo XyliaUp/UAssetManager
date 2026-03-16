@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
-using UAssetAPI.Pak.Pak.Utils;
+using UAssetAPI.Pak.Utils;
 
 namespace UAssetManager.Views;
 public partial class ProgressWindow : Window

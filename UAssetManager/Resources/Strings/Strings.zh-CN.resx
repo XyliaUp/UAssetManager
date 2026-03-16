@@ -410,9 +410,6 @@
   <data name="MainWindow_EngineVersion" xml:space="preserve">
     <value>引擎版本</value>
   </data>
-  <data name="MainWindow_ErrorTitle" xml:space="preserve">
-    <value>错误</value>
-  </data>
   <data name="MainWindow_ExpandAll" xml:space="preserve">
     <value>全部展开</value>
   </data>
@@ -500,6 +497,9 @@
   <data name="MainWindow_Status.Ready" xml:space="preserve">
     <value>就绪</value>
   </data>
+  <data name="MainWindow_Status.FileModified" xml:space="preserve">
+    <value>文件已变更</value>
+  </data>
   <data name="MainWindow_Title" xml:space="preserve">
     <value>UAssetManager</value>
   </data>
@@ -525,7 +525,7 @@
     <value>值类型</value>
   </data>
   <data name="MarkdownViewerWindow.Title" xml:space="preserve">
-    <value>Markdown 查看器</value>
+    <value>Markdown查看器</value>
   </data>
   <data name="MarkdownViewer_LoadingError" xml:space="preserve">
     <value>加载内容时出错。</value>
@@ -770,17 +770,26 @@
   <data name="MainWindow_ReplaceReferencesTitle" xml:space="preserve">
     <value>替换所有引用</value>
   </data>
-  <data name="MainWindow_EnterTextToFind" xml:space="preserve">
+  <data name="MainWindow_ReplaceReferencesToolip" xml:space="preserve">
     <value>输入要查找的文本:</value>
   </data>
-  <data name="MainWindow_EnterReplacementText" xml:space="preserve">
-    <value>输入替换文本:</value>
+  <data name="MainWindow_ReplaceReferencesMessage" xml:space="preserve">
+    <value>成功替换{0}个引用</value>
+  </data>
+  <data name="MainWindow_About" xml:space="preserve">
+    <value>关于</value>
   </data>
   <data name="MainWindow_NoMapping" xml:space="preserve">
     <value>无映射</value>
   </data>
   <data name="MainWindow_CustomMapping" xml:space="preserve">
     <value>自定义映射</value>
+  </data>
+  <data name="MainWindow_SaveMemoryMessage" xml:space="preserve">
+    <value>保存到容器文件中: {0}</value>
+  </data>
+  <data name="MainWindow_SaveAssetMessage" xml:space="preserve">
+    <value>保存到资产文件: {0}</value>
   </data>
   <data name="FindWindow_PleaseEnterSearchContent" xml:space="preserve">
     <value>请输入搜索内容</value>
@@ -790,12 +799,6 @@
   </data>
   <data name="FindWindow_NoResultsFound" xml:space="preserve">
     <value>未找到结果</value>
-  </data>
-  <data name="FindWindow_Information" xml:space="preserve">
-    <value>提示</value>
-  </data>
-  <data name="FindWindow_Error" xml:space="preserve">
-    <value>错误</value>
   </data>
   <data name="Text.OK" xml:space="preserve">
     <value>确定</value>

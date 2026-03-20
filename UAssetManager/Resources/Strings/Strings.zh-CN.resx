@@ -915,7 +915,7 @@
     <value>增加</value>
   </data>
   <data name="Asset_BinaryNode" xml:space="preserve">
-    <value>额外 ({0} B)</value>
+    <value>额外 ({0}字节)</value>
   </data>
   <data name="Asset_Properties" xml:space="preserve">
     <value>属性</value>

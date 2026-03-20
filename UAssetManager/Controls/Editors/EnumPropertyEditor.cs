@@ -7,48 +7,90 @@ using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
 
 namespace UAssetManager.Controls.Editors;
-internal class EnumPropertyEditor(UAsset asset) : PropertyEditorBase, IValueConverter
+internal class EnumPropertyEditor(UAsset asset) : PropertyEditorBase
 {
-    public override FrameworkElement CreateElement(PropertyData property) => new ComboBox
-    {
-        MinWidth = 160,
-        IsEditable = false,
-        ItemsSource = GetEnumDisplayItems(asset, (property as EnumPropertyData)?.EnumType)
-    };
+	private TextBox? TypeBox;
+	private ComboBox? ValueBox;
 
-    public override DependencyProperty GetDependencyProperty() => ComboBox.SelectedItemProperty;
+	public override FrameworkElement CreateElement(PropertyData property)
+	{
+		var panel = new StackPanel() { Orientation = Orientation.Horizontal };
+		panel.Children.Add(TypeBox = new TextBox()
+		{
+			Width = 100,
+			Margin = new Thickness(0, 0, 3, 0),
+			TextAlignment = TextAlignment.Center,
+		});
+		panel.Children.Add(ValueBox = new ComboBox()
+		{
+			IsEditable = true
+		});
+		return panel;
+	}
 
-    public override IValueConverter GetConverter() => this;
+	public override void CreateBinding(PropertyData property, DependencyObject element)
+	{
+		var type = new Binding("RawValue")
+		{
+			Source = property,
+			Mode = GetBindingMode(property),
+			UpdateSourceTrigger = GetUpdateSourceTrigger(property),
+			Converter = new EnumPropertyTypeConverter(asset),
+			ConverterParameter = property,
+		};
+		var value = new Binding("RawValue")
+		{
+			Source = property,
+			Mode = GetBindingMode(property),
+			UpdateSourceTrigger = GetUpdateSourceTrigger(property),
+			Converter = new EnumPropertyValueConverter(asset),
+			ConverterParameter = property,
+		};
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (parameter is EnumPropertyData ep)
-        {
-            return ep.Value;
-        }
+		// Add binding error handling
+		type.ValidationRules.Add(new BindingValidationRule());
+		value.ValidationRules.Add(new BindingValidationRule());
+		BindingOperations.SetBinding(TypeBox, TextBox.TextProperty, type);
+		BindingOperations.SetBinding(ValueBox, ComboBox.TextProperty, value);
+	}
 
-        if (value is FName f) return f;
-        if (value is string s) return FName.DefineDummy(asset, s);
-        return value;
-    }
+	private class EnumPropertyTypeConverter(UAsset asset) : IValueConverter
+	{
+		public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => (parameter switch
+		{
+			EnumPropertyData p => p.EnumType,
+			BytePropertyData p when p.ByteType == BytePropertyType.FName => p.EnumType,
+			FName f => f,
+			_ => value,
+		}).ToString();
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        FName? result = value as FName;
-        if (result == null && value is string s) result = FName.DefineDummy(asset, s);
-        if (parameter is EnumPropertyData ep)
-        {
-            if (result != null) ep.Value = result;
-            return Binding.DoNothing;
-        }
-        return result ?? value;
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var result = new FName(asset, value?.ToString());
+			if (parameter is EnumPropertyData ep) ep.EnumType = result;
+			if (parameter is BytePropertyData bp) bp.EnumType = result;
 
-    internal static IEnumerable<FName>? GetEnumDisplayItems(UAsset asset, FName? enumType)
-    {
-        if (asset == null || asset.Mappings == null || enumType == null) return null;
-        if (!asset.Mappings.EnumMap.TryGetValue(enumType.ToString(), out var enumMap) || enumMap?.Values == null) return null;
+			return Binding.DoNothing;
+		}
+	}
 
-        return enumMap.Values.OrderBy(p => p.Key).Select(p => FName.DefineDummy(asset, p.Value));
-    }
+	private class EnumPropertyValueConverter(UAsset asset) : IValueConverter
+	{
+		public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => (parameter switch
+		{
+			EnumPropertyData p => p.Value,
+			BytePropertyData p when p.ByteType == BytePropertyType.FName => p.EnumValue,
+			FName f => f,
+			_ => value,
+		}).ToString();
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var result = new FName(asset, value?.ToString());
+			if (parameter is EnumPropertyData ep) ep.Value = result;
+			if (parameter is BytePropertyData bp) bp.EnumValue = result;
+
+			return Binding.DoNothing;
+		}
+	}
 }

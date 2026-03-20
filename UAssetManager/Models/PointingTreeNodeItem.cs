@@ -1,5 +1,7 @@
 using UAssetAPI;
 using UAssetAPI.ExportTypes;
+using UAssetAPI.Kismet.Bytecode;
+using UAssetAPI.Kismet.Bytecode.Expressions;
 using UAssetAPI.Pak.Objects;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
@@ -47,29 +49,22 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 
 		switch (export)
 		{
-			case RawExport rawExport:
+			case RawExport raw:
 			{
-				var parentNode = new PointingTreeNodeItem("Raw Data (" + rawExport.Data.Length + " B)", rawExport, TreeNodeType.ByteArray);
+				var parentNode = new PointingTreeNodeItem("Raw Data (" + raw.Data.Length + " B)", raw, TreeNodeType.ByteArray);
 				Children.Add(parentNode);
 				break;
 			}
-			case NormalExport normalExport:
+			case NormalExport export:
 			{
-				string className = export.ClassIndex.IsImport() ?
-					export.ClassIndex.ToImport(asset).ObjectName.Value.Value :
-					export.ClassIndex.Index.ToString();
+				//string className = export.ClassIndex.IsImport() ?
+				//	export.ClassIndex.ToImport(asset).ObjectName.Value.Value :
+				//	export.ClassIndex.Index.ToString();
 
-				var obj = UObject.CreateObject(normalExport);
-				var parentNode = new PointingTreeNodeItem(className, obj, TreeNodeType.UObjectData);
-				Children.Add(parentNode);
+				//var parentNode = new PointingTreeNodeItem(className, obj, TreeNodeType.UObjectData);
+				//Children.Add(parentNode);
 
-				if (!UAGConfig.Data.EnableDynamicTree)
-				{
-					for (int j = 0; j < normalExport.Data.Count; j++)
-						InterpretThing(normalExport.Data[j], parentNode, !UAGConfig.Data.EnableDynamicTree);
-				}
-
-				if (normalExport is StringTableExport stringTableExport)
+				if (export is StringTableExport stringTableExport)
 				{
 					var parentNode2 = new PointingTreeNodeItem(
 						(stringTableExport.Table?.TableNamespace?.ToString() ?? FString.NullCase) + " (" + stringTableExport.Table.Count + ")",
@@ -78,50 +73,63 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 					Children.Add(parentNode2);
 				}
 
-				if (normalExport is StructExport structExport)
+				if (export is StructExport structExport)
 				{
-					var parentNode2 = new PointingTreeNodeItem("UStruct Data", structExport, TreeNodeType.StructData);
-					Children.Add(parentNode2);
-
 					if (structExport.ScriptBytecode == null)
 					{
 						var bytecodeNode = new PointingTreeNodeItem("ScriptBytecode (" + structExport.ScriptBytecodeRaw.Length + " B)", structExport, TreeNodeType.KismetByteArray);
-						parentNode2.Children.Add(bytecodeNode);
+						Children.Add(bytecodeNode);
 					}
 					else
 					{
 						var bytecodeNode = new PointingTreeNodeItem("ScriptBytecode (" + structExport.ScriptBytecode.Length + " instructions)", structExport, TreeNodeType.Kismet);
-						parentNode2.Children.Add(bytecodeNode);
+						Children.Add(bytecodeNode);
+
+						foreach (var code in structExport.ScriptBytecode)
+						{
+							var codeNode = new ExpressionPointingTreeNodeItem(code);
+							bytecodeNode.Children.Add(codeNode);
+						}
 					}
 				}
 
-				if (normalExport is UserDefinedStructExport userDefinedStructExport)
+				if (export is UserDefinedStructExport userDefinedStructExport)
 				{
-					var parentNode2 = new PointingTreeNodeItem("UserDefinedStruct Data (" + userDefinedStructExport.StructData.Count + ")", normalExport, TreeNodeType.UserDefinedStructData);
+					var parentNode2 = new PointingTreeNodeItem("UserDefinedStruct Data (" + userDefinedStructExport.StructData.Count + ")", export, TreeNodeType.UserDefinedStructData);
 					Children.Add(parentNode2);
 				}
 
 				// Properties
-				foreach (var propertyData in obj.Data)
+				foreach (var propertyData in export.Data)
 				{
 					var propertyNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UPropertyData);
-					parentNode.Children.Add(propertyNode);
+					Children.Add(propertyNode);
 				}
 
 				// Fields
-				foreach (var propertyData in obj.GetFields())
+				var obj = UObject.CreateObject(export);
+				if (obj != null)
 				{
-					var fieldNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UObjectField);
-					parentNode.Children.Add(fieldNode);
+					foreach (var propertyData in obj.GetFields())
+					{
+						var fieldNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UObjectField);
+						Children.Add(fieldNode);
+					}
 				}
 
 				// Extra
-				if (obj.Extras.Length > 0)
+				if (export.Extras.Length > 0)
 				{
-					var extrasNode = new PointingTreeNodeItem(StringHelper.Get("Asset_BinaryNode", obj.Extras.Length), obj, TreeNodeType.ByteArray);
-					parentNode.Children.Add(extrasNode);
+					var extrasNode = new PointingTreeNodeItem(StringHelper.Get("Asset_BinaryNode", export.Extras.Length), obj, TreeNodeType.ByteArray);
+					Children.Add(extrasNode);
 				}
 
+				// Chidren
+				if (!UAGConfig.Data.EnableDynamicTree)
+				{
+					for (int j = 0; j < export.Data.Count; j++)
+						InterpretThing(export.Data[j], this, !UAGConfig.Data.EnableDynamicTree);
+				}
 				break;
 			}
 		}
@@ -138,13 +146,13 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 			{
 				var childNode = new ExportPointingTreeNodeItem(asset, childExport) { Type = TreeNodeType.SubExport };
 				var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
-				childNode.Children.Add(loadingNode);
-				Children.Add(childNode);
+				childNode.Add(loadingNode);
+				Add(childNode);
 			}
 		}
 	}
 
-	private static void InterpretThing(PropertyData property, PointingTreeNodeItem parentNode, bool fillAllSubNodes)
+	private static void InterpretThing(PropertyData property, TreeNodeItem parentNode, bool fillAllSubNodes)
 	{
 		if (property == null) return;
 
@@ -154,27 +162,27 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 				InterpretThing(niagaraProp.TypeDef, parentNode, fillAllSubNodes);
 				break;
 			case GameplayTagContainerPropertyData gameplayTagProp:
-				parentNode.Children.Add(new PointingTreeNodeItem(
+				parentNode.Add(new PointingTreeNodeItem(
 					string.Format("{0} ({1})", gameplayTagProp.Name, gameplayTagProp.Value.Length), gameplayTagProp));
 				break;
 			case MulticastDelegatePropertyData multicastDelegateProp:
-				parentNode.Children.Add(new PointingTreeNodeItem(
+				parentNode.Add(new PointingTreeNodeItem(
 					string.Format("{0} ({1})", multicastDelegateProp.Name, multicastDelegateProp.Value.Length), multicastDelegateProp.Value));
 				break;
 
 			case BoxPropertyData boxProp:
-				parentNode.Children.Add(new PointingTreeNodeItem(boxProp.Name?.Value.Value + " (2)", boxProp));
+				parentNode.Add(new PointingTreeNodeItem(boxProp.Name?.Value.Value + " (2)", boxProp));
 				break;
 			case Box2DPropertyData box2DProp:
-				parentNode.Children.Add(new PointingTreeNodeItem(box2DProp.Name?.Value.Value + " (2)", box2DProp));
+				parentNode.Add(new PointingTreeNodeItem(box2DProp.Name?.Value.Value + " (2)", box2DProp));
 				break;
 			case Box2fPropertyData box2fProp:
-				parentNode.Children.Add(new PointingTreeNodeItem(box2fProp.Name?.Value.Value + " (2)", box2fProp));
+				parentNode.Add(new PointingTreeNodeItem(box2fProp.Name?.Value.Value + " (2)", box2fProp));
 				break;
 
 			case ArrayPropertyData arrayProp:
 				var arrNode = new PointingTreeNodeItem(string.Format("{0} ({1})", arrayProp.Name, arrayProp.Value.Length), arrayProp);
-				parentNode.Children.Add(arrNode);
+				parentNode.Add(arrNode);
 
 				if (fillAllSubNodes)
 				{
@@ -187,7 +195,7 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 				break;
 			case MapPropertyData mapProp:
 				var mapNode = new PointingTreeNodeItem(string.Format("{0} ({1})", mapProp.Name, mapProp.Value.Count), mapProp);
-				parentNode.Children.Add(mapNode);
+				parentNode.Add(mapNode);
 
 				if (fillAllSubNodes)
 				{
@@ -195,7 +203,7 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 					foreach (var kvp in mapProp.Value)
 					{
 						var dictEntry = new PointingDictionaryEntry(kvp, mapProp);
-						mapNode.Children.Add(new PointingTreeNodeItem("[" + index + "]", dictEntry));
+						mapNode.Add(new PointingTreeNodeItem("[" + index + "]", dictEntry));
 						index++;
 					}
 				}
@@ -207,7 +215,7 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 					decidedName = structProp.StructType.ToString();
 				}
 				var structNode = new PointingTreeNodeItem(decidedName, structProp);
-				parentNode.Children.Add(structNode);
+				parentNode.Add(structNode);
 
 				if (fillAllSubNodes)
 				{
@@ -227,6 +235,49 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 			export.ClassIndex.ToExport(asset).ObjectName.ToString();
 
 		return export.ObjectName.ToString() + "." + className;
+	}
+}
+
+/// <summary>
+/// Represents a tree node item that points to an expression
+/// </summary>
+public class ExpressionPointingTreeNodeItem(KismetExpression expression)
+	: TreeNodeItem(expression.Inst, TreeNodeType.Kismet)
+{
+	private bool _childrenBuilt = false;
+
+	protected override bool DynamicMaterialize => false;
+
+	protected internal override void Materialize()
+	{
+		// build children if need
+		if (_childrenBuilt || expression == null) return;
+
+		_childrenBuilt = true;
+		Children.Clear();
+
+		switch (expression)
+		{
+			case EX_FinalFunction function:
+				foreach (var param in function.Parameters) Children.Add(new ExpressionPointingTreeNodeItem(param));
+				break;
+
+			case EX_StructConst function:
+				foreach (var param in function.Value) Children.Add(new ExpressionPointingTreeNodeItem(param));
+				break;
+
+			case EX_NameConst function:
+				Name += $" ({function.Value})";
+				break;
+
+			case EX_StringConst function:
+				Name += $" ({function.Value})";
+				break;
+
+			case EX_Jump function:
+				Name += $" ({function.CodeOffset})";
+				break;
+		}
 	}
 }
 

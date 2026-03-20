@@ -390,8 +390,8 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 			var categoryNode = new ExportPointingTreeNodeItem(CurrentAsset, export);
 			var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
-			categoryNode.Children.Add(loadingNode);
-			exportDataNode.Children.Add(categoryNode);
+			categoryNode.Add(loadingNode);
+			exportDataNode.Add(categoryNode);
 		}
 
 		TreeNodes.Add(exportDataNode);
@@ -900,13 +900,15 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		// Create new Export object
 		HasUnsavedChanges = true;
 		UpdateDiscordRpc();
-		var newExport = new Export()
+		var newExport = new NormalExport()
 		{
 			ObjectName = new FName(CurrentAsset, (string?)null),
 			OuterIndex = new FPackageIndex(),
 			ClassIndex = new FPackageIndex(),
 			SuperIndex = new FPackageIndex(),
 			TemplateIndex = new FPackageIndex(),
+			Extras = [],
+			Data = [],
 		};
 
 		// Add to UAsset
@@ -1202,7 +1204,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		{
 			var parent = node.Parent;
 			if (parent == null) return null;
-			int idx = parent.Children.IndexOf(node);
+			int idx = parent.IndexOf(node);
 			if (idx > 0) return GetLastDescendant(parent.Children[idx - 1]);
 			return parent;
 		}
@@ -1421,10 +1423,11 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			ClearDiscordRpc();
 			return;
 		}
-		if (DiscordRpc == null || !DiscordRpc.IsInitialized || DiscordRpc.IsDisposed) return;
 
 		try
 		{
+			if (DiscordRpc == null || !DiscordRpc.IsInitialized || DiscordRpc.IsDisposed) return;
+
 			_richPresence ??= new RichPresence
 			{
 				Timestamps = new Timestamps(),

@@ -22,7 +22,7 @@ public class PropertyItem : ListBoxItem
 {
 	#region Properties
 	public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(nameof(PropertyName), typeof(string), typeof(PropertyItem));
-	public string PropertyName
+	public string? PropertyName
 	{
 		get => (string)GetValue(PropertyNameProperty);
 		set => SetValue(PropertyNameProperty, value);
@@ -104,7 +104,7 @@ public class PropertyItem : ListBoxItem
 
 	private static string GetType(PropertyData property) => property switch
 	{
-		BytePropertyData bp when bp.ByteType == BytePropertyType.FName => bp.EnumType.ToString(),
+		BytePropertyData bp when bp.ByteType == BytePropertyType.FName => $"BytePropertyData ({bp.EnumType})",
 		StructPropertyData sp => sp.StructType.ToString(),
 		_ => property.PropertyType.Value,
 	};
@@ -114,7 +114,8 @@ public class PropertyItem : ListBoxItem
 		ArrayPropertyData => new ArrayPropertyEditor(asset),
 		MapPropertyData => new MapPropertyEditor(asset),
 		StructPropertyData => new StructPropertyEditor(asset),
-		BytePropertyData => new BytePropertyEditor(asset),
+		BytePropertyData bp when bp.ByteType == BytePropertyType.Byte => new BytePropertyEditor(),
+		BytePropertyData bp when bp.ByteType == BytePropertyType.FName => new EnumPropertyEditor(asset),
 		EnumPropertyData => new EnumPropertyEditor(asset),
 		ObjectPropertyData => new ObjectPropertyEditor(asset),
 		SoftObjectPropertyData => new SoftObjectPropertyEditor(asset),
@@ -124,7 +125,7 @@ public class PropertyItem : ListBoxItem
 		FloatPropertyData => new FloatPropertyEditor(),
 		DoublePropertyData => new FloatPropertyEditor(),
 		StrPropertyData => new StrPropertyEditor(),
-		NamePropertyData => new NamePropertyEditor(),
+		NamePropertyData => new NamePropertyEditor(asset),
 		VectorPropertyData => new VectorPropertyEditor(),
 		Vector2DPropertyData => new Vector2DPropertyEditor(),
 		Vector4PropertyData => new Vector4PropertyEditor(),

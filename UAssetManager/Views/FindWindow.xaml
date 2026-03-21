@@ -67,7 +67,11 @@
 
         <!-- Results Area -->
         <GroupBox Grid.Row="4" Header="{DynamicResource FindWindow_SearchResults}" Style="{StaticResource GroupBoxStyle}">
-            <ListBox ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedResult}" MouseDoubleClick="SearchResultsListBox_MouseDoubleClick">
+            <ListBox ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedResult}">
+				<ListBox.InputBindings>
+					<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SelectedCommand}" />
+					<MouseBinding MouseAction="RightDoubleClick" Command="{Binding SelectedCommand}" />
+				</ListBox.InputBindings>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}"/>

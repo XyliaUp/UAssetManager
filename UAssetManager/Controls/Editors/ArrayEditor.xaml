@@ -37,17 +37,18 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
+											<!-- Property -->
                                             <TextBlock Grid.Column="0" VerticalAlignment="Top" Opacity="0.8">
                                                 <Run Text="{Binding Index,StringFormat='[{0}]'}"/>
                                             </TextBlock>
-											<c:PropertyItem Grid.Column="1" Margin="8,0,0,0" 
+											<c:PropertyItem Grid.Column="1" Margin="8,0,0,0"
                                                             Asset="{Binding Asset,Mode=OneWay}" Property="{Binding PropertyData}" 
                                                             Visibility="{Binding IsObjectProperty,Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                             <!-- Helper -->
-                                            <Button x:Name="MoreButton" Grid.Column="2" Content="▾" Width="20" Height="20" ToolTip="More" VerticalAlignment="Top" 
+                                            <Button x:Name="MoreButton" Grid.Column="2" Content="▾" Width="20" Height="20" ToolTip="More" HorizontalAlignment="Left" VerticalAlignment="Top" 
                                                     Click="MoreButton_Click" MouseRightButtonDown="MoreButton_Click" Tag="{Binding}" />
-                                            <Popup x:Name="MorePopup" Placement="Bottom" PlacementTarget="{Binding ElementName=MoreButton}" StaysOpen="False">
+											<Popup x:Name="MorePopup" Grid.ColumnSpan="99" Placement="Bottom" PlacementTarget="{Binding ElementName=MoreButton}" StaysOpen="False">
                                                 <Border Background="#2D2D30" BorderBrush="#3E3E42" BorderThickness="1" CornerRadius="6">
                                                     <Border.Effect>
                                                         <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" BlurRadius="8" Opacity="0.3"/>

@@ -37,7 +37,61 @@ public partial class MainWindow : Window
 		_viewModel.UpdateDiscordRpc();
 
 		// Fetch the latest version from github
-		Task.Run(GitHubAPI.CheckForUpdates);
+		_ = Task.Run(GitHubAPI.CheckForUpdates);
+	}
+	#endregion
+
+	#region Methods
+
+	private void LoadConfiguration()
+	{
+		try
+		{
+			// Load configuration
+			UAGConfig.Load();
+
+			// Apply saved settings
+			Width = UAGConfig.Data.StartupWidth;
+			Height = UAGConfig.Data.StartupHeight;
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Error loading configuration: {ex.Message}");
+		}
+	}
+
+	private void SaveConfiguration()
+	{
+		try
+		{
+			// Save current settings
+			UAGConfig.Data.StartupWidth = (int)Width;
+			UAGConfig.Data.StartupHeight = (int)Height;
+			UAGConfig.Save();
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Error saving configuration: {ex.Message}");
+		}
+	}
+
+	private void SetupKeyboardShortcuts()
+	{
+		// Setup keyboard shortcuts
+		InputBindings.Add(new KeyBinding(_viewModel.OpenFileCommand, new KeyGesture(Key.O, ModifierKeys.Control)));
+		InputBindings.Add(new KeyBinding(_viewModel.OpenContainerCommand, new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift)));
+		InputBindings.Add(new KeyBinding(_viewModel.SaveFileCommand, new KeyGesture(Key.S, ModifierKeys.Control)));
+		InputBindings.Add(new KeyBinding(_viewModel.SaveFileAsCommand, new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift)));
+		InputBindings.Add(new KeyBinding(_viewModel.FindCommand, new KeyGesture(Key.F, ModifierKeys.Control)));
+		InputBindings.Add(new KeyBinding(_viewModel.RefreshCommand, new KeyGesture(Key.F5)));
+		InputBindings.Add(new KeyBinding(_viewModel.CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
+		InputBindings.Add(new KeyBinding(_viewModel.PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
+		CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteData));
+	}
+
+	private void UpdateStatus(string message)
+	{
+		_viewModel.Status = message;
 	}
 
 	private void SetupPluginMenu()
@@ -61,7 +115,7 @@ public partial class MainWindow : Window
 			pluginsMenu.FindName("PluginSeparator") is not Separator pluginSeparator) return;
 
 		// Remove old plugin items (keep management items)
-		var itemsToRemove = pluginsMenu.Items.Cast<object>().Skip(3).ToList(); // Skip first 3 items (Open Folder, Reload, Separator)
+		var itemsToRemove = pluginsMenu.Items.Cast<object>().Skip(3); // Skip first 3 items (Open Folder, Reload, Separator)
 		foreach (var item in itemsToRemove)
 		{
 			pluginsMenu.Items.Remove(item);
@@ -125,59 +179,12 @@ public partial class MainWindow : Window
 			}
 		}
 	}
-	#endregion
 
-	#region Methods
-
-	private void LoadConfiguration()
+	public void OpenAssetInEditor(UAsset asset, string virtualPath, bool isFromBuildPak = false)
 	{
-		try
-		{
-			// Load configuration
-			UAGConfig.Load();
-
-			// Apply saved settings
-			Width = UAGConfig.Data.StartupWidth;
-			Height = UAGConfig.Data.StartupHeight;
-		}
-		catch (Exception ex)
-		{
-			Debug.WriteLine($"Error loading configuration: {ex.Message}");
-		}
-	}
-
-	private void SaveConfiguration()
-	{
-		try
-		{
-			// Save current settings
-			UAGConfig.Data.StartupWidth = (int)Width;
-			UAGConfig.Data.StartupHeight = (int)Height;
-			UAGConfig.Save();
-		}
-		catch (Exception ex)
-		{
-			Debug.WriteLine($"Error saving configuration: {ex.Message}");
-		}
-	}
-
-	private void SetupKeyboardShortcuts()
-	{
-		// Setup keyboard shortcuts
-		InputBindings.Add(new KeyBinding(_viewModel.OpenFileCommand, new KeyGesture(Key.O, ModifierKeys.Control)));
-		InputBindings.Add(new KeyBinding(_viewModel.OpenContainerCommand, new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift)));
-		InputBindings.Add(new KeyBinding(_viewModel.SaveFileCommand, new KeyGesture(Key.S, ModifierKeys.Control)));
-		InputBindings.Add(new KeyBinding(_viewModel.SaveFileAsCommand, new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift)));
-		InputBindings.Add(new KeyBinding(_viewModel.FindCommand, new KeyGesture(Key.F, ModifierKeys.Control)));
-		InputBindings.Add(new KeyBinding(_viewModel.RefreshCommand, new KeyGesture(Key.F5)));
-		InputBindings.Add(new KeyBinding(_viewModel.CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
-		InputBindings.Add(new KeyBinding(_viewModel.PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
-		CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteData));
-	}
-
-	private void UpdateStatus(string message)
-	{
-		_viewModel.Status = message;
+		_viewModel.SetCurrentAsset(asset, virtualPath, isFromBuildPak);
+		Activate();
+		Focus();
 	}
 
 	protected override void OnClosing(CancelEventArgs e)
@@ -197,16 +204,41 @@ public partial class MainWindow : Window
 		base.OnClosing(e);
 	}
 
-	public void OpenAssetInEditor(UAsset asset, string virtualPath, bool isFromBuildPak = false)
-	{
-		_viewModel.SetCurrentAsset(asset, virtualPath, isFromBuildPak);
-		Activate();
-		Focus();
-	}
-
 	#endregion
 
-	#region Data Grid
+	#region Holder
+
+	private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	{
+		var node = _viewModel.SelectedTreeNode = (TreeNodeItem)e.NewValue;
+		DataGridView.Visibility = Visibility.Collapsed;
+		PropertyEditor.Visibility = Visibility.Visible;
+
+		// TODO: or we can use DataTemplateSelector to dynamic load
+		switch (node?.Data)
+		{
+			case NormalExport export:
+				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, export.Data);
+				if (export is UParticleSystem) Dispatcher.BeginInvoke(() => ParticleSystemEditor.Instance.Show(export, _viewModel.CurrentAsset!));
+				break;
+			case ArrayPropertyData arrayProp:
+				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, arrayProp.Value);
+				break;
+			case StructPropertyData structProp:
+				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, structProp.Value);
+				break;
+			case PropertyData property:
+				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, new[] { property });
+				break;
+
+			default:
+				DataGridView.Visibility = Visibility.Visible;
+				PropertyEditor.Visibility = Visibility.Collapsed;
+				PropertyEditor.ClearValue(PropertyEditor.SourceProperty);
+				_viewModel.UpdateGridData(node);
+				break;
+		}
+	}
 
 	private void DataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
 	{
@@ -453,159 +485,6 @@ public partial class MainWindow : Window
 			MessageBox.Show(StringHelper.Get("MainWindow_Paste_Failed", ex.Message), StringHelper.Get("Text.Error"), MessageBoxButton.OK, MessageBoxImage.Error);
 			UpdateStatus(StringHelper.Get("MainWindow_Paste_FailedStatus"));
 		}
-	}
-
-	#endregion
-
-	#region Tree View
-
-	private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-	{
-		var node = _viewModel.SelectedTreeNode = (TreeNodeItem)e.NewValue;
-		DataGridView.Visibility = Visibility.Collapsed;
-		PropertyEditor.Visibility = Visibility.Visible;
-
-		// TODO: or we can use DataTemplateSelector to dynamic load
-		switch (node?.Data)
-		{
-			case NormalExport export:
-				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, export.Data);
-				if (export is UParticleSystem) Dispatcher.BeginInvoke(() => ParticleSystemEditor.Instance.Show(export, _viewModel.CurrentAsset!));
-				break;
-			case ArrayPropertyData arrayProp:
-				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, arrayProp.Value);
-				break;
-			case StructPropertyData structProp:
-				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, structProp.Value);
-				break;
-			case PropertyData property:
-				PropertyEditor.SetCurrentValue(PropertyEditor.SourceProperty, new[] { property });
-				break;
-
-			default:
-				DataGridView.Visibility = Visibility.Visible;
-				PropertyEditor.Visibility = Visibility.Collapsed;
-				PropertyEditor.ClearValue(PropertyEditor.SourceProperty);
-				_viewModel.UpdateGridData(node);
-				break;
-		}
-	}
-
-	public void SelectNode(TreeNodeItem target)
-	{
-		if (target == null) return;
-		ExpandAncestors(target);
-		ApplySelection(target);
-	}
-
-	public bool SelectByObject(object target)
-	{
-		if (target == null) return false;
-		if (_objectIndex.TryGetValue(target, out var wr) && wr.TryGetTarget(out var cached))
-		{
-			SelectNode(cached);
-			return true;
-		}
-		foreach (var root in _viewModel.TreeNodes)
-		{
-			if (SelectByObjectFrom(root, target)) return true;
-		}
-		return false;
-	}
-
-	private bool SelectByObjectFrom(TreeNodeItem node, object target)
-	{
-		RegisterNodeObjectMapping(node);
-
-		// Match against data
-		if (node is PointingTreeNodeItem p)
-		{
-			if (ReferenceEquals(p.Data, target))
-			{
-				SelectNode(node);
-				return true;
-			}
-		}
-		if (node.Data != null && ReferenceEquals(node.Data, target))
-		{
-			SelectNode(node);
-			return true;
-		}
-
-		// Ensure children are present for dynamic nodes, then traverse
-		node.Materialize();
-
-		foreach (var child in node.Children)
-		{
-			if (SelectByObjectFrom(child, target)) return true;
-		}
-		return false;
-	}
-
-	private void ExpandAncestors(TreeNodeItem target)
-	{
-		var stack = new Stack<TreeNodeItem>();
-		var cur = target.Parent;
-		while (cur != null)
-		{
-			stack.Push(cur);
-			cur = cur.Parent;
-		}
-		while (stack.Count > 0)
-		{
-			var n = stack.Pop();
-			n.IsExpanded = true;
-			n.Materialize();
-			TreeView1.UpdateLayout();
-		}
-		TreeView1.UpdateLayout();
-	}
-
-	private void ApplySelection(TreeNodeItem target)
-	{
-		_viewModel.SelectedTreeNode = target;
-		target.IsSelected = true;
-		TreeView1.UpdateLayout();
-		var tvi = GetTreeViewItem(TreeView1, target);
-		if (tvi != null)
-		{
-			tvi.BringIntoView();
-			tvi.Focus();
-			// ensure after layout
-			Dispatcher.InvokeAsync(() =>
-			{
-				tvi.BringIntoView();
-				tvi.Focus();
-			}, System.Windows.Threading.DispatcherPriority.Loaded);
-		}
-	}
-
-	private void RegisterNodeObjectMapping(TreeNodeItem node)
-	{
-		if (node is PointingTreeNodeItem p && p.Data != null)
-		{
-			_objectIndex[p.Data] = new WeakReference<TreeNodeItem>(node);
-		}
-		if (node.Data != null)
-		{
-			_objectIndex[node.Data] = new WeakReference<TreeNodeItem>(node);
-		}
-	}
-
-	private static TreeViewItem? GetTreeViewItem(ItemsControl container, object item)
-	{
-		if (container == null) return null;
-		if (container.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem direct) return direct;
-
-		foreach (var child in container.Items)
-		{
-			if (container.ItemContainerGenerator.ContainerFromItem(child) is not TreeViewItem childContainer) continue;
-			// Ensure generated
-			childContainer.UpdateLayout();
-			var result = GetTreeViewItem(childContainer, item);
-			if (result != null) return result;
-		}
-		return null;
 	}
 
 	#endregion

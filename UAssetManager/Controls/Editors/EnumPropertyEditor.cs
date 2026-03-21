@@ -17,9 +17,10 @@ internal class EnumPropertyEditor(UAsset asset) : PropertyEditorBase
 		var panel = new StackPanel() { Orientation = Orientation.Horizontal };
 		panel.Children.Add(TypeBox = new TextBox()
 		{
-			Width = 100,
+			MinWidth = 150,
 			Margin = new Thickness(0, 0, 3, 0),
-			TextAlignment = TextAlignment.Center,
+			Padding = new Thickness(2),
+			VerticalAlignment = VerticalAlignment.Center,
 		});
 		panel.Children.Add(ValueBox = new ComboBox()
 		{

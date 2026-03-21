@@ -79,8 +79,6 @@ public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 		}
 	}
 
-	protected internal virtual void Materialize() { }
-
 	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
 	{
 		if (EqualityComparer<T>.Default.Equals(storage, value))
@@ -90,6 +88,10 @@ public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 		OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		return true;
 	}
+
+	protected internal virtual void Materialize() { }
+
+	public override string ToString() => Name;
 	#endregion
 }
 

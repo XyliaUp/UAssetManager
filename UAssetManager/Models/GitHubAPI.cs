@@ -57,7 +57,10 @@ public static class GitHubAPI
         }
     }
 
-    public static async Task CheckForUpdates()
+	/// <summary>
+	/// Fetch the latest version from github
+	/// </summary>
+	public static async Task CheckForUpdates()
     {
         if (!UAGConfig.Data.EnableUpdateNotice) return;
 

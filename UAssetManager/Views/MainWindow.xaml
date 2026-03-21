@@ -57,8 +57,8 @@
 				<MenuItem Header="{DynamicResource MainWindow_ExpandAll}" InputGestureText="Ctrl+E" Command="{Binding ExpandAllCommand}"/>
 				<MenuItem Header="{DynamicResource MainWindow_CollapseAll}" InputGestureText="Ctrl+L" Command="{Binding CollapseAllCommand}"/>
 				<Separator/>
-				<MenuItem Header="{DynamicResource MainWindow_Refresh}" InputGestureText="F5" Command="{Binding RefreshCommand}"/>
-				<MenuItem Header="{DynamicResource MainWindow_RecalculateNodes}" InputGestureText="Shift+F5" Command="{Binding RecalculateNodesCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_Refresh}" InputGestureText="F5" Command="{Binding PopulateTreeViewCommand}"/>
+				<MenuItem Header="{DynamicResource MainWindow_RecalculateNodes}" InputGestureText="Shift+F5" Command="{Binding PopulateTreeViewCommand}"/>
 			</MenuItem>
 
 			<MenuItem Header="{DynamicResource Menu.Tools}" d:Header="Tools">
@@ -144,14 +144,13 @@
 						</StackPanel>
 					</HierarchicalDataTemplate>
 				</TreeView.ItemTemplate>
-
-				<!--
+				<!-- 
 				<TreeView.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="{DynamicResource ContextMenu.ReplaceAllReferences}" Command="{Binding ReplaceAllReferencesCommand}" />
 					</ContextMenu>
 				</TreeView.ContextMenu>
-				-->
+				 -->
 			</TreeView>
 
 			<!-- Splitter -->

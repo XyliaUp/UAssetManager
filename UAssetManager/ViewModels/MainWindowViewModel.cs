@@ -379,6 +379,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 	}
 
+	[RelayCommand]
 	private void PopulateTreeView()
 	{
 		if (CurrentAsset == null) return;
@@ -420,6 +421,30 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 
 		TreeNodes.Add(exportDataNode);
+	}
+
+	[RelayCommand]
+	private void ExpandAll()
+	{
+		void expand(TreeNodeItem node)
+		{
+			node.IsExpanded = true;
+			foreach (var c in node.Children) expand(c);
+		}
+
+		foreach (var node in TreeNodes) expand(node);
+	}
+
+	[RelayCommand]
+	private void CollapseAll()
+	{
+		void collapse(TreeNodeItem node)
+		{
+			node.IsExpanded = false;
+			foreach (var c in node.Children) collapse(c);
+		}
+
+		foreach (var node in TreeNodes) collapse(node);
 	}
 
 	partial void OnSelectedTreeNodeChanged(TreeNodeItem? value)
@@ -1175,7 +1200,12 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			token.ThrowIfCancellationRequested();
 			if (!visited.Add(node)) break;
 			if (node != SelectedTreeNode && predicate(node)) { selected = node; return true; }
-			if (NodeDeepMatches(node, predicate)) { selected = node; return true; }
+			foreach (var _ in EnumerateNodeDeepMatches(node, predicate))
+			{
+				selected = node;
+				return true;
+			}
+
 			node = GetNextNode(node, forward);
 		}
 		return false;
@@ -1209,9 +1239,9 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		foreach (var root in TreeNodes) Traverse(root, n => n.IsSearchMatched = false);
 	}
 
-	void ITreeSearchProvider.SelectNode(TreeNodeItem node)
+	void ITreeSearchProvider.SelectObject(object found)
 	{
-		SelectedTreeNode = node;
+		SelectedTreeNode = found as TreeNodeItem;
 	}
 
 	private static TreeNodeItem? GetNextNode(TreeNodeItem node, bool forward, bool canGoDown = true)
@@ -1243,8 +1273,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 	private static IEnumerable<object> EnumerateNodeDeepMatches(TreeNodeItem node, Func<object, bool> predicate)
 	{
-		object? pointer = node.Data;
-		if (pointer == null) yield break;
+		if (node.Data == null) yield break;
 		if (predicate(node)) { yield return node; yield break; }
 	}
 
@@ -1286,12 +1315,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	{
 		cb(node);
 		foreach (var c in node.Children) Traverse(c, cb);
-	}
-
-	private static bool NodeDeepMatches(TreeNodeItem node, Func<object, bool> predicate)
-	{
-		foreach (var _ in EnumerateNodeDeepMatches(node, predicate)) return true;
-		return false;
 	}
 
 	#endregion

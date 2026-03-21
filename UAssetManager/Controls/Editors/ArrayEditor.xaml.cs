@@ -1,3 +1,4 @@
+using System.Data;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -6,6 +7,7 @@ using UAssetAPI;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
+using UAssetManager.Views;
 
 namespace UAssetManager.Controls.Editors;
 
@@ -52,8 +54,7 @@ public partial class ArrayEditor
 	#region Methods
 	private void MoreButton_Click(object sender, EventArgs e)
 	{
-		if (sender is FrameworkElement fe &&
-			fe.FindName("MorePopup") is Popup popup)
+		if (sender is FrameworkElement fe && fe.FindName("MorePopup") is Popup popup)
 		{
 			popup.IsOpen = !popup.IsOpen;
 		}
@@ -131,9 +132,15 @@ public partial class ArrayEditor
 	{
 		if (Asset == null || Array == null) return;
 
-		var length = Array.Value.Length;
-		index = Math.Clamp(index, 0, length);
 		var exemplar = Array.Value.LastOrDefault();
+		if (exemplar is null)
+		{
+			var dialog = new AddPropertyDialog(Asset) { Owner = Window.GetWindow(this) };
+			if (dialog.ShowDialog() == true) Array.Value = [dialog.Result];
+			return;
+		}
+
+		index = Math.Clamp(index, 0, Array.Value.Length);
 		var newElem = CreateDefaultElementLike(exemplar, Asset, true);
 		Array.Value = [.. Array.Value.Take(index), newElem, .. Array.Value.Skip(index)];
 	}
@@ -178,9 +185,14 @@ public partial class ArrayEditor
 		ArrayPropertyData p => new ArrayPropertyData(exemplar.Name) { Value = copy ? [.. p.Value.Select(child => CreateDefaultElementLike(child, asset, true))] : [] },
 		StructPropertyData p => new StructPropertyData(exemplar.Name, p.StructType) { Value = [.. p.Value.Select(child => CreateDefaultElementLike(child, asset, false))] },
 		_ when exemplar != null => new StrPropertyData(exemplar.Name) { Value = new FString(string.Empty) },
-		_ => new StrPropertyData(FName.DefineDummy(asset, "0")) { Value = new FString(string.Empty) }
+		_ => throw new InvalidOperationException(),
 	};
 	#endregion
+
+	private void MoreButton_Click(object sender, RoutedEventArgs e)
+	{
+
+	}
 }
 
 public class ArrayEditorItem

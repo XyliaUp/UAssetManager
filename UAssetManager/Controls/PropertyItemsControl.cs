@@ -104,8 +104,8 @@ public class PropertyItem : ListBoxItem
 
 	private static string GetType(PropertyData property) => property switch
 	{
-		BytePropertyData bp when bp.ByteType == BytePropertyType.FName => $"BytePropertyData ({bp.EnumType})",
-		StructPropertyData sp => sp.StructType.ToString(),
+		BytePropertyData bp when bp.ByteType == BytePropertyType.FName => $"ByteProperty ({bp.EnumType})",
+		StructPropertyData sp => $"StructProperty ({sp.StructType})",
 		_ => property.PropertyType.Value,
 	};
 

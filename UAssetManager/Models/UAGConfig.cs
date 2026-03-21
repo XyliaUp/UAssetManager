@@ -21,11 +21,11 @@ public partial class UAGConfigData : ObservableObject, ICloneable
 	[ObservableProperty] bool _enableUpdateNotice = true;
 	[ObservableProperty] bool _enablePrettyBytecode;
 	[ObservableProperty] bool _enableDynamicTree;
-	[ObservableProperty] bool _useOuterIndexTreeMode;
+	[ObservableProperty] bool _enableOuterTree;
 	[ObservableProperty] int _startupWidth = 1000;
 	[ObservableProperty] int _startupHeight = 700;
 	[ObservableProperty] int _customSerializationFlags;
-	[ObservableProperty] string _aesKey = "0xd2e5f7f94e625efe2726b5360c1039ce7cb9abb760a94f37bb15a6dc08741656";
+	[ObservableProperty] string _aesKey = string.Empty;
 	[ObservableProperty] string? _extractedFolder;
 	[ObservableProperty] string? _savedFolder;
 

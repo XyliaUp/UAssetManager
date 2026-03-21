@@ -3,6 +3,7 @@ using UAssetAPI.ExportTypes;
 using UAssetAPI.Kismet.Bytecode;
 using UAssetAPI.Kismet.Bytecode.Expressions;
 using UAssetAPI.Pak.Objects;
+using UAssetAPI.Pak.Utils;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
@@ -24,6 +25,18 @@ public partial class PointingTreeNodeItem : TreeNodeItem
 }
 
 /// <summary>
+/// Represents an entry in a dictionary that associates a key-value pair with an additional pointer object.
+/// </summary>
+/// <remarks>This class is useful for scenarios where a dictionary entry needs to be extended with additional
+/// metadata or context, represented by the <see cref="Pointer"/> property.</remarks>
+public class PointingDictionaryEntry(KeyValuePair<PropertyData, PropertyData> entry, object pointer)
+{
+	public KeyValuePair<PropertyData, PropertyData> Entry { get; set; } = entry;
+
+	public object Pointer { get; set; } = pointer;
+}
+
+/// <summary>
 /// Represents a tree node item that points to an export within a UAsset file.
 /// </summary>
 /// <remarks>This class is used to organize and represent exports from a UAsset file in a hierarchical tree structure. 
@@ -41,12 +54,6 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 		_childrenBuilt = true;
 		Children.Clear();
 
-		// if outer index tree mode is enabled, add children organized by OuterIndex first
-		if (UAGConfig.Data.UseOuterIndexTreeMode)
-		{
-			AddOuterIndexChildren();
-		}
-
 		switch (export)
 		{
 			case RawExport raw:
@@ -57,13 +64,6 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 			}
 			case NormalExport export:
 			{
-				//string className = export.ClassIndex.IsImport() ?
-				//	export.ClassIndex.ToImport(asset).ObjectName.Value.Value :
-				//	export.ClassIndex.Index.ToString();
-
-				//var parentNode = new PointingTreeNodeItem(className, obj, TreeNodeType.UObjectData);
-				//Children.Add(parentNode);
-
 				if (export is StringTableExport stringTableExport)
 				{
 					var parentNode2 = new PointingTreeNodeItem(
@@ -99,56 +99,69 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 					Children.Add(parentNode2);
 				}
 
-				// Properties
-				foreach (var propertyData in export.Data)
-				{
-					var propertyNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UPropertyData);
-					Children.Add(propertyNode);
-				}
-
-				// Fields
 				var obj = UObject.CreateObject(export);
-				if (obj != null)
+				if (UAGConfig.Data.EnableDynamicTree)
 				{
-					foreach (var propertyData in obj.GetFields())
+					// Properties
+					foreach (var propertyData in export.Data)
 					{
-						var fieldNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UObjectField);
-						Children.Add(fieldNode);
+						var propertyNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UPropertyData);
+						Children.Add(propertyNode);
+					}
+
+					// Fields
+					if (obj != null)
+					{
+						foreach (var propertyData in obj.GetFields())
+						{
+							var fieldNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UObjectField);
+							Children.Add(fieldNode);
+						}
 					}
 				}
 
 				// Extra
-				if (export.Extras.Length > 0)
+				if (obj != null && obj.Extras.Length > 0)
 				{
-					var extrasNode = new PointingTreeNodeItem(StringHelper.Get("Asset_BinaryNode", export.Extras.Length), obj, TreeNodeType.ByteArray);
+					var extrasNode = new PointingTreeNodeItem(StringHelper.Get("Asset_BinaryNode", obj.Extras.Length), obj, TreeNodeType.ByteArray);
 					Children.Add(extrasNode);
-				}
-
-				// Chidren
-				if (!UAGConfig.Data.EnableDynamicTree)
-				{
-					for (int j = 0; j < export.Data.Count; j++)
-						InterpretThing(export.Data[j], this, !UAGConfig.Data.EnableDynamicTree);
 				}
 				break;
 			}
 		}
+
+		// if outer index tree mode is enabled, add children organized by OuterIndex first
+		AddOuterIndexChildren();
 	}
 
 	private void AddOuterIndexChildren()
 	{
-		if (asset == null) return;
+		if (asset == null || !UAGConfig.Data.EnableOuterTree) return;
 
-		var currentExportIndex = asset.Exports.IndexOf(export) + 1;
-		foreach (var childExport in asset.Exports)
+		var index = asset.Exports.IndexOf(export) + 1;
+		var classType = export.GetExportClassType().ToString();
+
+		// WidgetTree firstly
+		var children = new HashSet<int>();
+		if (string.Equals(classType, "WidgetTree", StringComparison.OrdinalIgnoreCase))
 		{
-			if (childExport.OuterIndex.Index == currentExportIndex)
-			{
-				var childNode = new ExportPointingTreeNodeItem(asset, childExport) { Type = TreeNodeType.SubExport };
-				var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
-				childNode.Add(loadingNode);
-				Add(childNode);
-			}
+			var RootWidget = export.Find<ObjectPropertyData>("RootWidget");
+			if (RootWidget != null) children.Add(RootWidget.Value.Index);
+		}
+		else if (classType.EndsWith("Slot", StringComparison.OrdinalIgnoreCase))
+		{
+			var Content = export.Find<ObjectPropertyData>("Content");
+			if (Content != null) children.Add(Content.Value.Index);
+		}
+
+		for (int i = 0; i < asset.Exports.Count; i++)
+		{
+			var current = asset.Exports[i];
+			if (children.Count > 0 ? !children.Contains(i + 1) : current.OuterIndex.Index != index) continue;
+
+			var childNode = new ExportPointingTreeNodeItem(asset, current) { Type = TreeNodeType.SubExport };
+			childNode.Add(new TreeNodeItem("loading...", TreeNodeType.Dummy));
+			Add(childNode);
 		}
 	}
 
@@ -279,16 +292,4 @@ public class ExpressionPointingTreeNodeItem(KismetExpression expression)
 				break;
 		}
 	}
-}
-
-/// <summary>
-/// Represents an entry in a dictionary that associates a key-value pair with an additional pointer object.
-/// </summary>
-/// <remarks>This class is useful for scenarios where a dictionary entry needs to be extended with additional
-/// metadata or context, represented by the <see cref="Pointer"/> property.</remarks>
-public class PointingDictionaryEntry(KeyValuePair<PropertyData, PropertyData> entry, object pointer)
-{
-	public KeyValuePair<PropertyData, PropertyData> Entry { get; set; } = entry;
-
-	public object Pointer { get; set; } = pointer;
 }

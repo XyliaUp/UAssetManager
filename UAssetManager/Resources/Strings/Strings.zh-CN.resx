@@ -627,13 +627,13 @@
     <value>启用Discord Rich Presence</value>
   </data>
   <data name="Settings_EnableDynamicTree" xml:space="preserve">
-    <value>启用动态树</value>
+    <value>启用属性树</value>
   </data>
   <data name="Settings_EnablePrettyBytecode" xml:space="preserve">
     <value>启用美化字节码</value>
   </data>
-  <data name="Settings_UseOuterIndexTreeMode" xml:space="preserve">
-    <value>使用对象树模式</value>
+  <data name="Settings_EnableOuterTree" xml:space="preserve">
+    <value>使用对象树</value>
   </data>
   <data name="Settings_EnableUpdateNotice" xml:space="preserve">
     <value>启用更新通知</value>

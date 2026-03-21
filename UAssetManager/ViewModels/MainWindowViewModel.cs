@@ -78,6 +78,32 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 		// Initialize plugin system
 		InitializePluginSystem();
+
+
+		//foreach (var file in new DirectoryInfo("E:\\Dump\\Exports\\bnsr\\content\\local\\tencent\\chineses\\package\\art\\ui\\gameui_bnsr\\resource\\gameui_fontfile_r").GetFiles("*.uasset", SearchOption.AllDirectories))
+		//{
+		//	var path = file.FullName.Replace("E:\\Dump\\Exports", "E:\\新建文件夹 (4)");
+		//	Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+		//	var asset = new UAsset(file.FullName, SelectedEngineVersion);
+		//	foreach (NormalExport item in asset.Exports)
+		//	{
+		//		var name = item.GetExportClassType().Value;
+		//		if (name == "bnsfontface")
+		//		{
+		//			foreach (var p in item.Data)
+		//			{
+		//				if (p.Name.ToString() == "height")
+		//				{
+		//					var value = p.GetObject<float>();
+		//					p.SetObject((float)(value * 2.2));
+		//				}
+		//			}
+		//		}
+		//	}
+
+		//	asset.Write(path);
+		//}
 	}
 
 	#endregion
@@ -337,7 +363,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 					CurrentAsset = new UAsset(filePath, SelectedEngineVersion);
 					PopulateTreeView();
 					Controls.ParticleSystemEditor.Initialize(CurrentAsset);
-					//SaveFile();
 					break;
 			}
 
@@ -386,7 +411,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		for (int i = 0; i < CurrentAsset.Exports.Count; i++)
 		{
 			var export = CurrentAsset.Exports[i];
-			if (UAGConfig.Data.UseOuterIndexTreeMode && export.OuterIndex.IsExport()) continue;
+			if (UAGConfig.Data.EnableOuterTree && export.OuterIndex.IsExport()) continue;
 
 			var categoryNode = new ExportPointingTreeNodeItem(CurrentAsset, export);
 			var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);

@@ -52,6 +52,8 @@ public partial class ParticleSystemEditor
 
 	public static void Initialize(UAsset asset)
 	{
+		return;
+
 		asset.Exports.Any(x => x.GetExportClassType().Value == "particlesystem");
 
 		foreach (NormalExport item in asset.Exports)
@@ -78,6 +80,8 @@ public partial class ParticleSystemEditor
 				}
 			}
 		}
+
+		asset.Write(asset.FilePath);
 	}
 	#endregion
 }

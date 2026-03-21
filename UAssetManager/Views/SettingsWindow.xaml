@@ -91,7 +91,7 @@
 						<CheckBox Content="{DynamicResource Settings_EnableBak}" IsChecked="{Binding Config.EnableBak}"/>
 						<CheckBox Content="{DynamicResource Settings_EnablePrettyBytecode}" IsChecked="{Binding Config.EnablePrettyBytecode}"/>
 						<CheckBox Content="{DynamicResource Settings_EnableDynamicTree}" IsChecked="{Binding Config.EnableDynamicTree}"/>
-						<CheckBox Content="{DynamicResource Settings_UseOuterIndexTreeMode}" IsChecked="{Binding Config.UseOuterIndexTreeMode}"/>
+						<CheckBox Content="{DynamicResource Settings_EnableOuterTree}" IsChecked="{Binding Config.EnableOuterTree}"/>
 					</UniformGrid>
 				</GroupBox>
 

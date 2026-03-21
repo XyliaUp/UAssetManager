@@ -632,8 +632,8 @@ Would you like to open the webpage in your browser?</value>
   <data name="Settings_EnablePrettyBytecode" xml:space="preserve">
     <value>Enable pretty bytecode</value>
   </data>
-  <data name="Settings_UseOuterIndexTreeMode" xml:space="preserve">
-    <value>Use object tree mode</value>
+  <data name="Settings_EnableOuterTree" xml:space="preserve">
+    <value>Use object tree</value>
   </data>
   <data name="Settings_EnableUpdateNotice" xml:space="preserve">
     <value>Enable update notice</value>

@@ -6,8 +6,9 @@
     <converter:BooleanToVisibilityReConverter x:Key="BooleanToVisibilityReConverter"/>
     <converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
     <converter:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter"/>
-    <converter:HighlightMatchToBrushConverter x:Key="HighlightBrush"/>
+	<converter:HighlightMatchToBrushConverter x:Key="HighlightBrush"/>
     <converter:HighlightMatchToFontWeightConverter x:Key="HighlightWeight"/>
-    <converter:StringConverter x:Key="StringConverter"/>
-
+	<converter:NumberToVisibilityConverter x:Key="NumberToVisibilityConverter"/>
+	<converter:StringConverter x:Key="StringConverter"/>
+	
 </ResourceDictionary>

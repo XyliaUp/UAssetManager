@@ -17,11 +17,12 @@ public partial class UAGConfigData : ObservableObject, ICloneable
 	[ObservableProperty] string _mapStructTypeOverride = string.Empty;
 	[ObservableProperty] bool _changeValuesOnScroll;
 	[ObservableProperty] bool _enableDiscordRPC;
-	[ObservableProperty] bool _enableBak;
+	[ObservableProperty] bool _enableBak = true;
 	[ObservableProperty] bool _enableUpdateNotice = true;
 	[ObservableProperty] bool _enablePrettyBytecode;
 	[ObservableProperty] bool _enableDynamicTree;
-	[ObservableProperty] bool _enableOuterTree;
+	[ObservableProperty] bool _enableOuterTree = true;
+	[ObservableProperty] bool _enableCloseDialog = true;
 	[ObservableProperty] int _startupWidth = 1000;
 	[ObservableProperty] int _startupHeight = 700;
 	[ObservableProperty] int _customSerializationFlags;

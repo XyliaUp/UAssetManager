@@ -62,8 +62,28 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 				Children.Add(parentNode);
 				break;
 			}
+			case DataTableExport export:
+			{
+				foreach (var propertyData in export.Table.Data)
+				{
+					var propertyNode = new PointingTreeNodeItem(propertyData.Name.ToString(), propertyData, TreeNodeType.UserDefinedStructData);
+					Children.Add(propertyNode);
+				}
+				break;
+			}
 			case NormalExport export:
 			{
+				if (export is ClassExport classExport)
+				{
+					var funcMapNode = new PointingTreeNodeItem("FuncMap", classExport.FuncMap, TreeNodeType.UserDefinedStructData);
+					foreach (var (name, target) in classExport.FuncMap)
+					{
+						funcMapNode.Children.Add(new PointingTreeNodeItem(name.ToString(), target, TreeNodeType.SoftPackageReferences));
+					}
+
+					Children.Add(funcMapNode);
+				}
+
 				if (export is StringTableExport stringTableExport)
 				{
 					var parentNode2 = new PointingTreeNodeItem(
@@ -279,17 +299,29 @@ public class ExpressionPointingTreeNodeItem(KismetExpression expression)
 				foreach (var param in function.Value) Children.Add(new ExpressionPointingTreeNodeItem(param));
 				break;
 
-			case EX_NameConst function:
-				Name += $" ({function.Value})";
-				break;
-
-			case EX_StringConst function:
-				Name += $" ({function.Value})";
-				break;
-
 			case EX_Jump function:
 				Name += $" ({function.CodeOffset})";
 				break;
+
+			default:
+				if (IsGenericKismetExpression(expression.GetType())) Name += $" ({expression.RawValue})";
+				break;
 		}
+	}
+
+	private static bool IsGenericKismetExpression(Type type)
+	{
+		ArgumentNullException.ThrowIfNull(type);
+
+		var currentType = type.BaseType;
+		while (currentType != null)
+		{
+			if (currentType.IsGenericType && currentType.GetGenericTypeDefinition() == typeof(KismetExpression<>))
+			{
+				return true;
+			}
+			currentType = currentType.BaseType;
+		}
+		return false;
 	}
 }

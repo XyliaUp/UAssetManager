@@ -114,7 +114,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 	[RelayCommand] void OpenContainer() => new FileContainerWindow().Show();
 
-	[RelayCommand] void Find() => new FindWindow() { Owner = Application.Current.MainWindow }.ShowDialog();
+	[RelayCommand] void Find() => new FindWindow() { Owner = Application.Current.MainWindow }.Show();
 
 	[RelayCommand] void MapStructOverrides() => new MapStructTypeOverrideWindow() { Owner = Application.Current.MainWindow }.ShowDialog();
 
@@ -379,6 +379,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 	}
 
+	[RelayCommand]
 	private void PopulateTreeView()
 	{
 		if (CurrentAsset == null) return;
@@ -413,13 +414,38 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			var export = CurrentAsset.Exports[i];
 			if (UAGConfig.Data.EnableOuterTree && export.OuterIndex.IsExport()) continue;
 
-			var categoryNode = new ExportPointingTreeNodeItem(CurrentAsset, export);
-			var loadingNode = new TreeNodeItem("loading...", TreeNodeType.Dummy);
-			categoryNode.Add(loadingNode);
-			exportDataNode.Add(categoryNode);
+			var exportNode = new ExportPointingTreeNodeItem(CurrentAsset, export)
+			{
+				new TreeNodeItem("loading...", TreeNodeType.Dummy)
+			};
+			exportDataNode.Add(exportNode);
 		}
 
-		TreeNodes.Add(exportDataNode);
+		TreeNodes.Add(SelectedTreeNode = exportDataNode);
+	}
+
+	[RelayCommand]
+	private void ExpandAll()
+	{
+		void expand(TreeNodeItem node)
+		{
+			node.IsExpanded = true;
+			foreach (var c in node.Children) expand(c);
+		}
+
+		foreach (var node in TreeNodes) expand(node);
+	}
+
+	[RelayCommand]
+	private void CollapseAll()
+	{
+		void collapse(TreeNodeItem node)
+		{
+			node.IsExpanded = false;
+			foreach (var c in node.Children) collapse(c);
+		}
+
+		foreach (var node in TreeNodes) collapse(node);
 	}
 
 	partial void OnSelectedTreeNodeChanged(TreeNodeItem? value)
@@ -822,6 +848,7 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	[RelayCommand]
 	public void SaveFile()
 	{
+		if (CurrentAsset == null) return;
 		if (IsAssetFromBuildPak && AssetUpdateRequested != null)
 		{
 			SaveCurrentFile(CurrentFilePath, true);
@@ -840,6 +867,8 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 	[RelayCommand]
 	void SaveFileAs()
 	{
+		if (CurrentAsset == null) return;
+
 		var saveFileDialog = new SaveFileDialog
 		{
 			Title = StringHelper.Get("Dialog.SaveAssetFile.Title"),
@@ -847,7 +876,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 			Filter = "UAsset Files|*.uasset|JSON Files|*.json|All Files (*.*)|*.*",
 			DefaultExt = "uasset"
 		};
-
 		if (saveFileDialog.ShowDialog() == true)
 		{
 			SaveCurrentFile(saveFileDialog.FileName);
@@ -1174,8 +1202,15 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		{
 			token.ThrowIfCancellationRequested();
 			if (!visited.Add(node)) break;
-			if (node != SelectedTreeNode && predicate(node)) { selected = node; return true; }
-			if (NodeDeepMatches(node, predicate)) { selected = node; return true; }
+			foreach (var current in EnumerateNodeDeepMatches(node, predicate))
+			{
+				token.ThrowIfCancellationRequested();
+				if (current == SelectedTreeNode) continue;
+
+				selected = current;
+				return true;
+			}
+
 			node = GetNextNode(node, forward);
 		}
 		return false;
@@ -1189,14 +1224,14 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		{
 			token.ThrowIfCancellationRequested();
 
-			Traverse(root, n =>
+			Traverse(root, false, n =>
 			{
 				token.ThrowIfCancellationRequested();
-				var matched = n.IsSearchMatched = predicate(n);
-				if (matched) results.Add(n);
-				foreach (var _ in EnumerateNodeDeepMatches(n, predicate))
+				if (n.IsSearchMatched = predicate(n)) results.Add(n);
+
+				foreach (var c in EnumerateNodeDeepMatches(n, predicate))
 				{
-					results.Add(n);
+					results.Add(c);
 					break;
 				}
 			});
@@ -1204,94 +1239,65 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		return results.Distinct();
 	}
 
+	void ITreeSearchProvider.SelectObject(object? found)
+	{
+		if (SelectedTreeNode != null) SelectedTreeNode.IsSelected = false;
+		SelectedTreeNode = found as TreeNodeItem;
+		if (SelectedTreeNode != null)
+		{
+			Traverse(SelectedTreeNode, true, (c) => c.IsExpanded = true);
+			SelectedTreeNode.IsSelected = true;
+		}
+	}
+
 	void ITreeSearchProvider.ClearHighlights()
 	{
-		foreach (var root in TreeNodes) Traverse(root, n => n.IsSearchMatched = false);
+		foreach (var root in TreeNodes) Traverse(root, false, n => n.IsSearchMatched = false);
 	}
 
-	void ITreeSearchProvider.SelectNode(TreeNodeItem node)
-	{
-		SelectedTreeNode = node;
-	}
-
-	private static TreeNodeItem? GetNextNode(TreeNodeItem node, bool forward, bool canGoDown = true)
+	private static TreeNodeItem? GetNextNode(TreeNodeItem node, bool forward)
 	{
 		if (forward)
 		{
-			if (node.Children.Count != 0 && canGoDown) return node.Children[0];
 			var parent = node.Parent;
 			if (parent == null) return null;
-			int idx = parent.Children.IndexOf(node);
-			if (idx >= 0 && idx + 1 < parent.Children.Count) return parent.Children[idx + 1];
-			return GetNextNode(parent, forward, false);
+			int idx = parent.IndexOf(node);
+			if (idx > 0 && idx - 1 < parent.Children.Count) return parent.Children[idx - 1];
+			return parent;
 		}
 		else
 		{
 			var parent = node.Parent;
 			if (parent == null) return null;
-			int idx = parent.IndexOf(node);
-			if (idx > 0) return GetLastDescendant(parent.Children[idx - 1]);
+			int idx = parent.Children.IndexOf(node);
+			if (idx >= 0 && idx + 1 < parent.Children.Count) return parent.Children[idx + 1];
 			return parent;
 		}
 	}
 
-	private static TreeNodeItem GetLastDescendant(TreeNodeItem node)
-	{
-		if (node.Children.Count == 0) return node;
-		return GetLastDescendant(node.Children[node.Children.Count - 1]);
-	}
-
 	private static IEnumerable<object> EnumerateNodeDeepMatches(TreeNodeItem node, Func<object, bool> predicate)
 	{
-		object? pointer = node.Data;
-		if (pointer == null) yield break;
-		if (predicate(node)) { yield return node; yield break; }
-	}
+		if (predicate(node)) yield return node;
 
-	private static IEnumerable<(string text, string context, string display)> EnumerateObjectStrings(object obj, HashSet<object> visited, int depth, int maxDepth)
-	{
-		if (obj == null || depth > maxDepth) yield break;
-		if (!obj.GetType().IsValueType)
+		Application.Current.Dispatcher.Invoke(node.Materialize);
+		foreach (var item in node.Children)
 		{
-			if (visited.Contains(obj)) yield break;
-			visited.Add(obj);
-		}
-		if (obj is string s) { yield return (s, "string", s); yield break; }
-		if (obj is System.Collections.IEnumerable en && obj is not string)
-		{
-			int idx = 0; int budget = 2048;
-			foreach (var item in en)
+			foreach (var match in EnumerateNodeDeepMatches(item, predicate))
 			{
-				if (--budget < 0) break;
-				foreach (var r in EnumerateObjectStrings(item!, visited, depth + 1, maxDepth))
-					yield return ($"{r.text}", $"[{idx}] {r.context}", r.display);
-				idx++;
+				yield return match;
 			}
-			yield break;
 		}
-		var toStringVal = obj.ToString() ?? string.Empty;
-		if (!string.IsNullOrWhiteSpace(toStringVal)) yield return (toStringVal, obj.GetType().Name, toStringVal);
-		foreach (var prop in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-		{
-			if (prop.GetIndexParameters().Length > 0) continue;
-			object? val = null; try { val = prop.GetValue(obj); } catch { continue; }
-			if (val == null) continue;
-			if (val is string vs) { yield return (vs, prop.Name, $"{prop.Name}: {vs}"); continue; }
-			foreach (var r in EnumerateObjectStrings(val, visited, depth + 1, maxDepth))
-				yield return (r.text, $"{prop.Name}.{r.context}", r.display);
-		}
+
+		yield break;
 	}
 
-	private static void Traverse(TreeNodeItem node, Action<TreeNodeItem> cb)
+	private static void Traverse(TreeNodeItem? node, bool parent, Action<TreeNodeItem> action)
 	{
-		cb(node);
-		foreach (var c in node.Children) Traverse(c, cb);
-	}
+		if (node is null) return;
 
-	private static bool NodeDeepMatches(TreeNodeItem node, Func<object, bool> predicate)
-	{
-		foreach (var _ in EnumerateNodeDeepMatches(node, predicate)) return true;
-		return false;
+		action(node);
+		if (parent) Traverse(node.Parent, parent, action);
+		else foreach (var c in node.Children) Traverse(c, parent, action);
 	}
 
 	#endregion
@@ -1489,23 +1495,6 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		}
 	}
 
-	public void DisposeDiscordRpc()
-	{
-		try
-		{
-			if (_discordRpc != null && !_discordRpc.IsDisposed)
-			{
-				_discordRpc.ClearPresence();
-				_discordRpc.Dispose();
-				_discordRpc = null;
-			}
-		}
-		catch (Exception ex)
-		{
-			Debug.WriteLine($"Discord RPC Dispose Error: {ex.Message}");
-		}
-	}
-
 	private string? GetProjectName()
 	{
 		if (string.IsNullOrEmpty(CurrentFilePath)) return null;
@@ -1528,6 +1517,31 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 		catch
 		{
 			return null;
+		}
+	}
+
+	public void Dispose()
+	{
+		try
+		{
+			// Save unsaved changes
+			if (HasUnsavedChanges && MessageBox.Show(
+				StringHelper.Get("MainWindow_FileModifiedConfirmMessage"),
+				StringHelper.Get("MainWindow_ConfirmTitle"),
+				MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+				SaveFile();
+
+			// Dispose Discord RPC
+			if (_discordRpc != null && !_discordRpc.IsDisposed)
+			{
+				_discordRpc.ClearPresence();
+				_discordRpc.Dispose();
+				_discordRpc = null;
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Discord RPC Dispose Error: {ex.Message}");
 		}
 	}
 

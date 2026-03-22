@@ -341,7 +341,7 @@
   <data name="FindWindow_FindNext" xml:space="preserve">
     <value>查找下一个</value>
   </data>
-  <data name="FindWindow_FindPrevious" xml:space="preserve">
+  <data name="FindWindow_FindPrev" xml:space="preserve">
     <value>查找上一个</value>
   </data>
   <data name="FindWindow_Forward" xml:space="preserve">
@@ -625,6 +625,9 @@
   </data>
   <data name="Settings_EnableDiscordRPC" xml:space="preserve">
     <value>启用Discord Rich Presence</value>
+  </data>
+  <data name="Settings_EnableCloseDialog" xml:space="preserve">
+    <value>自动关闭搜索结果对话框</value>
   </data>
   <data name="Settings_EnableDynamicTree" xml:space="preserve">
     <value>启用属性树</value>

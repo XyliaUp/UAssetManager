@@ -341,7 +341,7 @@ Would you like to open the webpage in your browser?</value>
   <data name="FindWindow_FindNext" xml:space="preserve">
     <value>Find Next</value>
   </data>
-  <data name="FindWindow_FindPrevious" xml:space="preserve">
+  <data name="FindWindow_FindPrev" xml:space="preserve">
     <value>Find Previous</value>
   </data>
   <data name="FindWindow_Forward" xml:space="preserve">
@@ -625,6 +625,9 @@ Would you like to open the webpage in your browser?</value>
   </data>
   <data name="Settings_EnableDiscordRPC" xml:space="preserve">
     <value>Enable Discord Rich Presence</value>
+  </data>
+  <data name="Settings_EnableCloseDialog" xml:space="preserve">
+    <value>Auto close find result dialog</value>
   </data>
   <data name="Settings_EnableDynamicTree" xml:space="preserve">
     <value>Enable dynamic tree</value>

@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="{DynamicResource FindWindow_Title}" 
-        ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+        ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        Title="{DynamicResource FindWindow_Title}" MinWidth="400">
     
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
@@ -24,16 +24,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Search Content -->
         <DockPanel Grid.Row="0" Margin="10">
-            <Label Content="{DynamicResource FindWindow_SearchContent}" Margin="0 0 5 0" />
-            <TextBox x:Name="SearchForTextBox" VerticalContentAlignment="Center" DockPanel.Dock="Right"
-                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="{DynamicResource FindWindow_SearchContent}" Margin="0 0 2 0" />
+			<TextBox x:Name="SearchForTextBox" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
         </DockPanel>
 
         <Grid Grid.Row="1">
@@ -60,29 +58,32 @@
         </Grid>
         
         <!-- Progress Bar -->
-        <StackPanel Grid.Row="3" Margin="10" Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel Grid.Row="2" Margin="10" Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Label Content="{DynamicResource FindWindow_Searching}" />
             <ProgressBar Height="20" Margin="5" IsIndeterminate="True"/>
         </StackPanel>
 
         <!-- Results Area -->
-        <GroupBox Grid.Row="4" Header="{DynamicResource FindWindow_SearchResults}" Style="{StaticResource GroupBoxStyle}">
-            <ListBox ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedResult}" MouseDoubleClick="SearchResultsListBox_MouseDoubleClick">
-                <ListBox.ItemTemplate>
+        <GroupBox Grid.Row="3" Header="{DynamicResource FindWindow_SearchResults}" Style="{StaticResource GroupBoxStyle}"
+                  Visibility="{Binding SearchResults.Count,Converter={StaticResource NumberToVisibilityConverter}}">
+			<ListBox ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedResult}" >
+				<ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}"/>
+                        <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </GroupBox>
 
         <!-- Button Area -->
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Command="{Binding FindNextCommand}" Content="{DynamicResource FindWindow_FindNext}" Style="{StaticResource ButtonStyle}" IsDefault="True"/>
-            <Button Command="{Binding FindPreviousCommand}" Content="{DynamicResource FindWindow_FindPrevious}" Style="{StaticResource ButtonStyle}" />
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+			<Button Command="{Binding PerformSearchCommand}" Content="{DynamicResource FindWindow_FindNext}" IsDefault="True" 
+                    Style="{StaticResource ButtonStyle}" Visibility="{Binding IsForward,Converter={StaticResource BooleanToVisibilityReConverter}}" />
+			<Button Command="{Binding PerformSearchCommand}" Content="{DynamicResource FindWindow_FindPrev}" IsDefault="True" 
+                    Style="{StaticResource ButtonStyle}" Visibility="{Binding IsForward,Converter={StaticResource BooleanToVisibilityConverter}}" />
+            
             <Button Command="{Binding FindAllCommand}" Content="{DynamicResource FindWindow_FindAll}" Style="{StaticResource ButtonStyle}" />
             <Button Command="{Binding CancelCommand}" Content="{DynamicResource FindWindow_Cancel}" Style="{StaticResource ButtonStyle}" Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Button Command="{Binding CloseCommand}" Content="{DynamicResource FindWindow_Close}" Style="{StaticResource ButtonStyle}" IsCancel="True"/>
         </StackPanel>
     </Grid>
 </Window>

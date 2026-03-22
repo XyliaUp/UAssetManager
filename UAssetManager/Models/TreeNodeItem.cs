@@ -8,8 +8,6 @@ namespace UAssetManager.Models;
 public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 {
 	#region Properties
-	public TreeNodeItem? Parent;
-
 	private string _name = string.Empty;
 	public string Name { get => _name; set => SetProperty(ref _name, value); }
 
@@ -45,6 +43,8 @@ public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 	public object? Data { get => _data; set => SetProperty(ref _data, value); }
 
 	protected virtual bool DynamicMaterialize => true;
+
+	public TreeNodeItem? Parent{ get; private set; }
 	public Collection<TreeNodeItem> Children => this;
 	#endregion
 
@@ -79,8 +79,6 @@ public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 		}
 	}
 
-	protected internal virtual void Materialize() { }
-
 	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
 	{
 		if (EqualityComparer<T>.Default.Equals(storage, value))
@@ -90,6 +88,10 @@ public partial class TreeNodeItem : ObservableCollection<TreeNodeItem>
 		OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		return true;
 	}
+
+	protected internal virtual void Materialize() { }
+
+	public override string ToString() => Name;
 	#endregion
 }
 

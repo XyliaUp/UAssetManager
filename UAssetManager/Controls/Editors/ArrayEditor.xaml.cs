@@ -188,11 +188,6 @@ public partial class ArrayEditor
 		_ => throw new InvalidOperationException(),
 	};
 	#endregion
-
-	private void MoreButton_Click(object sender, RoutedEventArgs e)
-	{
-
-	}
 }
 
 public class ArrayEditorItem

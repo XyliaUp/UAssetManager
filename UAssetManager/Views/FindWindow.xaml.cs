@@ -1,14 +1,13 @@
 using System.Windows;
 using System.Windows.Input;
-using UAssetManager.Models;
 using UAssetManager.ViewModels;
 
 namespace UAssetManager.Views;
 public partial class FindWindow : Window
 {
     readonly FindViewModel _viewModel;
-
-    public FindWindow()
+  
+	public FindWindow()
     {
         InitializeComponent();
         DataContext = _viewModel = new FindViewModel();
@@ -29,37 +28,11 @@ public partial class FindWindow : Window
         };
 
         InputBindings.Add(new KeyBinding(_viewModel.CloseCommand, new KeyGesture(Key.Escape)));
-        InputBindings.Add(new KeyBinding(_viewModel.FindPreviousCommand, new KeyGesture(Key.F3, ModifierKeys.Shift)));
-        InputBindings.Add(new KeyBinding(_viewModel.FindNextCommand, new KeyGesture(Key.F3, ModifierKeys.None)));
     }
 
     protected override void OnClosed(EventArgs e)
     {
         _viewModel.ClearHighlights();
         base.OnClosed(e);
-    }
-
-    private void SearchResultsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        if (_viewModel.SelectedResult != null)
-        {
-            var data = _viewModel.SelectedResult;
-            if (data is TreeNodeItem node)
-            {
-                if (Owner is MainWindow mw)
-                {
-                    mw.SelectNode(node);
-                }
-            }
-            else if (data != null)
-            {
-                // data may be the underlying model object; try to locate dynamically
-                if (Owner is MainWindow mw)
-                {
-                    mw.SelectByObject(data);
-                }
-            }
-            Close();
-        }
     }
 }

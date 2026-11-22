@@ -13,6 +13,7 @@ public class PluginLoader
     private readonly string _pluginDirectory;
     private readonly List<IUAssetPlugin> _plugins = [];
     private IPluginHost? _pluginHost;
+    private IReadOnlyList<InstalledPluginPackage>? _installedPackages;
 
     public IReadOnlyCollection<IUAssetPlugin> Plugins => _plugins;
 
@@ -37,28 +38,46 @@ public class PluginLoader
     /// </summary>
     public void LoadPlugins()
     {
+        // Keep the same package selection until the process exits. Assemblies loaded
+        // in this process remain loaded after the legacy Reload Plugins command.
+        _installedPackages ??= PluginPackageStore.ReadInstalled(PluginPackageStore.DefaultDirectory, typeof(PluginLoader).Assembly.GetName().Version!);
+        var loadedPackageNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var package in _installedPackages)
+        {
+            if (!loadedPackageNames.Contains(package.AssemblyName) && TryLoadPlugin(package.EntryPath))
+                loadedPackageNames.Add(package.AssemblyName);
+        }
+
         if (!Directory.Exists(_pluginDirectory))
         {
             Directory.CreateDirectory(_pluginDirectory);
             Log.Information(StringHelper.Get("Plugin_CreatedDirectory", _pluginDirectory));
-            return;
         }
 
         var pluginFiles = Directory.GetFiles(_pluginDirectory, "*.dll", SearchOption.AllDirectories);
 
         foreach (var pluginFile in pluginFiles)
         {
-            try
-            {
-                LoadPlugin(pluginFile);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, StringHelper.Get("Plugin_FailedToLoad", pluginFile));
-            }
+            if (!loadedPackageNames.Contains(Path.GetFileNameWithoutExtension(pluginFile)))
+                TryLoadPlugin(pluginFile);
         }
 
         Log.Information(StringHelper.Get("Plugin_LoadedCount", _plugins.Count));
+    }
+
+    private bool TryLoadPlugin(string pluginPath)
+    {
+        try
+        {
+            var previousCount = _plugins.Count;
+            LoadPlugin(pluginPath);
+            return _plugins.Count > previousCount;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, StringHelper.Get("Plugin_FailedToLoad", pluginPath));
+            return false;
+        }
     }
 
     /// <summary>
@@ -129,7 +148,7 @@ public class PluginLoader
         {
             try
             {
-                plugin.Initialize(host);
+                plugin.Initialize(host, host.GetLanguage());
                 Log.Information(StringHelper.Get("Plugin_Initialized", plugin.Name));
             }
             catch (Exception ex)

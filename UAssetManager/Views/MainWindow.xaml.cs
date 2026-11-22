@@ -96,6 +96,9 @@ public partial class MainWindow : Window
 
 	private void SetupPluginMenu()
 	{
+		if (StringHelper.Current is { } strings)
+			strings.LanguageChanged += HostLanguageChanged;
+
 		// Subscribe to plugin changes
 		_viewModel.PropertyChanged += (s, e) =>
 		{
@@ -109,16 +112,22 @@ public partial class MainWindow : Window
 		UpdatePluginMenuItems();
 	}
 
+	private void HostLanguageChanged(object? sender, EventArgs e) => UpdatePluginMenuItems();
+
+	private void InstallPluginFromRepository_Click(object sender, RoutedEventArgs e)
+	{
+		new PluginPackageInstallWindow { Owner = this }.ShowDialog();
+	}
+
 	private void UpdatePluginMenuItems()
 	{
 		if (this.FindName("PluginsMenu") is not MenuItem pluginsMenu ||
 			pluginsMenu.FindName("PluginSeparator") is not Separator pluginSeparator) return;
 
-		// Remove old plugin items (keep management items)
-		var itemsToRemove = pluginsMenu.Items.Cast<object>().Skip(3); // Skip first 3 items (Open Folder, Reload, Separator)
-		foreach (var item in itemsToRemove)
+		var separatorIndex = pluginsMenu.Items.IndexOf(pluginSeparator);
+		for (var index = pluginsMenu.Items.Count - 1; index > separatorIndex; index--)
 		{
-			pluginsMenu.Items.Remove(item);
+			pluginsMenu.Items.RemoveAt(index);
 		}
 
 		// Show/hide separator based on plugin count
@@ -193,6 +202,13 @@ public partial class MainWindow : Window
 		SaveConfiguration();
 		_viewModel.Dispose();
 		base.OnClosing(e);
+	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+		if (StringHelper.Current is { } strings)
+			strings.LanguageChanged -= HostLanguageChanged;
+		base.OnClosed(e);
 	}
 
 	#endregion

@@ -7,6 +7,7 @@ using UAssetAPI.Pak.Utils;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
+using UAssetManager.Utils;
 using UAssetManager.Resources;
 
 namespace UAssetManager.Models;
@@ -165,12 +166,12 @@ public class ExportPointingTreeNodeItem(UAsset asset, Export export)
 		var children = new HashSet<int>();
 		if (string.Equals(classType, "WidgetTree", StringComparison.OrdinalIgnoreCase))
 		{
-			var RootWidget = export.Find<ObjectPropertyData>("RootWidget");
+			var RootWidget = export.FindProperty<ObjectPropertyData>("RootWidget");
 			if (RootWidget != null) children.Add(RootWidget.Value.Index);
 		}
 		else if (classType.EndsWith("Slot", StringComparison.OrdinalIgnoreCase))
 		{
-			var Content = export.Find<ObjectPropertyData>("Content");
+			var Content = export.FindProperty<ObjectPropertyData>("Content");
 			if (Content != null) children.Add(Content.Value.Index);
 		}
 

@@ -1,9 +1,10 @@
-﻿using UAssetAPI;
+using UAssetAPI;
 using UAssetAPI.ExportTypes;
 using UAssetAPI.Pak.Objects;
 using UAssetAPI.Pak.Utils;
 using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.UnrealTypes;
+using UAssetManager.Utils;
 
 namespace UAssetManager.Controls;
 public partial class ParticleSystemEditor
@@ -22,17 +23,17 @@ public partial class ParticleSystemEditor
 	#region Methods
 	public void Show(NormalExport current, UAsset asset)
 	{
-		var Emitters = current.Find<ArrayPropertyData>("Emitters")!;
+		var Emitters = current.FindProperty<ArrayPropertyData>("Emitters")!;
 
 		foreach (var emitterprop in Emitters.Value)
 		{
 			var emitter = emitterprop.GetObject<FPackageIndex>().ToExport(asset);
 
-			var LodLevels = emitter.Find<ArrayPropertyData>("lodlevels");
+			var LodLevels = emitter.FindProperty<ArrayPropertyData>("lodlevels");
 			foreach (var loadlevelprop in LodLevels.Value)
 			{
 				var loadlevel = loadlevelprop.GetObject<FPackageIndex>().ToExport(asset);
-				var Modules = loadlevel.Find<ArrayPropertyData>("modules");
+				var Modules = loadlevel.FindProperty<ArrayPropertyData>("modules");
 
 				foreach (var moduleprop in Modules.Value)
 				{
@@ -54,7 +55,7 @@ public partial class ParticleSystemEditor
 	{
 		return;
 
-		asset.Exports.Any(x => x.GetExportClassType().Value == "particlesystem");
+		asset.Exports.Any(x => string.Equals(x.GetExportClassType().Value?.Value, "particlesystem", StringComparison.OrdinalIgnoreCase));
 
 		foreach (NormalExport item in asset.Exports)
 		{
@@ -72,7 +73,7 @@ public partial class ParticleSystemEditor
 			//	}
 			//}
 
-			if (name == "bnsparticlemodulelifetime")
+			if (string.Equals(name?.Value, "bnsparticlemodulelifetime", StringComparison.OrdinalIgnoreCase))
 			{
 				foreach (var p in item.Data)
 				{

@@ -68,6 +68,7 @@
 			</MenuItem>
 
 			<MenuItem Header="{DynamicResource Menu.Plugins}" d:Header="Plugins" x:Name="PluginsMenu">
+				<MenuItem Header="{DynamicResource MainWindow_InstallPluginFromRepository}" Click="InstallPluginFromRepository_Click"/>
 				<MenuItem Header="{DynamicResource MainWindow_OpenPlugins}" Command="{Binding OpenPluginsFolderCommand}"/>
 				<MenuItem Header="{DynamicResource MainWindow_ReloadPlugins}" Command="{Binding ReloadPluginsCommand}"/>
 				<Separator x:Name="PluginSeparator" Visibility="Collapsed"/>

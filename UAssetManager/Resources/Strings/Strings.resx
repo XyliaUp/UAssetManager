@@ -924,11 +924,74 @@ Would you like to open the webpage in your browser?</value>
   <data name="Menu.Plugins" xml:space="preserve">
     <value>Plugins</value>
   </data>
+  <data name="MainWindow_InstallPluginFromRepository" xml:space="preserve">
+    <value>Install from Repository…</value>
+  </data>
   <data name="MainWindow_OpenPlugins" xml:space="preserve">
     <value>Open Plugins Folder</value>
   </data>
   <data name="MainWindow_ReloadPlugins" xml:space="preserve">
     <value>Reload Plugins</value>
+  </data>
+  <data name="PluginInstaller.Title" xml:space="preserve">
+    <value>Install Plugin from Repository</value>
+  </data>
+  <data name="PluginInstaller.RepositoryUrl" xml:space="preserve">
+    <value>GitHub repository URL</value>
+  </data>
+  <data name="PluginInstaller.Find" xml:space="preserve">
+    <value>Find release</value>
+  </data>
+  <data name="PluginInstaller.Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="PluginInstaller.Finding" xml:space="preserve">
+    <value>Looking up the latest release…</value>
+  </data>
+  <data name="PluginInstaller.Downloading" xml:space="preserve">
+    <value>Downloading and checking the plugin…</value>
+  </data>
+  <data name="PluginInstaller.Cancelling" xml:space="preserve">
+    <value>Cancelling…</value>
+  </data>
+  <data name="PluginInstaller.TimedOut" xml:space="preserve">
+    <value>The connection timed out. Try again.</value>
+  </data>
+  <data name="PluginInstaller.FindFailed" xml:space="preserve">
+    <value>Could not find the plugin release. {0}</value>
+  </data>
+  <data name="PluginInstaller.InstallFailed" xml:space="preserve">
+    <value>Could not install the plugin. {0}</value>
+  </data>
+  <data name="PluginInstaller.Installed" xml:space="preserve">
+    <value>{0} {1} installed. Restart UAssetManager to load it.</value>
+  </data>
+  <data name="PluginPackage_InvalidRepository" xml:space="preserve">
+    <value>Enter a public GitHub repository URL such as https://github.com/owner/repository.</value>
+  </data>
+  <data name="PluginPackage_ReleaseNotFound" xml:space="preserve">
+    <value>This repository has no public stable release.</value>
+  </data>
+  <data name="PluginPackage_AssetNotFound" xml:space="preserve">
+    <value>The latest release does not include {0}.</value>
+  </data>
+  <data name="PluginPackage_InvalidRelease" xml:space="preserve">
+    <value>GitHub returned invalid release information.</value>
+  </data>
+  <data name="PluginPackage_UnsupportedPlatform" xml:space="preserve">
+    <value>Plugin packages require a Windows x64 host.</value>
+  </data>
+  <data name="PluginPackage_InvalidBundle" xml:space="preserve">
+    <value>The plugin ZIP is invalid or incomplete.</value>
+  </data>
+  <data name="PluginPackage_HostTooOld" xml:space="preserve">
+    <value>This plugin requires UAssetManager {0} or later. The current version is {1}.</value>
+  </data>
+  <data name="PluginPackage_IdConflict" xml:space="preserve">
+    <value>Plugin ID {0} is already installed from another repository.</value>
+  </data>
+  <data name="PluginPackage_VersionTooOld" xml:space="preserve">
+    <value>Plugin version {0} is older than the installed version {1}.</value>
   </data>
   <data name="Plugin_CreatedDirectory" xml:space="preserve">
     <value>Created plugin directory: {0}</value>

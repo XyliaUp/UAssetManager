@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using UAssetAPI;
 using UAssetAPI.Pak.Compression;
@@ -19,7 +21,8 @@ internal partial class SettingsViewModel : ObservableObject
     public ObservableCollection<SerializationFlagItem> CustomSerializationFlags { get; } = new();
 
     public IEnumerable<ThemeType> Themes => Enum.GetValues<ThemeType>();
-    public IEnumerable<ELanguage> Languages => Enum.GetValues<ELanguage>();
+    public IEnumerable<KeyValuePair<ELanguage, string>> Languages => StringHelper.EnumerateLanguages().Select(language =>
+        KeyValuePair.Create(language, typeof(ELanguage).GetField(language.ToString())?.GetCustomAttribute<DescriptionAttribute>()?.Description ?? language.ToString()));
     public IEnumerable<EngineVersion> EngineVersions => Enum.GetValues<EngineVersion>();
 	public IEnumerable<CompressionMethod> CompressMethods => Enum.GetValues<CompressionMethod>();
 	#endregion
@@ -46,6 +49,8 @@ internal partial class SettingsViewModel : ObservableObject
         {
             // Restore main config (includes CustomSerializationFlags)
             UAGConfig.Data = _originalConfig;
+            if (StringHelper.Current is { } strings && strings.Language != Config.Language)
+                strings.Language = Config.Language;
 
             // Refresh custom serialization flags from restored config
             RefreshCustomSerializationFlags();

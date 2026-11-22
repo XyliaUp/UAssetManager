@@ -15,6 +15,7 @@ public class StringHelper : ResourceDictionary
 {
 	#region Constructor
 	public static StringHelper? Current { get; private set; }
+	internal event EventHandler? LanguageChanged;
 
 	public StringHelper()
 	{
@@ -33,7 +34,7 @@ public class StringHelper : ResourceDictionary
         get => EnumerateLanguages().FirstOrDefault(x => GetLanguageCode(x) == CultureInfo.Name);
         set
         {
-            // culture
+            var previous = CultureInfo.Name;
             var languageCode = GetLanguageCode(value);
             if (!string.IsNullOrEmpty(languageCode))
             {
@@ -49,6 +50,9 @@ public class StringHelper : ResourceDictionary
 
                 this[resourceKey] = resource;
             }
+
+            if (CultureInfo.Name != previous)
+                LanguageChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 	#endregion
@@ -61,7 +65,7 @@ public class StringHelper : ResourceDictionary
 	/// </summary>
 	/// <param name="language">Language enum</param>
 	/// <returns>Language code</returns>
-	private static string GetLanguageCode(ELanguage language)
+	internal static string GetLanguageCode(ELanguage language)
 	{
 		return language switch
 		{
@@ -91,6 +95,6 @@ public enum ELanguage
     [Description("English")]
     English,
 
-    [Description("中文简体 (Chinese)")]
+    [Description("简体中文")]
     ChineseS
 }

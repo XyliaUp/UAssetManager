@@ -2,6 +2,10 @@
 
 UAssetManager is the WPF branch version of UAssetGUI, offering a better interface experience.
 
+### Model Studio
+
+Model Studio 支持 FBX 和 PMX 预览、骨骼映射预检、换绑和 FBX 导出。使用 UAssetManager 1.0.2 或更新版本，在「插件 → 从仓库安装…」中粘贴插件仓库地址，安装后重启宿主。[Model Studio 仓库](https://github.com/XyliaUp/UAssetManager_ModelStudio)
+
 --------------------------------------------------------------------------------
 
 # UAssetGUI

@@ -926,11 +926,74 @@
   <data name="Menu.Plugins" xml:space="preserve">
     <value>插件</value>
   </data>
+  <data name="MainWindow_InstallPluginFromRepository" xml:space="preserve">
+    <value>从仓库安装…</value>
+  </data>
   <data name="MainWindow_OpenPlugins" xml:space="preserve">
     <value>打开插件目录</value>
   </data>
   <data name="MainWindow_ReloadPlugins" xml:space="preserve">
     <value>重载插件</value>
+  </data>
+  <data name="PluginInstaller.Title" xml:space="preserve">
+    <value>从仓库安装插件</value>
+  </data>
+  <data name="PluginInstaller.RepositoryUrl" xml:space="preserve">
+    <value>GitHub 仓库链接</value>
+  </data>
+  <data name="PluginInstaller.Find" xml:space="preserve">
+    <value>查询版本</value>
+  </data>
+  <data name="PluginInstaller.Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="PluginInstaller.Finding" xml:space="preserve">
+    <value>正在查询最新发布…</value>
+  </data>
+  <data name="PluginInstaller.Downloading" xml:space="preserve">
+    <value>正在下载并检查插件…</value>
+  </data>
+  <data name="PluginInstaller.Cancelling" xml:space="preserve">
+    <value>正在取消…</value>
+  </data>
+  <data name="PluginInstaller.TimedOut" xml:space="preserve">
+    <value>连接超时，请重试。</value>
+  </data>
+  <data name="PluginInstaller.FindFailed" xml:space="preserve">
+    <value>无法查询插件发布。{0}</value>
+  </data>
+  <data name="PluginInstaller.InstallFailed" xml:space="preserve">
+    <value>无法安装插件。{0}</value>
+  </data>
+  <data name="PluginInstaller.Installed" xml:space="preserve">
+    <value>已安装 {0} {1}。重启 UAssetManager 后启用。</value>
+  </data>
+  <data name="PluginPackage_InvalidRepository" xml:space="preserve">
+    <value>请输入公开 GitHub 仓库地址，例如 https://github.com/owner/repository。</value>
+  </data>
+  <data name="PluginPackage_ReleaseNotFound" xml:space="preserve">
+    <value>此仓库没有公开的正式发布。</value>
+  </data>
+  <data name="PluginPackage_AssetNotFound" xml:space="preserve">
+    <value>最新发布中找不到 {0}。</value>
+  </data>
+  <data name="PluginPackage_InvalidRelease" xml:space="preserve">
+    <value>GitHub 返回的发布信息无效。</value>
+  </data>
+  <data name="PluginPackage_UnsupportedPlatform" xml:space="preserve">
+    <value>插件包需要 Windows x64 宿主。</value>
+  </data>
+  <data name="PluginPackage_InvalidBundle" xml:space="preserve">
+    <value>插件 ZIP 无效或不完整。</value>
+  </data>
+  <data name="PluginPackage_HostTooOld" xml:space="preserve">
+    <value>此插件需要 UAssetManager {0} 或更高版本。当前版本是 {1}。</value>
+  </data>
+  <data name="PluginPackage_IdConflict" xml:space="preserve">
+    <value>插件 ID {0} 已通过其他仓库安装。</value>
+  </data>
+  <data name="PluginPackage_VersionTooOld" xml:space="preserve">
+    <value>插件版本 {0} 低于当前已安装的 {1}。</value>
   </data>
   <data name="Plugin_CreatedDirectory" xml:space="preserve">
     <value>已创建插件目录: {0}</value>

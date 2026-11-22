@@ -1364,6 +1364,8 @@ public partial class MainWindowViewModel : ObservableObject, ITreeSearchProvider
 
 	public UAsset? GetCurrentAsset() => CurrentAsset;
 
+	public string GetLanguage() => StringHelper.GetLanguageCode(UAGConfig.Data.Language);
+
 	public string GetConfigDirectory()
 	{
 		var configDir = Path.Combine(

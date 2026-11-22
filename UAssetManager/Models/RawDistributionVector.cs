@@ -28,22 +28,22 @@ public class RawDistributionVector
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.Value == "minvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "minvalue", StringComparison.OrdinalIgnoreCase):
 					model.MinValue = f.Value;
 					break;
-				case FloatPropertyData f when child.Name.Value == "maxvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "maxvalue", StringComparison.OrdinalIgnoreCase):
 					model.MaxValue = f.Value;
 					break;
-				case StructPropertyData vecStruct when child.Name.Value == "minvaluevec":
+				case StructPropertyData vecStruct when string.Equals(child.Name.Value?.Value, "minvaluevec", StringComparison.OrdinalIgnoreCase):
 					model.MinValueVec = ReadVector(vecStruct);
 					break;
-				case StructPropertyData vecStruct when child.Name.Value == "maxvaluevec":
+				case StructPropertyData vecStruct when string.Equals(child.Name.Value?.Value, "maxvaluevec", StringComparison.OrdinalIgnoreCase):
 					model.MaxValueVec = ReadVector(vecStruct);
 					break;
-				case ObjectPropertyData obj when child.Name.Value == "distribution":
+				case ObjectPropertyData obj when string.Equals(child.Name.Value?.Value, "distribution", StringComparison.OrdinalIgnoreCase):
 					model.DistributionObjectIndex = obj.Value;
 					break;
-				case StructPropertyData tableStruct when child.Name.Value == "table":
+				case StructPropertyData tableStruct when string.Equals(child.Name.Value?.Value, "table", StringComparison.OrdinalIgnoreCase):
 					model.ReadLookupTable(tableStruct);
 					break;
 			}
@@ -58,22 +58,22 @@ public class RawDistributionVector
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.Value == "minvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "minvalue", StringComparison.OrdinalIgnoreCase):
 					f.Value = MinValue;
 					break;
-				case FloatPropertyData f when child.Name.Value == "maxvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "maxvalue", StringComparison.OrdinalIgnoreCase):
 					f.Value = MaxValue;
 					break;
-				case StructPropertyData vecStruct when child.Name.Value == "minvaluevec":
+				case StructPropertyData vecStruct when string.Equals(child.Name.Value?.Value, "minvaluevec", StringComparison.OrdinalIgnoreCase):
 					WriteVector(vecStruct, MinValueVec);
 					break;
-				case StructPropertyData vecStruct when child.Name.Value == "maxvaluevec":
+				case StructPropertyData vecStruct when string.Equals(child.Name.Value?.Value, "maxvaluevec", StringComparison.OrdinalIgnoreCase):
 					WriteVector(vecStruct, MaxValueVec);
 					break;
-				case ObjectPropertyData obj when child.Name.Value == "distribution":
+				case ObjectPropertyData obj when string.Equals(child.Name.Value?.Value, "distribution", StringComparison.OrdinalIgnoreCase):
 					obj.Value = DistributionObjectIndex;
 					break;
-				case StructPropertyData tableStruct when child.Name.Value == "table":
+				case StructPropertyData tableStruct when string.Equals(child.Name.Value?.Value, "table", StringComparison.OrdinalIgnoreCase):
 					WriteLookupTable(tableStruct);
 					break;
 			}

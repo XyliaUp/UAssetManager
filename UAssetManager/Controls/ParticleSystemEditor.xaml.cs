@@ -1,4 +1,4 @@
-﻿using UAssetAPI;
+using UAssetAPI;
 using UAssetAPI.ExportTypes;
 using UAssetAPI.Pak.Objects;
 using UAssetAPI.Pak.Utils;
@@ -54,7 +54,7 @@ public partial class ParticleSystemEditor
 	{
 		return;
 
-		asset.Exports.Any(x => x.GetExportClassType().Value == "particlesystem");
+		asset.Exports.Any(x => string.Equals(x.GetExportClassType().Value?.Value, "particlesystem", StringComparison.OrdinalIgnoreCase));
 
 		foreach (NormalExport item in asset.Exports)
 		{
@@ -72,7 +72,7 @@ public partial class ParticleSystemEditor
 			//	}
 			//}
 
-			if (name == "bnsparticlemodulelifetime")
+			if (string.Equals(name?.Value, "bnsparticlemodulelifetime", StringComparison.OrdinalIgnoreCase))
 			{
 				foreach (var p in item.Data)
 				{

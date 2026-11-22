@@ -1,4 +1,4 @@
-﻿using UAssetAPI.PropertyTypes.Objects;
+using UAssetAPI.PropertyTypes.Objects;
 using UAssetAPI.PropertyTypes.Structs;
 using UAssetAPI.UnrealTypes;
 
@@ -25,16 +25,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.Value == "minvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "minvalue", StringComparison.OrdinalIgnoreCase):
 					model.MinValue = f.Value;
 					break;
-				case FloatPropertyData f when child.Name.Value == "maxvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "maxvalue", StringComparison.OrdinalIgnoreCase):
 					model.MaxValue = f.Value;
 					break;
-				case ObjectPropertyData obj when child.Name.Value == "distribution":
+				case ObjectPropertyData obj when string.Equals(child.Name.Value?.Value, "distribution", StringComparison.OrdinalIgnoreCase):
 					model.DistributionObjectIndex = obj.Value;
 					break;
-				case StructPropertyData tableStruct when child.Name.Value == "table":
+				case StructPropertyData tableStruct when string.Equals(child.Name.Value?.Value, "table", StringComparison.OrdinalIgnoreCase):
 					model.ReadLookupTable(tableStruct);
 					break;
 			}
@@ -49,16 +49,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case FloatPropertyData f when child.Name.Value == "minvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "minvalue", StringComparison.OrdinalIgnoreCase):
 					f.Value = MinValue;
 					break;
-				case FloatPropertyData f when child.Name.Value == "maxvalue":
+				case FloatPropertyData f when string.Equals(child.Name.Value?.Value, "maxvalue", StringComparison.OrdinalIgnoreCase):
 					f.Value = MaxValue;
 					break;
-				case ObjectPropertyData obj when child.Name.Value == "distribution":
+				case ObjectPropertyData obj when string.Equals(child.Name.Value?.Value, "distribution", StringComparison.OrdinalIgnoreCase):
 					obj.Value = DistributionObjectIndex;
 					break;
-				case StructPropertyData tableStruct when child.Name.Value == "table":
+				case StructPropertyData tableStruct when string.Equals(child.Name.Value?.Value, "table", StringComparison.OrdinalIgnoreCase):
 					WriteLookupTable(tableStruct);
 					break;
 			}
@@ -76,16 +76,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case ArrayPropertyData array when child.Name.Value == "values":
+				case ArrayPropertyData array when string.Equals(child.Name.Value?.Value, "values", StringComparison.OrdinalIgnoreCase):
 					valuesArray = array;
 					break;
-				case BytePropertyData b when child.Name.Value == "entrycount":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "entrycount", StringComparison.OrdinalIgnoreCase):
 					entryCount = b;
 					break;
-				case BytePropertyData b when child.Name.Value == "entrystride":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "entrystride", StringComparison.OrdinalIgnoreCase):
 					entryStride = b;
 					break;
-				case BytePropertyData b when child.Name.Value == "op":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "op", StringComparison.OrdinalIgnoreCase):
 					op = b;
 					break;
 			}
@@ -119,16 +119,16 @@ internal class RawDistributionFloat
 		{
 			switch (child)
 			{
-				case ArrayPropertyData array when child.Name.Value == "values":
+				case ArrayPropertyData array when string.Equals(child.Name.Value?.Value, "values", StringComparison.OrdinalIgnoreCase):
 					valuesArray = array;
 					break;
-				case BytePropertyData b when child.Name.Value == "entrycount":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "entrycount", StringComparison.OrdinalIgnoreCase):
 					entryCount = b;
 					break;
-				case BytePropertyData b when child.Name.Value == "entrystride":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "entrystride", StringComparison.OrdinalIgnoreCase):
 					entryStride = b;
 					break;
-				case BytePropertyData b when child.Name.Value == "op":
+				case BytePropertyData b when string.Equals(child.Name.Value?.Value, "op", StringComparison.OrdinalIgnoreCase):
 					op = b;
 					break;
 			}

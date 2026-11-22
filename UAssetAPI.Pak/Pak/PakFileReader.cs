@@ -327,7 +327,7 @@ public partial class PakFileReader : AbstractAesVfsReader
 
     public override void Dispose()
     {
-        Ar.Dispose();
+        Ar?.Dispose();
         GC.SuppressFinalize(this);
     }
 
@@ -345,6 +345,8 @@ public partial class PakFileReader : AbstractAesVfsReader
 
     public void AddFile(byte[] data, string vfsPath, CompressionMethod method = CompressionMethod.None)
     {
+        if (Files.ContainsKey(vfsPath)) return;
+
         vfsPath = vfsPath.Replace("\\", "/");
         Files.Add(vfsPath, new FPakEntry(this, data, vfsPath, method));
     }
@@ -386,10 +388,13 @@ public partial class PakFileReader : AbstractAesVfsReader
     /// Writes the current data structure to the specified <see cref="BinaryWriter"/>.
     /// </summary>
     /// <param name="writer">The <see cref="BinaryWriter"/> to which the data will be written. This writer must be open and writable.</param>
-    public void Write(BinaryWriter writer)
-    {
+    public void Write(BinaryWriter writer) => Write(writer, null);
+
+    public void Write(BinaryWriter writer, string? mountPoint) {
         #region init
-        MountPoint = GenerateMountPointFromFiles();
+        if (mountPoint != null && (!mountPoint.EndsWith('/') || Files.Values.Any(file => !file.Path.StartsWith(mountPoint, StringComparison.OrdinalIgnoreCase))))
+            throw new ArgumentException("The mount point must contain every archive entry.", nameof(mountPoint));
+        MountPoint = mountPoint ?? GenerateMountPointFromFiles();
 
         // Version.Compression
         if (Info.Version >= PakFile_Version_FNameBasedCompressionMethod)
@@ -426,7 +431,9 @@ public partial class PakFileReader : AbstractAesVfsReader
             file.WriteInfo(Info, IndexWriter, true);
         }
 
-        byte[] temp = ms.GetBuffer();
+        byte[] temp = ms.ToArray();
+        if (IsEncrypted)
+            Aes.Align(ref temp);
         var IndexData = EncryptIfEncrypted(temp);
         writer.Write(IndexData);
 

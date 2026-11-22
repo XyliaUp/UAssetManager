@@ -389,8 +389,11 @@ public class FPakInfo
 			var bufferSize = COMPRESSION_METHOD_NAME_LEN * maxNumCompressionMethods;
 
 			var offset = writer.BaseStream.Position;
-			foreach (var method in CompressionMethods.Where(o => o != CompressionMethod.None))
-				writer.Write(System.Text.Encoding.ASCII.GetBytes(method.ToString()));
+			foreach (var method in CompressionMethods.Where(o => o != CompressionMethod.None)) {
+				var name = System.Text.Encoding.ASCII.GetBytes(method.ToString());
+				writer.Write(name);
+				writer.Write(new byte[COMPRESSION_METHOD_NAME_LEN - name.Length]);
+			}
 
 			writer.Write(new byte[bufferSize - (writer.BaseStream.Position - offset)]);
 		}

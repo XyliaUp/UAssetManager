@@ -78,7 +78,7 @@
 						<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Themes}" SelectedItem="{Binding Config.Theme}"/>
 
 						<Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings_Language}" />
-						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Languages}" SelectedItem="{Binding Config.Language}"/>
+						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Languages}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Config.Language}"/>
 					</Grid>
 				</GroupBox>
 

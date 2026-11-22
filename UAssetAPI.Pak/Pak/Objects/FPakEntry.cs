@@ -3,7 +3,6 @@ using System.Security.Cryptography;
 using UAssetAPI.Pak.Compression;
 using UAssetAPI.Pak.Objects.Core.Misc;
 using UAssetAPI.Pak.Pak;
-using UAssetAPI.Pak.Pak.Utils;
 using UAssetAPI.Pak.Readers;
 using UAssetAPI.Pak.Utils;
 using UAssetAPI.Pak.Versions;
@@ -30,7 +29,7 @@ public class FPakEntry : VfsEntry
     public readonly uint CompressionBlockSize;
 
     public readonly int StructSize; // computed value: size of FPakEntry prepended to each file
-    public bool IsCompressed => UncompressedSize != CompressedSize && CompressionBlockSize > 0;
+    public bool IsCompressed => CompressionMethod != CompressionMethod.None && CompressionBlockSize > 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FPakEntry(PakFileReader reader, string path, FArchive Ar) : base(reader, path)
@@ -407,7 +406,7 @@ public class FPakEntry : VfsEntry
         {
             CompressedSize = 0;
             CompressionMethod = method;
-            SHAHash = SHA1.HashData(buffer);
+            using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA1);
 
             var blocks = new List<KeyValuePair<FPakCompressedBlock, byte[]>>();
             CompressionBlockSize = Math.Min((uint)UncompressedSize, 1048576);
@@ -417,17 +416,20 @@ public class FPakEntry : VfsEntry
             while (tempReader.BaseStream.Position < tempReader.BaseStream.Length)
             {
                 var blockLength = (int)Math.Min(CompressionBlockSize, tempReader.BaseStream.Length - tempReader.BaseStream.Position);
-                var blockData = reader.EncryptIfEncrypted(UAssetAPI.Pak.Compression.Compression.Compress(tempReader.ReadBytes(blockLength), blockLength, method), IsEncrypted);
+                var compressed = UAssetAPI.Pak.Compression.Compression.Compress(tempReader.ReadBytes(blockLength), blockLength, method);
+                var blockData = reader.EncryptIfEncrypted(compressed, IsEncrypted);
+                hash.AppendData(blockData);
 
                 blocks.Add(new(new FPakCompressedBlock()
                 {
                     CompressedStart = CompressedSize,
-                    CompressedEnd = CompressedSize + blockData.Length,
+                    CompressedEnd = CompressedSize + compressed.Length,
                 }, blockData));
 
                 CompressedSize += blockData.Length;
             }
 
+            SHAHash = hash.GetHashAndReset();
             CompressionBlocks = blocks.Select(o => o.Key).ToArray();
             CompressionBlocksData = blocks.Select(o => o.Value).ToArray();
         }

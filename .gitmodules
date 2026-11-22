@@ -1,3 +1,6 @@
 [submodule "UAssetAPI"]
 	path = UAssetAPI
 	url = https://github.com/atenfyr/UAssetAPI.git
+[submodule "ModelStudio"]
+	path = ModelStudio
+	url = https://github.com/XyliaUp/UAssetManager_ModelStudio.git

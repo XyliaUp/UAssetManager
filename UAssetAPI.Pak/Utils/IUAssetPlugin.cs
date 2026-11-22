@@ -32,6 +32,11 @@ public interface IUAssetPlugin
     void Initialize(IPluginHost host);
 
     /// <summary>
+    /// Initialize the plugin with the active host UI language as a culture name.
+    /// </summary>
+    void Initialize(IPluginHost host, string language) => Initialize(host);
+
+    /// <summary>
     /// Execute the plugin
     /// </summary>
     void Execute();
@@ -87,6 +92,11 @@ public interface IPluginHost
     /// Get the application config directory
     /// </summary>
     string GetConfigDirectory();
+
+    /// <summary>
+    /// Get the current host UI language as a culture name, such as en-US or zh-CN.
+    /// </summary>
+    string GetLanguage() => "en-US";
 }
 
 /// <summary>
